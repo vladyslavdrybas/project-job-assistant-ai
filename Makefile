@@ -25,3 +25,6 @@ env-build:
 	./env-builder.sh
 proxy-run:
 	docker run --net=host -it -e NGROK_AUTHTOKEN=${NGROK_AUTH_TOKEN} ngrok/ngrok:latest http ${LOCALHOST_PUBLIC_PORT}
+
+gateway-start-local:
+	@docker container start saas-api-gateway-dev
