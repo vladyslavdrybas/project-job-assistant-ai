@@ -24,7 +24,7 @@ class UserEditForm extends AbstractType
                 'required' => false,
             ])
             ->add('save', SubmitType::class, [
-                'attr' => ['class' => 'save btn btn-primary rounded-5 w-100'],
+                'attr' => ['class' => 'save btn btn-outline-dark rounded-0 w-100'],
             ])
         ;
     }

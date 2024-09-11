@@ -14,8 +14,8 @@
                     <p class="text-center">You already in the system.</p>
 
                     <div class="text-center">
-                        <a href="{{ absolute_url(path('security_logout')) }}" class="btn btn-light rounded-5">Logout</a>
-                        <a href="{{ absolute_url(path('cp_user_show', {'user' : app.user.username})) }}" class="btn btn-primary rounded-5">Profile</a>
+                        <a href="{{ absolute_url(path('security_logout')) }}" class="btn btn-dark rounded-0">Logout</a>
+                        <a href="{{ absolute_url(path('cp_user_show', {'user' : app.user.username})) }}" class="btn btn-dark rounded-0">Profile</a>
                     </div>
                 </div>
 
@@ -58,7 +58,7 @@
                     </div>
 
                     <div class="text-center">
-                        <button class="btn btn-lg btn-primary rounded-5" type="submit">
+                        <button class="btn btn-lg btn-outline-dark rounded-0" type="submit">
                             Sign in
                         </button>
                     </div>

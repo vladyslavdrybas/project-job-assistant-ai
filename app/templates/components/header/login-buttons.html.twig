@@ -1,0 +1,23 @@
+{% if app.user is null %}
+    {% if app.request.get('_route') == 'app_homepage' %}
+        <button
+            class="btn btn-dark rounded-0 ms-auto"
+        >
+            Get Started
+        </button>
+    {% endif %}
+
+    <a
+        href="{{ absolute_url(path('security_login')) }}"
+        class="ms-2 btn btn-outline-dark rounded-0"
+    >
+        Login
+    </a>
+{% else %}
+    <a
+        href="{{ absolute_url(path('cp_user_show', {'user': app.user.username})) }}"
+        class="btn btn-outline-dark rounded-0"
+    >
+        Me
+    </a>
+{% endif %}

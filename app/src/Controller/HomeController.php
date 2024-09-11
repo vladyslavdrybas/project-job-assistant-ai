@@ -3,23 +3,21 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use App\DataTransferObject\ViewResponseDto;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(name: "app")]
+#[Route(name: 'app')]
 class HomeController extends AbstractController
 {
-    #[Route("/", name: "_homepage", methods: ["GET", "OPTIONS", "HEAD"])]
-    public function index(): Response
-    {
-        return $this->render(
-            'index.html.twig',
-            [
-                'meta' => [
-                    'title' => 'Prototyper',
-                ],
-            ]
+    #[Route(
+        '/',
+        name: '_homepage',
+        methods: ['GET', 'OPTIONS', 'HEAD']
+    )]
+    public function index(): ViewResponseDto {
+        return $this->response(
+            [],
+            'index.html.twig'
         );
     }
 }

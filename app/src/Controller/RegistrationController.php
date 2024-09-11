@@ -3,16 +3,15 @@
 namespace App\Controller;
 
 use App\Builder\UserBuilder;
+use App\DataTransferObject\ViewResponseDto;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\AppFormLoginAuthenticator;
 use App\Security\EmailVerifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\ExpiredSignatureException;
@@ -28,7 +27,7 @@ class RegistrationController extends AbstractController
         UserRepository $userRepository,
         UserBuilder $userBuilder,
         EmailVerifier $emailVerifier
-    ): Response {
+    ): ViewResponseDto {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -45,12 +44,22 @@ class RegistrationController extends AbstractController
             $this->sendValidationEmail($user, $emailVerifier);
             // do anything else you need here, like send an email
 
-            return $security->login($user, AppFormLoginAuthenticator::class, 'main');
+            $security->login($user, AppFormLoginAuthenticator::class, 'main');
+
+            return $this->response(
+                [
+                    'user' => $user->getUsername(),
+                ],
+                'cp_user_show'
+            );
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
-        ]);
+        return $this->response(
+            [
+                'registrationForm' => $form,
+            ],
+            'registration/register.html.twig'
+        );
     }
 
     #[Route('/verify/email', name: '_verify_email')]
@@ -58,13 +67,16 @@ class RegistrationController extends AbstractController
         Request $request,
         UserRepository $userRepository,
         EmailVerifier $emailVerifier
-    ): Response {
+    ): ViewResponseDto {
         $id = $request->query->get('id');
 
         if (null === $id) {
             $this->addFlash('verify_email_error', 'Cannot find user to verify.');
 
-            return $this->redirectToRoute('security_login');
+            return  $this->response(
+                [],
+                'security_login'
+            );
         }
 
         $user = $userRepository->find($id);
@@ -72,7 +84,10 @@ class RegistrationController extends AbstractController
         if (null === $user) {
             $this->addFlash('verify_email_error', 'Cannot find user to verify.');
 
-            return $this->redirectToRoute('security_login');
+            return  $this->response(
+                [],
+                'security_login'
+            );
         }
 
 
@@ -96,7 +111,12 @@ class RegistrationController extends AbstractController
             $this->addFlash('success', 'Your email address has been verified.');
         }
 
-        return $this->redirectToRoute('cp_user_show', ['user' => $user->getUsername()]);
+        return $this->response(
+            [
+                'user' => $user->getUsername(),
+            ],
+            'cp_user_show'
+        );
     }
 
     protected function sendValidationEmail(User $user, EmailVerifier $emailVerifier): void

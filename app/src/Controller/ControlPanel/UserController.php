@@ -5,6 +5,7 @@ namespace App\Controller\ControlPanel;
 
 use App\Builder\UserBuilder;
 use App\Constants\RouteRequirements;
+use App\DataTransferObject\ViewResponseDto;
 use App\Entity\User;
 use App\Form\CommandCenter\Profile\UserEditForm;
 use App\Form\CommandCenter\Profile\UserPasswordChangeForm;
@@ -24,19 +25,21 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route(
     "/u/{user}",
     name: "cp_user",
-    requirements: ['user' => RouteRequirements::UNIQUE_ID->value]
+    requirements: [
+        'user' => RouteRequirements::UNIQUE_ID->value
+    ]
 )]
 class UserController extends AbstractControlPanelController
 {
     #[Route(path: '', name: '_show', methods: ['GET'])]
     public function show(
         #[ValueResolver(UserValueResolver::class)] User $user
-    ): Response {
-        return $this->render(
-            'control-panel/user/show.html.twig',
+    ): ViewResponseDto {
+        return $this->response(
             [
                 'user' => $user,
-            ]
+            ],
+            'control-panel/user/show.html.twig'
         );
     }
 
@@ -47,7 +50,7 @@ class UserController extends AbstractControlPanelController
         UserRepository $userRepository,
         UserPasswordHasherInterface $userPasswordHasher,
         UserBuilder $userBuilder
-    ): Response {
+    ): ViewResponseDto {
         $emailBuffer = $user->getEmail();
 
         $userPasswordChangeForm = $this->createForm(UserPasswordChangeForm::class, $user);
@@ -114,16 +117,15 @@ class UserController extends AbstractControlPanelController
             $this->addFlash('danger', $exception->getMessage());
         }
 
-        return $this->render(
-            'control-panel/user/edit.html.twig',
+        return $this->response(
             [
                 'user' => $user,
                 'userPasswordChangeForm' => $userPasswordChangeForm,
                 'userEditForm' => $userEditForm,
-            ]
+            ],
+            'control-panel/user/edit.html.twig'
         );
     }
-
 
     #[Route(path: '/verify/email', name: '_verify_email', methods: ['GET'])]
     public function sendVerificationEmail(

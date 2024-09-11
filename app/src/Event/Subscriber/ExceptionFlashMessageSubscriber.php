@@ -42,17 +42,31 @@ class ExceptionFlashMessageSubscriber implements EventSubscriberInterface
         }
 
         $exception = $event->getThrowable();
-        $code = Response::HTTP_BAD_REQUEST;
-        $message = $exception->getMessage();
-        if ($exception instanceof AccessDeniedException) {
+        $isAccessDenied = $exception instanceof AccessDeniedException;
+        $isNotFound = $exception instanceof NotFoundHttpException;
+        $isMethodNotAllowed = $exception instanceof MethodNotAllowedException;
+        $isMessageWithChanges = true;
+
+        if ($isAccessDenied) {
             $code = Response::HTTP_UNAUTHORIZED;
-            $message = 'Access denied';
-        } else if ($exception instanceof NotFoundHttpException) {
+            $message = $code . '. Access denied.';
+        } else if ($isNotFound) {
             $code = Response::HTTP_NOT_FOUND;
-            $message = '404 not found';
-        } else if ($exception instanceof MethodNotAllowedException) {
+            $message = $code . '. Not found';
+        } else if ($isMethodNotAllowed) {
             $code = Response::HTTP_METHOD_NOT_ALLOWED;
-            $message = 'Method not allowed';
+            $message = $code . '. Method not allowed.';
+        } else {
+            $isMessageWithChanges = false;
+            $code = Response::HTTP_BAD_REQUEST;
+            $message = $code . '. ' . $exception->getMessage();
+        }
+
+        if (
+            $isMessageWithChanges
+            && ($this->projectEnvironment === 'local' || $this->projectEnvironment === 'dev')
+        ) {
+            $message .= '. ' . $exception->getMessage();
         }
 
         $this->flash->set('danger', $message);

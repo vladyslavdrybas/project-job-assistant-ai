@@ -2,33 +2,36 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use App\DataTransferObject\ViewResponseDto;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[Route(name: "security")]
 class LoginController extends AbstractController
 {
-
-    #[Route(path: '/login', name: '_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
-    {
-        // get the login error if there is one
+    #[Route(
+        path: '/login',
+        name: '_login'
+    )]
+    public function login(
+        AuthenticationUtils $authenticationUtils
+    ): ViewResponseDto {
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render(
-            'login/login.html.twig',
+        return $this->response(
             [
                 'last_username' => $lastUsername,
                 'error' => $error,
-            ]
+            ],
+            'login/login.html.twig'
         );
     }
 
-    #[Route(path: '/logout', name: '_logout')]
+    #[Route(
+        path: '/logout',
+        name: '_logout'
+    )]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

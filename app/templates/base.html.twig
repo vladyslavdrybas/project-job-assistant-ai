@@ -1,88 +1,107 @@
+{% set routeCurrent = app.request.get('_route') %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% if meta is defined and meta.title is defined %}{{ meta.title }}{% elseif title is defined %}{{ title }}{% else %}Welcome{% endif %}{% endblock %}</title>
+    <title>
+        {% block title %}
+            {% if meta is defined and meta.title is defined %}
+                {{ meta.title }}
+            {% elseif title is defined %}
+                {{ title }}
+            {% else %}
+                Welcome
+            {% endif %}
+        {% endblock %}
+    </title>
 
-    {% if meta is defined %}
-        {% include 'landing-page/meta.html.twig' %}
-    {% endif %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
-    <style>
-        @font-face {
-            font-family: 'Aller Regular'; /*a name to be used later*/
-            src: url('{{ absolute_url(asset('fonts/Aller_Rg.ttf', 'css')) }}'); /*URL to font*/
-        }
-    </style>
-
+    <link rel="stylesheet" href="{{ absolute_url(asset('use-bootstrap-tag.min.css', 'css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('highlight.default.min.css', 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap-icons.min.css', 'bootstrap')) }}">
-    <link href="{{ absolute_url(asset('css/bootstrap.min.css', 'bootstrap')) }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ absolute_url(asset('style.css', 'css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap.min.css', 'bootstrap')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('style.css?t=' ~ 'now'|date('Y-m-d-H-i'), 'css')) }}">
+
+    {% block headstylesheets %}
+    {% endblock %}
 
 </head>
 
-<body class="">
+<body class="bg-light">
 
-<div id="header" class="fixed-top">
-    {% block header %}
-        {% include "landing-page/components/sections/header/fixed-top.html.twig" %}
-    {% endblock %}
+{% include'icons.html.twig' %}
 
-    <div>
+<div id="home" class="d-none"></div>
+
+{% block header %}
+    {% include 'components/header/top-fixed.html.twig' %}
+{% endblock %}
+
+<div id="page-wrapper" class="d-flex flex-column justify-content-between min-vh-100">
+    <div id="notification-flash-messages" class="pt-3 mt-5 position-fixed top-0 z-2 w-100">
         {% embed "_notification/flash/messages.flash.html.twig" %}{% endembed %}
+    </div>
+
+    <main class="position-relative z-0">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="position-relative z-0">
+        {% block footer %}
+            <!-- Footer Section -->
+            <footer class="footer">
+                <div class="container">
+                    <p>&copy; 2024 AI Resume Builder. All Rights Reserved.</p>
+                    <p>
+                        <a href="#" class="text-black">Privacy Policy</a> |
+                        <a href="#" class="text-black">Terms of Service</a> |
+                        <a href="#" class="text-black">Contact Us</a>
+                    </p>
+                    <p>
+                        <a href="#"><img src="{{ absolute_url(asset('social-icons/5279114_linkedin_network_social network_linkedin logo_icon.svg', 'img')) }}" alt="linkedin"></a>
+                        <a href="#"><img src="{{ absolute_url(asset('social-icons/5279120_play_video_youtube_youtuble logo_icon.png', 'img')) }}" alt="twitter"></a>
+                    </p>
+                </div>
+            </footer>
+
+        {% endblock %}
+    </footer>
+</div>
+
+<div aria-live="polite" aria-atomic="true" class="z-3">
+    <div id="toast-list" class="toast-container top-0 end-0 p-3 mt-5">
+
     </div>
 </div>
 
-{% block content %}
-    <div id="page-landing">
-{#        {% include "landing-page/components/sections/header/fixed-top.html.twig" %}#}
-        {% include 'landing-page/components/sections/first-screen/hero-with-button-and-cover.html.twig' %}
-        {% include 'landing-page/components/sections/features/3-in-row.html.twig' %}
-        {% include 'landing-page/components/sections/how-it-works/3-in-column-with-covers.html.twig' %}
-        {% include 'landing-page/components/sections/testimonial/carousel.html.twig' %}
-        {% include 'landing-page/components/sections/pricing/standard-3-in-row.html.twig' %}
-        {% include 'landing-page/components/sections/newsletter/standard.html.twig' %}
-        {% include 'landing-page/components/sections/footer/standard.html.twig' %}
+<div id="dom-templates" class="d-none">
+    <div id="toast-template" class="d-none">
+        <div class="toast rounded-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">{{ '{{title}}' }}</strong>
+                <small class="text-body-secondary">{{ '{{dateTime}}' }}</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-opacity-100 opacity-100">
+                {{ '{{body}}' }}
+            </div>
+        </div>
     </div>
-
-    {% include 'landing-page/components/sections/checkout/simple.html.twig' %}
-{% endblock %}
+</div>
 
 <script src="{{ absolute_url(asset('js/bootstrap.bundle.min.js', 'bootstrap')) }}"></script>
+<script src="{{ absolute_url(asset('jquery-3.7.1.min.js', 'js')) }}"></script>
+<script src="{{ absolute_url(asset('use-bootstrap-tag.min.js', 'js')) }}"></script>
+<script src="{{ absolute_url(asset('highlight.min.js', 'js')) }}"></script>
 
 <script type="application/javascript">
-    function scrollTo(hash) {
-        location.hash = "#" + hash;
-    }
-
-    const btnSubmitCheckout = document.getElementById("btn-submit-checkout");
-    const btnBackToLanding = document.getElementById("btn-back-to-landing");
-    const btnGoToPayment = document.querySelectorAll(".btn-goto-payment");
     const alerts = document.querySelectorAll(".alert");
-    const pageLanding = document.getElementById("page-landing");
-    const pageCheckout = document.getElementById("page-checkout");
-
-    btnSubmitCheckout && btnSubmitCheckout.addEventListener('click', function (e) {
-        console.log(this);
-        e.preventDefault();
-    });
-
-    btnBackToLanding && btnBackToLanding.addEventListener('click', function (e) {
-        console.log(this);
-        e.preventDefault();
-        pageLanding && pageLanding.classList.toggle("d-none");
-        pageCheckout && pageCheckout.classList.toggle("d-none");
-        scrollTo('pricing');
-    });
-
-    btnGoToPayment && btnGoToPayment.forEach((e) => e.addEventListener('click', function (e) {
-        console.log(this);
-        e.preventDefault();;
-        pageLanding && pageLanding.classList.toggle("d-none");
-        pageCheckout && pageCheckout.classList.toggle("d-none");
-    }));
 
     alerts && alerts.forEach((e) => e.addEventListener('click', function (e) {
         console.log(this);
@@ -90,8 +109,57 @@
         e.target.remove();
     }));
 
+    function printTheJSONInPrettyFormat(json) {
+        return JSON.stringify(JSON.parse(json), undefined, 4);
+    }
+
+    function toastShow(data) {
+        const html = $("#toast-template").html()
+            .replace("{{ '{{title}}' }}", data.title)
+            .replace("{{ '{{dateTime}}' }}", data.dateTime)
+            .replace("{{ '{{body}}' }}", data.message)
+        ;
+
+        const toastObj = $(html);
+
+        $("#toast-list").append(toastObj);
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastObj);
+        toastBootstrap.show();
+    }
+
+    function toastServerError(response) {
+        const data = $.parseJSON(response.responseText);
+        const dateTime = new Date(data.time);
+        const formattedDate = `${dateTime.getDate()}-${dateTime.getMonth() + 1}-${dateTime.getFullYear()} ${dateTime.getHours()}:${dateTime.getMinutes()}`;
+
+        toastShow({
+            'dateTime': formattedDate,
+            'message': data.message,
+            'title': 'Fail',
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const codeJson = document.querySelectorAll("code.language-json");
+        const inputTags = document.querySelectorAll(".input-tags");
+
+        codeJson && codeJson.forEach((el) => {
+            el.innerHTML = printTheJSONInPrettyFormat(el.innerHTML);
+        });
+
+        inputTags && inputTags.forEach((el) => {
+            UseBootstrapTag(el);
+        });
+    })
+
+    // prettify code json
+    hljs.highlightAll();
+
 
 </script>
+
+{% block scriptsbottom %}
+{% endblock %}
 
 </body>
 </html>
