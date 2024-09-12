@@ -12,13 +12,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 readonly class PageTitleSetter implements EventSubscriberInterface
 {
     public function __construct(
         protected Environment $twig,
-        protected UrlGeneratorInterface $urlGenerator
+        protected UrlGeneratorInterface $urlGenerator,
+        protected TranslatorInterface $translator,
+        protected string $appTitle
     ) {}
 
     public static function getSubscribedEvents(): array
@@ -43,7 +46,17 @@ readonly class PageTitleSetter implements EventSubscriberInterface
                 $data['meta'] = [];
             }
 
-            $data['meta']['title'] = 'Page Title';
+            $route = $event->getRequest()->attributes->get('_route');
+            $title = $this->translator->trans('meta.title.' . $route);
+
+
+            $data['meta']['title'] = !empty($title) && !str_contains($title, '_') ? $title : ucfirst($this->appTitle);
+
+            dump([
+                $route,
+                $title,
+                $data,
+            ]);
 
             $response = $this->doRender(
                 $template,

@@ -1,0 +1,11 @@
+meta:
+  title:
+    app_homepage: Vladyslav Drybas Portfolio
+    cp_user_show: User Profile
+    cp_user_edit: User Editor
+    app_media_show: Media
+    cp_user_verify_email: Email confirmation
+    security_login: Login
+    security_logout: Logout
+    security_register: Register
+    security_verify_email: Send email confirmation
