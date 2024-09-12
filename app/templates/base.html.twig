@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{{ absolute_url(asset('highlight.default.min.css', 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap-icons.min.css', 'bootstrap')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap.min.css', 'bootstrap')) }}">
-    <link rel="stylesheet" href="{{ absolute_url(asset('style.css?t=' ~ 'now'|date('Y-m-d-H-i'), 'css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('style.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
 
     {% block headstylesheets %}
     {% endblock %}
@@ -39,7 +39,7 @@
 <div id="home" class="d-none"></div>
 
 {% block header %}
-    {% include 'components/header/top-fixed.html.twig' %}
+{#    {% include 'components/header/top-fixed-hire-form.html.twig' %}#}
 {% endblock %}
 
 <div id="page-wrapper" class="d-flex flex-column justify-content-between min-vh-100">
@@ -156,6 +156,34 @@
     hljs.highlightAll();
 
 
+</script>
+
+
+<script type="application/javascript">
+    let lineRollerCounter=0;
+
+    $(document).ready(function() {
+        function lineRollerLoop() {
+            $(".line-roller").fadeOut(3000, function() {
+                const me = $(this);
+                const data = me.attr('data-context').split(',');
+                const index = lineRollerCounter % data.length;
+                $(this).html(data[index]).fadeIn(2000);
+            });
+
+            lineRollerCounter++;
+        }
+
+        const lineRollerLoopHandler = setInterval(lineRollerLoop, 5000);
+    });
+
+    $(".line-roller").fadeOut(2000, function() {
+        const me = $(this);
+        const data = me.attr('data-context').split(',');
+        const index = lineRollerCounter % data.length;
+
+        $(this).html(data[index]).fadeIn(1000);
+    });
 </script>
 
 {% block scriptsbottom %}

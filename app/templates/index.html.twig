@@ -1,1 +1,86 @@
 {% extends 'base.html.twig'%}
+
+{% block content %}
+<div
+    id="section--hero"
+    class="p-4 pb-5 pt-3 text-center min-vh-100 container d-flex flex-column justify-content-between"
+>
+    <form
+        class="
+                pb-5
+                col-lg-6
+                mx-auto
+            "
+    >
+        {#                <h5>Subscribe to our newsletter</h5>#}
+        {#                <p>Monthly digest of what's new and exciting from us.</p>#}
+
+        <div class="d-flex flex-column flex-sm-row gap-2">
+
+            <label for="newsletter1" class="visually-hidden">Email address</label>
+            <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+
+            <button
+                class="btn btn-outline-dark rounded-0 text-nowrap"
+                type="button"
+            >
+                Strengthen Your Team
+            </button>
+        </div>
+    </form>
+
+
+    <div class="col-lg-6 mx-auto py-3 text-bold display-4">
+        <div
+            class="line-roller"
+            data-context="Develop,Deploy,Design"
+        >
+            Design
+        </div>
+    </div>
+
+    <div>
+        <div
+            id="hero-avatar"
+            class="mx-auto"
+        >
+            <img
+                width="100%"
+                height="100%"
+                class="d-block mx-auto mb-4"
+                src="{{ absolute_url(asset('avatar/me.jpeg', 'img')) }}"
+                title="Vladyslav Drybas"
+                alt=""
+            >
+        </div>
+
+        <h1 class="display-5 fw-bold text-body-emphasis">Vladyslav Drybas</h1>
+        <h2 class="display-5 fw-bold text-body-emphasis">Senior Software Engineer</h2>
+    </div>
+
+    <div class="display-3 mx-auto py-3">
+        Boost your business<br>
+        with a professional<br>
+        <div style="min-height: 8rem;">
+            <div class="line-roller display-1 text-uppercase" data-context="Web <span class='text-primary'>Api<span>,<span class='text-primary'>Ai</span> Integration,<span class='text-primary'>S</span>ingle <span class='text-primary'>P</span>age <span class='text-primary'>A</span>pplication,Chat <span class='text-primary'>Bot</span>,Browser <span class='text-primary'>Extension</span>,Site <span class='text-primary'>Plugin</span>,<span class='text-primary'>S</span>aa<span class='text-primary'>S</span>,Web <span class='text-primary'>Site</span>">Web <span class='text-primary'>Site</span></div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mx-auto pb-5 mb-5">
+{#        <p class="lead mb-4">#}
+{#            <b>Start Work Together</b>#}
+{#            <br>with experienced Senior Software Engineer with a passion for scalable, robust solutions and over a decade of industry expertise.#}
+{#            <br>Get stable continuous development by cooperation with me.#}
+{#        </p>#}
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <button type="button" class="btn btn-primary btn-lg px-4 gap-3 rounded-0">
+                Experience
+            </button>
+            <button type="button" class="btn btn-outline-dark btn-lg px-4 rounded-0">
+                Hire Now
+{#                    request consultation#}
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
