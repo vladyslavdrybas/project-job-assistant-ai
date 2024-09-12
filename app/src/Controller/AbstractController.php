@@ -17,7 +17,9 @@ abstract class AbstractController extends SymfonyAbstractController
     public function __construct(
         protected EntityManagerInterface $entityManager,
         protected UrlGeneratorInterface $urlGenerator,
-        protected SerializerInterface $serializer
+        protected SerializerInterface $serializer,
+        protected string $projectDir,
+        protected string $projectEnvironment
     ) {}
 
     protected function getUser(): ?User

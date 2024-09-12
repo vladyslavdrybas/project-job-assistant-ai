@@ -1,0 +1,60 @@
+<div
+    class="
+        {{ articlePrefix }}header
+        shadow-border-bottom
+    "
+>
+    <div class="row align-items-center">
+        <div
+            class="
+                {{ articlePrefix }}title
+                col-12
+                col-md-6
+                col-lg-8
+                col-xl-9
+            "
+        >
+            <h2 class="text-uppercase text-bold h1 text-primary">{{ data.title.ownerFullName }}</h2>
+            <h3 class="h2">{{ data.title.position }}</h3>
+        </div>
+        <div
+            class="
+                {{ articlePrefix }}contact
+                col-12
+                col-md-6
+                col-lg-4
+                col-xl-3
+            "
+        >
+            <ul
+                class="
+                    list-unstyled
+                    ps-3
+                    shadow-border-start
+                "
+            >
+                {% for key,contact in data.contacts %}
+                    <li class="py-1">
+                        {% if contact.icon %}
+                            <svg class="bi bi-small"><use xlink:href="#social-{{ contact.icon }}"/></svg>
+                        {% else %}
+                            <label class="text-bold">{{ contact.label|capitalize }}</label>
+                        {% endif %}
+
+                        {% if contact.link is defined and contact.link is not null %}
+                            <a
+                                href="{{ contact.link }}"
+                                class="text-decoration-underline text-resume"
+                                target="_blank"
+                            >
+                                {{ contact.value }}
+                            </a>
+                        {% else %}
+                            <span class="text-resume">{{ contact.value }}</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

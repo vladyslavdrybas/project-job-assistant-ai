@@ -1,0 +1,19 @@
+<section
+    class="
+        {{ articlePrefix }}section-skills
+        py-1
+        py-md-3
+        d-block
+        d-md-none
+    "
+>
+    {% include 'resume/section-title.html.twig' with {'label': 'Skills'} only %}
+    <ul class="list-unstyled d-flex flex-row flex-wrap justify-content-start align-items-center">
+        {% for key,skill in data.skills %}
+            <li class="mb-2 text-small text-nowrap">
+                <span class="text-wrap shadow-border-start mx-2 ps-1">{{ skill }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+<!-- //skills -->

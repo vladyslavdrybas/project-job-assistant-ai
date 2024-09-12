@@ -1,0 +1,22 @@
+{% extends 'base.html.twig'%}
+{% set articlePrefix='resume--' %}
+
+{% block header %}
+        {% include 'components/header/top-hire-form.html.twig' %}
+{% endblock %}
+
+{% block content %}
+<div class="bg-light py-5">
+    <div class="container">
+        <article class="mx-auto {{ articlePrefix }}wrapper bg-white shadow-lg p-3">
+            {% include 'resume/header.html.twig' %}
+            {% include 'resume/summary.html.twig' %}
+            {% include 'resume/body.html.twig' %}
+            {% include 'resume/footer.html.twig' %}
+        </article>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

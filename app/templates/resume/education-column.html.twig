@@ -1,0 +1,20 @@
+<section
+    class="
+        {{ articlePrefix }}section-skills
+        pb-1
+        pb-md-2
+    "
+>
+    {% include 'resume/section-title.html.twig' with {'label': 'Education'} only %}
+    <ul class="list-unstyled">
+        {% for key,institution in data.education %}
+            <li class="mb-1 text-small text-wrap">
+                <span>{{ institution.institution }}</span><br>
+                <span class="text-bold">{{ institution.degree }} in {{ institution.area }}</span>
+                <span class="text-nowrap text-small">{{ institution.startAt }} - {{ institution.endAt }}</span>
+
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+<!-- //skills -->

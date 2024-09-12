@@ -34,7 +34,8 @@
 
 <body class="bg-light">
 
-{% include'icons.html.twig' %}
+{% include'icons-navigation.html.twig' %}
+{% include'icons-social.html.twig' %}
 
 <div id="home" class="anchor invisible"></div>
 
@@ -46,8 +47,6 @@
     <div id="notification-flash-messages" class="pt-3 mt-5 position-fixed top-0 z-2 w-100">
         {% embed "_notification/flash/messages.flash.html.twig" %}{% endembed %}
     </div>
-
-    <div id="header-padding"></div>
 
     <main class="position-relative z-0">
         {% block content %}
@@ -71,7 +70,6 @@
                     </p>
                 </div>
             </footer>
-
         {% endblock %}
     </footer>
 </div>

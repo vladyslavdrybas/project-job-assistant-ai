@@ -24,7 +24,11 @@
                 class="btn btn-outline-dark rounded-0 text-nowrap"
                 type="button"
             >
-                Contact Me
+                <span
+                    data-context="Fast Contact, Request Callback,Contact Me"
+                >
+                    Contact Me
+                </span>
             </button>
         </div>
     </form>
@@ -73,9 +77,14 @@
 {#            <br>Get stable continuous development by cooperation with me.#}
 {#        </p>#}
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <button type="button" class="btn btn-primary btn-lg px-4 gap-3 rounded-0">
-                Experience
-            </button>
+            <a
+                href="{{ absolute_url(path('app_resume_show')) }}"
+                type="button"
+                class="btn btn-primary btn-lg px-4 gap-3 rounded-0"
+            >
+{#                Experience#}
+                Resume
+            </a>
             <button type="button" class="btn btn-outline-dark btn-lg px-4 rounded-0">
                 Hire Now
 {#                    request consultation#}
@@ -83,4 +92,7 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

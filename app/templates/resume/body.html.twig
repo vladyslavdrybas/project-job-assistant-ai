@@ -1,0 +1,53 @@
+<div
+    class="{{ articlePrefix }}body
+
+    "
+>
+    <div class="row">
+        <div
+            class="
+                {{ articlePrefix }}section-experience
+                col-12
+                col-lg-8
+                col-xl-9
+                pt-2
+                px-2
+                pb-0
+            "
+        >
+            <div class="{{ articlePrefix }}section-work-experience pb-3">
+                {% include 'resume/section-title.html.twig' with {'label': 'Work Experience'} only %}
+
+                {% for work in data.experience.work %}
+                    {% include 'resume/experience.html.twig' with {'experience': work, 'articlePrefix': articlePrefix} only %}
+                {% endfor %}
+
+            </div>
+            {% if data.experience.projects|length > 0 %}
+            <div class="{{ articlePrefix }}section-projects pb-3">
+                {% include 'resume/section-title.html.twig' with {'label': 'Projects'} only %}
+            </div>
+            {% endif %}
+
+        </div>
+        <aside
+            class="
+                {{ articlePrefix }}aside
+                col-12
+                col-lg-4
+                col-xl-3
+                px-lg-3
+                pb-lg-2
+                pt-2
+                shadow-border-start
+            "
+        >
+            {% include 'resume/education-column.html.twig' %}
+            {% include 'resume/skills-row.html.twig' %}
+            {% include 'resume/skills-column.html.twig' %}
+
+            {% include 'resume/languages-column.html.twig' %}
+
+        </aside>
+    </div>
+</div>

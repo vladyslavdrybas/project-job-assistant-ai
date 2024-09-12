@@ -1,5 +1,11 @@
 # Api Docs
 
+## Wiki
+An ATS compliant resume is one that can be easily scanned and interpreted by an applicant tracking system (ATS). This means that your resume should be formatted clearly, with relevant keywords included.
+
+## Examples
+* bootstrap fake portfolio https://themes.3rdwavemedia.com/devcard/bs5/services.html
+
 ## Deploy
 
 ## User Auth

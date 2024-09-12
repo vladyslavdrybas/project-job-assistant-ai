@@ -1,0 +1,17 @@
+<section
+    class="
+        {{ articlePrefix }}section-skills
+        pb-1
+        pb-md-2
+    "
+>
+    {% include 'resume/section-title.html.twig' with {'label': 'Languages'} only %}
+    <ul class="list-unstyled">
+        {% for key,language in data.languages %}
+            <li class="mb-1 text-small text-wrap">
+                {{ language.label }} ({{ language.value }})
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+<!-- //skills -->

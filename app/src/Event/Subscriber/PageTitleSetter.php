@@ -40,8 +40,10 @@ readonly class PageTitleSetter implements EventSubscriberInterface
 
         $template = $viewResponseDto->template;
         $data = $viewResponseDto->data;
+        $hasTemplate = !empty($template) && str_ends_with($template, 'twig');
+        $hasRedirect = !empty($template);
 
-        if (null !== $template && str_ends_with($template, 'twig')) {
+        if ($hasTemplate) {
             if (!isset($data['meta'])) {
                 $data['meta'] = [];
             }
@@ -49,14 +51,7 @@ readonly class PageTitleSetter implements EventSubscriberInterface
             $route = $event->getRequest()->attributes->get('_route');
             $title = $this->translator->trans('meta.title.' . $route);
 
-
             $data['meta']['title'] = !empty($title) && !str_contains($title, '_') ? $title : ucfirst($this->appTitle);
-
-            dump([
-                $route,
-                $title,
-                $data,
-            ]);
 
             $response = $this->doRender(
                 $template,
@@ -69,7 +64,7 @@ readonly class PageTitleSetter implements EventSubscriberInterface
                 ),
                 $event->getRequest()->getMethod()
             );
-        } else if (null !== $template) {
+        } else if ($hasRedirect) {
             $response = new RedirectResponse(
                 $this->urlGenerator->generate(
                     $viewResponseDto->template,

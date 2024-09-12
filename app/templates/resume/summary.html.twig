@@ -1,0 +1,38 @@
+<div
+    class="
+        {{ articlePrefix }}header
+        shadow-border-bottom
+    "
+>
+    <div class="row align-items-start justify-content-center p-3">
+        <div
+            class="
+                {{ articlePrefix }}avatar
+                col-12
+                col-md-3
+                col-xl-2
+                text-center
+                p-0
+            "
+        >
+                <img
+                    class="rounded-circle w-100"
+                    src="{{ absolute_url(asset(data.avatar.url, 'img')) }}"
+                    title="{{ data.avatar.title }}"
+                    alt="{{ data.avatar.alt }}"
+                />
+        </div>
+        <section
+            class="
+                {{ articlePrefix }}section-summary
+                col
+                text-start
+                p-0
+            "
+        >
+            <p class="mb-0">
+               {{ data.summary }}
+            </p>
+        </section>
+    </div>
+</div>
