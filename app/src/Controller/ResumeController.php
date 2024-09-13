@@ -5,7 +5,11 @@ namespace App\Controller;
 
 use App\Constants\RouteRequirements;
 use App\DataTransferObject\ViewResponseDto;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Knp\Snappy\Pdf;
 use Nucleos\DompdfBundle\Factory\DompdfFactoryInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -28,33 +32,152 @@ class ResumeController extends AbstractController
 
         return $this->response(
             [
-                'data' => [
-                    'owner' => [
-                        'fullName' => $this->getResumeOwnerFullName(),
-                    ],
-                    'avatar' => [
-                        'url' => $this->getEmployeeAvatarUrl(),
-                        'title' => $this->getResumeOwnerFullName(),
-                        'alt' => '',
-                    ],
-                    'summary' => $this->getProfessionalSummary(),
-                    'title' => [
-                        'position' => $this->getJobPosition(),
-                        'ownerFullName' => $this->getResumeOwnerFullName(),
-                    ],
-                    'contacts' => $this->getContacts(),
-                    'skills' => $this->getSkills(),
-                    'languages' => $this->getLanguages(),
-                    'socials' => $this->getSocialLinks(),
-                    'experience' => [
-                        'work' => $this->getWorkExperience(),
-                        'projects' => [],
-                    ],
-                    'education' => $this->getEducationHistory(),
-                ],
+                'isPrintPdf' => false,
+                'data' => $this->getResumeData(),
             ],
             'resume/index.html.twig'
         );
+    }
+
+    #[Route(
+        "/print/pdf",
+        name: "_print_pdf",
+        methods: ["GET"]
+    )]
+    public function printPdf(
+        Pdf $pdf
+    ): BinaryFileResponse {
+
+        $pdf->setOptions([
+//            'grayscale' => true,
+            'orientation' => 'portrait',
+            'enable-local-file-access' => true,
+            'enable-internal-links' => true,
+            'enable-external-links' => true,
+            'viewport-size' => '1280x1024',
+//            'viewport-size' => '1480x4024',
+
+            "margin-bottom" => 8,
+            "margin-left" => 3,
+            "margin-right" => 3,
+            "margin-top" => 8,
+            "page-height" => null,
+            "page-size" => 'A4',
+            "page-width" => null,
+//            "viewport-size" => 1.0,
+            "no-header-line" => true,
+            "no-footer-line" => true,
+            "zoom" => 1,
+            "lowquality" => true,
+        ]);
+
+        $filepath = $this->projectDir . '/public/pdf/' . md5('' . time()) . '.pdf';
+
+        $pdf->generateFromHtml(
+            $this->renderView(
+                'resume-print/index-print.html.twig',
+                [
+                    'isPrintPdf' => false,
+                    'data' => $this->getResumeData(),
+                ]
+            ),
+            $filepath
+        );
+
+        return new BinaryFileResponse($filepath);
+    }
+
+    protected function getResumeData(): array
+    {
+        return [
+            'owner' => [
+                'fullName' => $this->getResumeOwnerFullName(),
+            ],
+            'avatar' => [
+                'url' => $this->getEmployeeAvatarUrl(),
+                'title' => $this->getResumeOwnerFullName(),
+                'alt' => '',
+            ],
+            'summary' => $this->getProfessionalSummary(),
+            'title' => [
+                'position' => $this->getJobPosition(),
+                'ownerFullName' => $this->getResumeOwnerFullName(),
+            ],
+            'contacts' => $this->getContacts(),
+            'skills' => $this->getSkills(),
+            'languages' => $this->getLanguages(),
+            'socials' => $this->getSocialLinks(),
+            'experience' => [
+                'work' => $this->getWorkExperience(),
+                'projects' => [],
+            ],
+            'education' => $this->getEducationHistory(),
+            'testimonials' => [
+                'aside' => $this->getAsideTestimonials(),
+            ]
+        ];
+    }
+
+    public function getAsideTestimonials(): array
+    {
+        return [
+          [
+              'fullName' => 'Dolev Sabbah',
+              'position' => 'Development Team Lead',
+              'company' => 'SciPlay',
+              'link' => 'https://www.linkedin.com/in/dolev-sabbah-52aaa832/',
+              'nickname' => 'dolev-sabbah-52aaa832',
+              'icon' => 'linkedin',
+          ],
+            [
+                'fullName' => 'George Fironov',
+                'position' => 'Co-Founder and CEO',
+                'company' => 'Talmatic',
+                'link' => 'https://www.linkedin.com/in/george-fironov/',
+                'nickname' => 'george-fironov',
+                'icon' => 'linkedin',
+            ],
+            [
+                'fullName' => 'Octavian Brînzea',
+                'position' => 'Co-Founder and Product Lead',
+                'company' => 'Erom Agency',
+                'link' => 'https://www.linkedin.com/in/octavianbrinzea/',
+                'nickname' => 'octavianbrinzea',
+                'icon' => 'linkedin',
+            ],
+            [
+                'fullName' => 'Tim Wendel',
+                'position' => 'Lead PHP Developer',
+                'company' => 'Kapten&Son',
+                'link' => 'https://www.linkedin.com/in/tim-wendel-2269401a3/',
+                'nickname' => 'tim-wendel-2269401a3',
+                'icon' => 'linkedin',
+            ],
+          [
+              'fullName' => 'Dmytro Skotar',
+              'position' => 'QA Engineer',
+              'company' => 'SciPlay',
+              'link' => 'https://www.linkedin.com/in/dmytro-skotar/',
+              'nickname' => 'dmytro-skotar',
+              'icon' => 'linkedin',
+          ],
+          [
+              'fullName' => 'Yehor Chernyshov',
+              'position' => 'Backend Developer',
+              'company' => 'Kapten&Son',
+              'link' => 'https://www.linkedin.com/in/yehorchernyshov/',
+              'nickname' => 'yehorchernyshov',
+              'icon' => 'linkedin',
+          ],
+          [
+              'fullName' => 'Nina Pache',
+              'position' => 'Product Owner',
+              'company' => 'Kapten&Son',
+              'link' => 'https://www.linkedin.com/in/nina-pache-657016106/',
+              'nickname' => 'nina-pache-657016106',
+              'icon' => 'linkedin',
+          ],
+        ];
     }
 
 
@@ -85,6 +208,9 @@ class ResumeController extends AbstractController
             'Javascript',
             'TypeScript',
             'Solidity',
+            'Lead and deliver complex software systems',
+            'Design and implement database structures',
+            'Documentation management',
             'Version Control',
             'MySQL',
             'PostgreSql',
@@ -93,6 +219,7 @@ class ResumeController extends AbstractController
             'React',
             'Web applications',
             'Docker',
+            'CI/CD',
             'Unit Testing',
             'Integration Testing',
             'Deployment',
@@ -104,16 +231,11 @@ class ResumeController extends AbstractController
             'Apache',
             'Traefik',
             'REST API',
-            'Documentation management',
             'Chat bots',
             'Midjourney',
-            'Design and Develop Software',
             'ChatGPT',
             'OpenAI API',
-            'Lead and deliver complex software systems',
-            'Design and implement database structures',
             'Object-oriented design',
-            'PostgreSQL/MySQL',
         ];
     }
 
@@ -156,7 +278,7 @@ class ResumeController extends AbstractController
         return [
             [
                 'label' => 'LinkedIn',
-                'link' => 'www.linkedin.com/in/vladyslavdrybas/',
+                'link' => 'linkedin.com/in/vladyslavdrybas',
                 'nickname' => 'vladyslavdrybas',
                 'icon' => 'linkedin',
             ],
@@ -188,11 +310,12 @@ class ResumeController extends AbstractController
                 'location' => 'Ukraine, Israel, USA',
                 'startAt' => 'Nov 2022',
                 'endAt' => 'Jun 2024',
-                'summary' => 'Role description goes here ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Donec pede justo, fringilla vel. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.',
+                'summary' => 'At SciPlay, My role involved designing developing, and optimizing backend services, including ensuring code quality through rigorous unit testing. My expertise in PHP, Unit Testing, and Docker allowed me to play a key role in multiple successful project upgrades and feature implementations.',
                 'achievements' => [
-                    'Lorem ipsum dolor sit amet, consectetuer.',
-                    'Aenean commodo ligula eget dolor.',
-                    'Etiam ultricies nisi vel augue.',
+                    'Spearheaded the integration of Docker for development and deployment, reducing environment setup time by 50%.',
+                    'Led the implementation of comprehensive code refactoring, that increased code compatibility with the company\'s inner libraries and PHP8.',
+                    'Updates, fixes, and refactoring reduced amount of servers by twice for the support of millions of game users.',
+                    'Huge code refactoring made by me reduced amount of existing bugs by 90%. Thanks to excellent cooperation with the QA department and new development approaches no new bugs were produced in production in 2 years.',
                 ],
                 'contact' => $this->getContactPersons()['sciplay'],
             ],

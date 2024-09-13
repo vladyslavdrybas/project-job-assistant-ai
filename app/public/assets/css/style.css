@@ -187,6 +187,10 @@ body {
     font-weight: bold;
 }
 
+.text-black {
+    color: #000;
+}
+
 .resume--wrapper {
     color: #4f4f4f;
 }

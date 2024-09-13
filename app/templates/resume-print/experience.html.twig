@@ -1,0 +1,66 @@
+<div
+    class="
+        {{ articlePrefix }}experience-item
+        mb-3
+    "
+>
+    <div
+        class="
+            {{ articlePrefix }}experience-item-header
+            row
+
+        "
+    >
+        <h4 class="col-4 h5 text-black">
+            {{ experience.position }}
+        </h4>
+        <div class="col-8 text-muted text-end" style="margin-top: 0.34rem;">
+            <span class="text-bold">{{ experience.company.name}}</span> | {{ experience.location}} <span class="text-nowrap">| {{ experience.startAt }} - {{ experience.endAt }}</span>
+        </div>
+    </div>
+
+    <div class="{{ articlePrefix }}experience-item-content">
+        <p>{{ experience.summary }}</p>
+        <ul class="resume-list">
+            {% for achievement in experience.achievements %}
+                <li>{{ achievement }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if experience.contact is defined and experience.contact is not null %}
+        <div class="{{ articlePrefix }}experience-item-contact">
+            <span>contact: </span>
+            <span class="text-bold">{{ experience.contact.fullName }}</span> -
+            <span class="text-bold">{{ experience.contact.position }}</span> -
+            {% if experience.contact.contacts|length > 0 %}
+                {% if experience.contact.contacts.socials|length > 0 %}
+                    {% set contactSocial = experience.contact.contacts.socials[0] %}
+                    {% if contactSocial.icon %}
+                        <svg class="bi bi-small"><use xlink:href="#social-{{ contactSocial.icon }}"/></svg>
+                    {% else %}
+                        <label class="text-bold">{{ contactSocial.label|capitalize }}</label>
+                    {% endif %}
+
+                    {% if contactSocial.nickname is defined %}
+                        <a
+                            href="{{ contactSocial.link }}"
+                            class="text-decoration-none text-black pe-2"
+                            target="_blank"
+                        >
+                            @{{ contactSocial.nickname }}
+                        </a>
+                    {% else %}
+                        <a
+                            href="{{ contactSocial.link }}"
+                            class="text-wrap text-decoration-none text-black pe-2"
+                            target="_blank"
+                        >
+                            {{ contactSocial.link }}
+                        </a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+</div>

@@ -1,0 +1,27 @@
+<section
+    class="
+        {{ articlePrefix }}section-skills
+        pb-1
+        pb-md-2
+    "
+>
+    {% include 'resume/section-title.html.twig' with {'label': 'Testimonials'} only %}
+    <ul class="list-unstyled">
+        {% for key,testimonial in data.testimonials.aside %}
+            <li class="mb-2 pb-2 text-small text-wrap">
+                <div class="text-black">{{ testimonial.fullName }}</div>
+                <div class="text-mute">{{ testimonial.position }}</div>
+                <div class="text-mute">{{ testimonial.company }}</div>
+                <a
+                    href="{{ testimonial.link }}"
+                    class="text-decoration-none text-black pe-2"
+                    target="_blank"
+                >
+                    <svg class="bi bi-small"><use xlink:href="#social-{{ testimonial.icon }}"/></svg>
+                    @{{ testimonial.nickname }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+<!-- //skills -->
