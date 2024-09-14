@@ -254,7 +254,7 @@ class ResumeController extends AbstractController
             ],
             [
                 'label' => 'Location',
-                'value' => 'Germany, Cologne',
+                'value' => 'Germany',
                 'link' => null,
                 'icon' => 'location',
             ],
