@@ -59,6 +59,8 @@ services:
       - "traefik.http.routers.${PROJECT_NAME}-${SERVICE_NAME}-https.tls.domains[0].main=${HOST}"
       - "traefik.http.routers.${PROJECT_NAME}-${SERVICE_NAME}-http.entrypoints=web"
       - "traefik.http.middlewares.${PROJECT_NAME}-${SERVICE_NAME}-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.${PROJECT_NAME}-${SERVICE_NAME}-https.headers.sslredirect=true"
+      - "traefik.http.middlewares.${PROJECT_NAME}-${SERVICE_NAME}-https.headers.sslProxyHeaders.X-Forwarded-Proto=https"
       - "traefik.http.routers.${PROJECT_NAME}-${SERVICE_NAME}-https.entrypoints=websecure"
       - "traefik.http.routers.${PROJECT_NAME}-${SERVICE_NAME}-https.tls=true"
       - "traefik.http.routers.${PROJECT_NAME}-${SERVICE_NAME}-http.middlewares=${PROJECT_NAME}-${SERVICE_NAME}-https"
