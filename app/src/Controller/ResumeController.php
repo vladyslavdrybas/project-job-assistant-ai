@@ -83,7 +83,9 @@ class ResumeController extends AbstractController
                     'data' => $data,
                 ]
             ),
-            $filepath
+            $filepath,
+            [],
+            true
         );
 
         return new BinaryFileResponse($filepath);
