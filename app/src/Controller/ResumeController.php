@@ -391,19 +391,6 @@ class ResumeController extends AbstractController
                 'contact' => null,
             ],
             [
-                'name' => 'Phd',
-                'company' => [
-                    'name' => 'National Technical University of Ukraine \'KPI\'',
-                ],
-                'position' => 'Postgraduate',
-                'location' => 'Ukraine',
-                'startAt' => 'Sep 2014',
-                'endAt' => 'Jun 2017',
-                'summary' => 'Did research on the usage of Multi-Agent Artificial Intelligence in the chemical industry. Participated in scientific conferences. Taught students computer science.',
-                'achievements' => [],
-                'contact' => null,
-            ],
-            [
                 'name' => 'Web Studio',
                 'company' => [
                     'name' => 'FICCUS',
@@ -413,6 +400,19 @@ class ResumeController extends AbstractController
                 'startAt' => 'Jul 2016',
                 'endAt' => 'Jun 2017',
                 'summary' => 'Co-founder of the small web studio. From that time, I got experience of work directly with clients, team management, and maintaining many projects at the same time. Also, I started a few small price aggregators and data mining services.',
+                'achievements' => [],
+                'contact' => null,
+            ],
+            [
+                'name' => 'Phd',
+                'company' => [
+                    'name' => 'National Technical University of Ukraine \'KPI\'',
+                ],
+                'position' => 'Postgraduate',
+                'location' => 'Ukraine',
+                'startAt' => 'Sep 2014',
+                'endAt' => 'Jun 2017',
+                'summary' => 'Did research on the usage of Multi-Agent Artificial Intelligence in the chemical industry. Participated in scientific conferences. Taught students computer science.',
                 'achievements' => [],
                 'contact' => null,
             ],
