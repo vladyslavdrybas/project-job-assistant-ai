@@ -2,7 +2,10 @@ twig:
     file_name_pattern: '*.twig'
     auto_reload: false
     form_themes: ['bootstrap_5_layout.html.twig']
-
+    globals:
+        google_tag_manager_id: ''
+        google_tag_manager_is_active: false
+        
 when@local:
   twig:
     auto_reload: true
@@ -10,6 +13,12 @@ when@local:
 when@dev:
   twig:
     auto_reload: true
+    
+when@prod:
+  twig:
+    globals:
+      google_tag_manager_id: 'G-1N4CWG71KP'
+      google_tag_manager_is_active: true
 
 when@test:
     twig:
