@@ -263,12 +263,13 @@ class ResumeController extends AbstractController
             [
                 'label' => 'Website',
                 'value' => 'vladyslavdrybas.com',
-                'link' => $this->urlGenerator->generate(
-                    'app_homepage',
-                    [],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ),
+//                'link' => $this->urlGenerator->generate(
+//                    'app_homepage',
+//                    [],
+//                    UrlGeneratorInterface::ABSOLUTE_URL
+//                ),
                 'icon' => 'globe',
+                'link' => 'https://vladyslavdrybas.com',
             ],
         ];
     }
@@ -278,13 +279,13 @@ class ResumeController extends AbstractController
         return [
             [
                 'label' => 'LinkedIn',
-                'link' => 'linkedin.com/in/vladyslavdrybas',
+                'link' => 'https://linkedin.com/in/vladyslavdrybas',
                 'nickname' => 'vladyslavdrybas',
                 'icon' => 'linkedin',
             ],
             [
                 'label' => 'Github',
-                'link' => 'github.com/vladyslavdrybas',
+                'link' => 'https://github.com/vladyslavdrybas',
                 'nickname' => 'vladyslavdrybas',
                 'icon' => 'github',
             ],

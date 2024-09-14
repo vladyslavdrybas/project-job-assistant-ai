@@ -1,6 +1,4 @@
 services:
-  php:
-    image: vd_php_base:2.0
   database:
     ports:
       - "${DATABASE_PUBLIC_PORT}:5432"

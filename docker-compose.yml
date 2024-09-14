@@ -1,7 +1,7 @@
 services:
   php:
     container_name: ${PROJECT_NAME:-solo}-${SERVICE_NAME:-service}-api-${API_VERSION:-1.0}-php-${APP_ENV:-none}
-    image: vd_php_base:1.0
+    image: vd_php_base:1.1
     build:
         args:
           APP_ENV: ${APP_ENV}
