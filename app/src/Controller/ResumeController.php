@@ -48,6 +48,8 @@ class ResumeController extends AbstractController
         Pdf $pdf
     ): BinaryFileResponse {
 
+        $data = $this->getResumeData();
+
         $pdf->setOptions([
 //            'grayscale' => true,
             'orientation' => 'portrait',
@@ -71,14 +73,14 @@ class ResumeController extends AbstractController
             "lowquality" => true,
         ]);
 
-        $filepath = $this->projectDir . '/public/pdf/' . md5('' . time()) . '.pdf';
+        $filepath = $this->projectDir . '/public/pdf/' . md5($data['owner']['fullName'] . $data['title']['position']) . '.pdf';
 
         $pdf->generateFromHtml(
             $this->renderView(
                 'resume-print/index-print.html.twig',
                 [
                     'isPrintPdf' => false,
-                    'data' => $this->getResumeData(),
+                    'data' => $data,
                 ]
             ),
             $filepath
