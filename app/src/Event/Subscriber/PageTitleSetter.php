@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Event\Subscriber;
 
-use App\DataTransferObject\Form\Contact\ClientRequestCallBackDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Form\Contact\ContactFormType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
