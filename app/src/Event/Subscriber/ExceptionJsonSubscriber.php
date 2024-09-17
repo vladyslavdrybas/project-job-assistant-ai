@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Event\Subscriber;
 
+use App\Exceptions\AlreadyExists;
+use DateTime;
+use DateTimeInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -30,7 +33,7 @@ class ExceptionJsonSubscriber implements EventSubscriberInterface
             // the priority must be greater than the Security HTTP
             // ExceptionListener, to make sure it's called before
             // the default exception listener
-            KernelEvents::EXCEPTION => ['onKernelException', 100],
+            KernelEvents::EXCEPTION => ['onKernelException', 50],
         ];
     }
 
@@ -43,6 +46,10 @@ class ExceptionJsonSubscriber implements EventSubscriberInterface
         $exception = $event->getThrowable();
         $code = Response::HTTP_BAD_REQUEST;
         $message = $exception->getMessage();
+        if (str_contains($message, 'duplicate key')) {
+            $message = 'Already exists. Try once more with a different data.';
+            throw new AlreadyExists($message);
+        }
         if ($exception instanceof AccessDeniedException) {
             $code = Response::HTTP_UNAUTHORIZED;
             $message = 'Access denied';
@@ -62,6 +69,7 @@ class ExceptionJsonSubscriber implements EventSubscriberInterface
             'environment' => $this->projectEnvironment,
             'service' => $this->parameterBag->get('service_name'),
             'version' => $this->parameterBag->get('api_version'),
+            'time' => (new DateTime())->format(DateTimeInterface::W3C),
             'message' => $message,
         ];
 

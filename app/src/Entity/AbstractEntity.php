@@ -8,6 +8,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Uid\UuidV7;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 use function array_pop;
 use function explode;
@@ -19,6 +20,7 @@ abstract class AbstractEntity implements EntityInterface
      * updates createdAt, updatedAt fields
      */
     use TimestampableEntity;
+
 
     #[ORM\Id]
     #[ORM\Column(name: "id", type: "uuid", unique: true)]
@@ -68,6 +70,7 @@ abstract class AbstractEntity implements EntityInterface
     /**
      * @return string
      */
+    #[Groups(['main'])]
     public function getRawId(): string
     {
         return $this->id->toRfc4122();

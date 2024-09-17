@@ -29,6 +29,7 @@ An ATS compliant resume is one that can be easily scanned and interpreted by an 
 5. https://icons8.com/illustrations
 6. https://ui8.net/
 7. https://www.freepik.com/free-photos-vectors/landing-page-design
+8. https://www.uxpeak.com/the-ui-ux-playbook
 
 ### Tools
 1. background remove https://www.remove.bg/upload

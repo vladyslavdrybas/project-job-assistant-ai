@@ -9,6 +9,9 @@ parameters:
   service_name: '%env(SERVICE_NAME)%'
   app_name: '%env(APP_NAME)%'
   app_title: 'Vladyslav Drybas Portfolio'
+  email_is_active: false
+  email_admin: 'vlad.drybas@gmail.com'
+  email_autoreply: 'vlad.drybas@gmail.com'
 
 services:
     # default configuration for services in *this* file

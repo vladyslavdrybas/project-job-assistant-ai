@@ -3,50 +3,35 @@
 {% block content %}
 <div
     id="section--hero"
-    class="p-4 pb-5 text-center min-vh-100 container d-flex flex-column justify-content-between"
+    class="p-2 p-lg-5 text-center container d-flex flex-column justify-content-between"
 >
-{#    <form#}
-{#        class="#}
-{#                pb-3#}
-{#                col-lg-6#}
-{#                mx-auto#}
-{#            "#}
-{#    >#}
-{#        #}{#                <h5>Subscribe to our newsletter</h5>#}
-{#        #}{#                <p>Monthly digest of what's new and exciting from us.</p>#}
 
-{#        <div class="d-flex flex-column flex-sm-row gap-2">#}
-
-{#            <label for="newsletter1" class="visually-hidden">Email address</label>#}
-{#            <input id="newsletter1" type="text" class="form-control rounded-0" placeholder="Email address">#}
-
-{#            <button#}
-{#                class="btn btn-outline-dark rounded-0 text-nowrap"#}
-{#                type="button"#}
-{#            >#}
-{#                <span#}
-{#                    data-context="Fast Contact, Request Callback,Contact Me"#}
-{#                >#}
-{#                    Contact Me#}
-{#                </span>#}
-{#            </button>#}
-{#        </div>#}
-{#    </form>#}
-
-
-    <div class="col-lg-6 mx-auto py-3 pt-0 text-bold display-4">
+    <div
+        class="
+            col-lg-6
+            text-bold
+            mx-auto
+            py-3
+            pt-0
+            pb-lg-5
+            display-5
+        "
+    >
+        <h2 class="display-6 fw-bold text-body-emphasis">Senior Software Engineer</h2>
         <div
             class="line-roller"
-            data-context="Develop,Deploy,Design"
+            data-context="Deploy,Design,Develop"
         >
-            Design
+            Develop
         </div>
     </div>
 
     <div>
         <div
             id="hero-avatar"
-            class="mx-auto"
+            class="
+                mx-auto
+            "
         >
             <img
                 width="100%"
@@ -59,14 +44,21 @@
         </div>
 
         <h1 class="display-5 fw-bold text-body-emphasis">Vladyslav Drybas</h1>
-        <h2 class="display-5 fw-bold text-body-emphasis">Senior Software Engineer</h2>
     </div>
 
-    <div class="display-3 mx-auto py-3">
+    <div
+        class="
+            display-5
+            mx-auto
+            py-3
+            pt-lg-5
+
+        "
+    >
         Boost your business<br>
         with a professional<br>
         <div style="min-height: 8rem;">
-            <div class="line-roller display-1 text-uppercase" data-context="Web <span class='text-primary'>Api<span>,<span class='text-primary'>Ai</span> Integration,<span class='text-primary'>S</span>ingle <span class='text-primary'>P</span>age <span class='text-primary'>A</span>pplication,Chat <span class='text-primary'>Bot</span>,Browser <span class='text-primary'>Extension</span>,Site <span class='text-primary'>Plugin</span>,<span class='text-primary'>S</span>aa<span class='text-primary'>S</span>,Web <span class='text-primary'>Site</span>">Web <span class='text-primary'>Site</span></div>
+            <div class="line-roller display-4 text-uppercase" data-context="Web <span class='text-primary'>Api<span>,<span class='text-primary'>Ai</span> Integration,<span class='text-primary'>S</span>ingle <span class='text-primary'>P</span>age <span class='text-primary'>A</span>pplication,Chat <span class='text-primary'>Bot</span>,Browser <span class='text-primary'>Extension</span>,Site <span class='text-primary'>Plugin</span>,<span class='text-primary'>S</span>aa<span class='text-primary'>S</span>,Web <span class='text-primary'>Site</span>">Web <span class='text-primary'>Site</span></div>
         </div>
     </div>
 
@@ -78,20 +70,22 @@
 {#        </p>#}
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
             <a
+                type="button"
+                class="btn btn-primary btn-lg px-4 rounded-0"
+                href="mailto: vlad.drybas@gmail.com"
+                data-bs-toggle="modal"
+                data-bs-target="#widget--hire-form-main-modal"
+            >
+                Request Call Back
+                {#                    request consultation#}
+            </a>
+            <a
                 href="{{ absolute_url(path('app_resume_show')) }}"
                 type="button"
-                class="btn btn-primary btn-lg px-4 gap-3 rounded-0"
+                class="btn btn-outline-dark btn-lg px-4 gap-3 rounded-0"
             >
 {#                Experience#}
                 Resume
-            </a>
-            <a
-                type="button"
-                class="btn btn-outline-dark btn-lg px-4 rounded-0"
-                href="mailto: vlad.drybas@gmail.com"
-            >
-                Hire Now
-{#                    request consultation#}
             </a>
         </div>
     </div>

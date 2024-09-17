@@ -1,0 +1,5 @@
+@media (min-width: 992px) {
+    #section--hero {
+        min-height: 90vh;
+    }
+}

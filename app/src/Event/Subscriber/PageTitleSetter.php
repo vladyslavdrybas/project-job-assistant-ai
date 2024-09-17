@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace App\Event\Subscriber;
 
+use App\DataTransferObject\Form\Contact\ClientRequestCallBackDto;
 use App\DataTransferObject\ViewResponseDto;
+use App\Form\Contact\ContactFormType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,6 +24,7 @@ readonly class PageTitleSetter implements EventSubscriberInterface
         protected Environment $twig,
         protected UrlGeneratorInterface $urlGenerator,
         protected TranslatorInterface $translator,
+        protected FormFactoryInterface $formFactory,
         protected string $appTitle
     ) {}
 
@@ -47,11 +51,27 @@ readonly class PageTitleSetter implements EventSubscriberInterface
             if (!isset($data['meta'])) {
                 $data['meta'] = [];
             }
+            if (!isset($data['feature_flags'])) {
+                // TODO add new features with feature flag
+                $data['feature_flags'] = [];
+            }
+            if (!isset($data['forms'])) {
+                $data['forms'] = [];
+            }
 
             $route = $event->getRequest()->attributes->get('_route');
             $title = $this->translator->trans('meta.title.' . $route);
 
             $data['meta']['title'] = !empty($title) && !str_contains($title, '_') ? $title : ucfirst($this->appTitle);
+            $data['forms']['requestCallBack'] = $this->formFactory
+                ->create(
+                    ContactFormType::class,
+                    null,
+                    [
+                        'action' => $this->urlGenerator->generate('api_contact_request_call_back', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                        'method' => 'POST',
+                    ]
+                )->createView();
 
             $response = $this->doRender(
                 $template,

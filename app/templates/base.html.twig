@@ -1,4 +1,5 @@
 {% set routeCurrent = app.request.get('_route') %}
+{% set isNotHomePage = routeCurrent != 'app_homepage' %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,6 +27,7 @@
     <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap-icons.min.css', 'bootstrap')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap.min.css', 'bootstrap')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('style.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('media.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
 
     {% block headstylesheets %}
     {% endblock %}
@@ -41,11 +43,11 @@
 
 <div id="home" class="anchor invisible"></div>
 
+<div id="page-wrapper" class="d-flex flex-column justify-content-between min-vh-100">
 {% block header %}
-{#    {% include 'components/header/top-fixed-hire-form.html.twig' %}#}
+{#    {% include 'components/header/top-contact-widget.html.twig' %}#}
 {% endblock %}
 
-<div id="page-wrapper" class="d-flex flex-column justify-content-between min-vh-100">
     {% if isPrintPdf is defined and isPrintPdf == true %}
     {% else %}
     <div id="notification-flash-messages" class="pt-3 mt-5 position-fixed top-0 z-2 w-100">
@@ -81,7 +83,6 @@
 
 <div aria-live="polite" aria-atomic="true" class="z-3">
     <div id="toast-list" class="toast-container top-0 end-0 p-3 mt-5">
-
     </div>
 </div>
 
@@ -95,6 +96,21 @@
             </div>
             <div class="toast-body bg-opacity-100 opacity-100">
                 {{ '{{body}}' }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hire Me Modal -->
+<div class="modal fade" id="widget--hire-form-main-modal" tabindex="-1" aria-labelledby="widget--hire-form-main-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="widget--hire-form-main-modal-label">Send Me Your contacts to start our collaboration</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% include 'widgets/contact-me/request-call-back-form.html.twig' with {'suffix': 'main', 'form': forms.requestCallBack} only %}
             </div>
         </div>
     </div>
@@ -160,9 +176,80 @@
     // prettify code json
     hljs.highlightAll();
 
+    $('.form-to-submit').on('submit', function(event) {
+        event.preventDefault();
+        const me = $(this);
+
+
+        return false;
+    })
+
+    $('.formSubmit').on('click', function(event, data) {
+        event.preventDefault();
+        const me = $(this);
+        let loader = me;
+        let messageTarget = me.attr('data-message-target');
+        if (data !== undefined && data.loader !== undefined) {
+            loader = data.loader;
+        }
+        console.log(messageTarget);
+        if (messageTarget !== undefined) {
+            messageTarget = $(messageTarget);
+            messageTarget.text('');
+            messageTarget.addClass('d-none');
+        }
+
+        loader.toggleClass('disabled btn-loading');
+        loader.attr('disabled', false);
+
+        const formId = me.prop('form');
+
+        const form = $(formId);
+
+        console.log(formId);
+        console.log(loader);
+        console.log(me);
+
+        $.ajax({
+            type: form.prop('method'),
+            url: form.prop('action'),
+            data: new FormData(document.getElementById(form.attr('id'))),
+            // enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            cache: false,
+        })
+            .done(function(response) {
+                console.log(response);
+            })
+            .always(function(data) {
+                console.log(data);
+                if (messageTarget !== undefined) {
+                    if (data.message !== undefined) {
+                        messageTarget.html(data.message);
+                    }
+                    messageTarget.removeClass('d-none');
+                }
+                loader.toggleClass('disabled btn-loading');
+                loader.removeAttr('disabled');
+            })
+            .fail(function(response) {
+                if (messageTarget !== undefined) {
+                    const data = $.parseJSON(response.responseText);
+                    if (data.message !== undefined) {
+                        messageTarget.html(data.message);
+                    }
+                    messageTarget.removeClass('d-none');
+                } else {
+                    toastServerError(response)
+                }
+            })
+        ;
+
+        return false; // avoid to execute the actual submit of the form.
+    })
 
 </script>
-
 
 <script type="application/javascript">
     let lineRollerCounter=0;
