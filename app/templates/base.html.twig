@@ -31,6 +31,8 @@
 
     {% block headstylesheets %}
     {% endblock %}
+    {% block headscripts %}
+    {% endblock %}
 
 </head>
 
@@ -133,10 +135,16 @@
         toastBootstrap.show();
     }
 
+    function formatW3C(time) {
+        const dateTime = new Date(time);
+        const formattedDate = `${dateTime.getFullYear()}/${dateTime.getMonth() + 1}/${dateTime.getDate()} ${dateTime.getHours()}:${dateTime.getMinutes()}`;
+
+        return formattedDate;
+    }
+
     function toastServerError(response) {
         const data = $.parseJSON(response.responseText);
-        const dateTime = new Date(data.time);
-        const formattedDate = `${dateTime.getDate()}-${dateTime.getMonth() + 1}-${dateTime.getFullYear()} ${dateTime.getHours()}:${dateTime.getMinutes()}`;
+        const formattedDate = formatW3C(data.time);
 
         toastShow({
             'dateTime': formattedDate,

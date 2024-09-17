@@ -21,17 +21,17 @@ class RequestCallBack extends AbstractEntity
 
     #[Assert\Email]
     #[Assert\NotBlank]
-    #[Groups(['main'])]
+    #[Groups(['main', 'ap-table'])]
     #[ORM\Column(type: Types::STRING, length: 180, nullable: false)]
     protected string $email;
 
     #[Assert\NotBlank]
-    #[Groups(['main'])]
+    #[Groups(['main', 'ap-table'])]
     #[ORM\Column(type: Types::STRING, length: 180, nullable: false)]
     protected string $name;
 
     #[Assert\NotBlank]
-    #[Groups(['main'])]
+    #[Groups(['main', 'ap-table'])]
     #[ORM\Column(type: Types::STRING, length: 4096, nullable: false)]
     protected string $description;
 

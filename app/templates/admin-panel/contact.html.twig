@@ -1,25 +1,52 @@
-{% extends 'base.html.twig'%}
-
-{% block headstylesheets %}
-    <link rel="stylesheet" href="{{ absolute_url(asset('style-cp.css?t=' ~ 'now'|date('Y-m-d-H-i') , 'css')) }}">
-    <link rel="stylesheet" href="{{ absolute_url(asset('style-ap.css?t=' ~ 'now'|date('Y-m-d-H-i') , 'css')) }}">
-{% endblock %}
-
-{% block header %}
-    {% include 'admin-panel/header.html.twig' %}
-{% endblock %}
+{% extends 'admin-panel/index.html.twig'%}
 
 {% block content %}
-    <div class="bg-gradient-primary min-vh-100 pt-5">
-        <div class="container pt-5 text-white">
-            <div class="row">
-                admin panel contact
-            </div>
+    <div class="container pt-5 text-white">
+        <div class="row text-black pb-5 data-table">
+            <table id="requestCallBackTable" class="table table-striped table-light">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Client Name</th>
+                        <th>Project Description</th>
+                        <th data-class-name="priority">RequestAt</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 {% endblock %}
 
-{% block footer %}
-    <div id="footer" class="footer pt-5">
-    </div>
+{% block scriptsbottom %}
+    {{ parent() }}
+
+    <script type="application/javascript">
+        const callBacks = {{ requestCallBacksJson|raw }};
+        console.log(callBacks);
+
+        function RequestCallBack (email, clientName, projectDescription, requestAt) {
+            this.email = email;
+            this.name = clientName;
+            this.description = projectDescription;
+            this.requestAt = requestAt;
+        }
+
+        $('#requestCallBackTable').DataTable( {
+            data: callBacks.map(function (item) {
+                return new RequestCallBack(
+                    item.email,
+                    item.name,
+                    item.description,
+                    formatW3C(item.createdAt)
+                )
+            }),
+            columns: [
+                { data: 'email' },
+                { data: 'name' },
+                { data: 'description' },
+                { data: 'requestAt' }
+            ],
+            ordering: false,
+        } );
+    </script>
 {% endblock %}

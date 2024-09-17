@@ -1,25 +1,9 @@
-{% extends 'base.html.twig'%}
-
-{% block headstylesheets %}
-    <link rel="stylesheet" href="{{ absolute_url(asset('style-cp.css?t=' ~ 'now'|date('Y-m-d-H-i') , 'css')) }}">
-    <link rel="stylesheet" href="{{ absolute_url(asset('style-ap.css?t=' ~ 'now'|date('Y-m-d-H-i') , 'css')) }}">
-{% endblock %}
-
-{% block header %}
-    {% include 'admin-panel/header.html.twig' %}
-{% endblock %}
+{% extends 'admin-panel/index.html.twig'%}
 
 {% block content %}
-    <div class="bg-gradient-primary min-vh-100 pt-5">
-        <div class="container pt-5 text-white">
-            <div class="row">
-                admin panel dashboard
-            </div>
+    <div class="container pt-5 text-white">
+        <div class="row">
+            admin panel dashboard
         </div>
-    </div>
-{% endblock %}
-
-{% block footer %}
-    <div id="footer" class="footer pt-5">
     </div>
 {% endblock %}

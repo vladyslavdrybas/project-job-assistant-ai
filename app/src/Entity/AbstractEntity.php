@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Serializer\Attribute\Ignore;
 use Symfony\Component\Uid\UuidV7;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -21,7 +23,7 @@ abstract class AbstractEntity implements EntityInterface
      */
     use TimestampableEntity;
 
-
+    #[Groups(['base', 'main'])]
     #[ORM\Id]
     #[ORM\Column(name: "id", type: "uuid", unique: true)]
     protected UuidV7 $id;
@@ -33,17 +35,12 @@ abstract class AbstractEntity implements EntityInterface
         $this->setUpdatedAt(new DateTime());
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->id->toRfc4122();
     }
 
-    /**
-     * @return string
-     */
+    #[Ignore]
     public function getObject(): string
     {
         $namespace = explode('\\', static::class);
@@ -51,28 +48,31 @@ abstract class AbstractEntity implements EntityInterface
         return array_pop($namespace);
     }
 
-    /**
-     * @return \Symfony\Component\Uid\UuidV7
-     */
     public function getId(): UuidV7
     {
         return $this->id;
     }
 
-    /**
-     * @param \Symfony\Component\Uid\UuidV7 $id
-     */
     public function setId(UuidV7 $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
-    #[Groups(['main'])]
+    #[Ignore]
     public function getRawId(): string
     {
         return $this->id->toRfc4122();
+    }
+
+    #[Groups(['base', 'main'])]
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    #[Groups(['base', 'main'])]
+    public function getUpdatedAt(): ?DateTimeInterface
+    {
+        return $this->updatedAt;
     }
 }

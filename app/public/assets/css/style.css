@@ -162,9 +162,25 @@ body {
     }
 }
 
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+input:focus,
+select:focus,
+textarea:focus,
 .form-control:focus {
     border-color: var(--palette-input-outline);
     box-shadow: 0 0 0 .08rem var(--palette-input-outline);
+    outline: none;
+}
+
+.data-table input,
+.data-table select,
+.data-table textarea {
+    border-radius: 0 !important;
+}
+.data-table select {
+    margin-right: 1rem !important;
 }
 
 .text-primary {
