@@ -71,7 +71,7 @@ class ContactController extends AbstractApiController
         }
 
         $message = sprintf(
-            'Your request id is #%s<br>Thank you!.<br>I will respond in one workday.',
+            'Your request id is #%s<br>Thank you!<br>I will respond in one workday.',
             $rcb->getRawId()
         );
 
