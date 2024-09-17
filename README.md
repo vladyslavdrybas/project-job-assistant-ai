@@ -38,3 +38,4 @@ An ATS compliant resume is one that can be easily scanned and interpreted by an 
 4. color palette generator https://mycolor.space/?hex=%233C9CFD&sub=1
 5. font https://www.fontsquirrel.com/fonts/aller
 6. mailer https://mailpit.axllent.org/docs/
+7. js data table https://datatables.net/manual/index
