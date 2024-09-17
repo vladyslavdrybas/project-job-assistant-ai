@@ -31,10 +31,6 @@ class ContactController extends AbstractApiController
         MailerInterface $mailer,
         ParameterBagInterface $params,
     ): ViewResponseDto {
-        dump([
-            $params->get('email_is_active'),
-            $params->get('email_autoreply'),
-        ]);
         $form = $this->createForm(
                 ContactFormType::class,
                 new ClientRequestCallBackDto('','','')
