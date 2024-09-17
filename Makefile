@@ -1,6 +1,8 @@
 #!make
 include .env
 
+ssh-agent-start:
+	 eval `ssh-agent`
 echo-env:
 	echo ${HOST}
 	echo ${APP_NAME}
