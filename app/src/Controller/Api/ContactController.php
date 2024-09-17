@@ -70,9 +70,14 @@ class ContactController extends AbstractApiController
             }
         }
 
+        $message = sprintf(
+            'Your request id is #%s<br>Thank you!.<br>I will respond in one workday.',
+            $rcb->getRawId()
+        );
+
         return $this->response(
             [
-                'message' => 'Please, check your email. <br> Your request id is #' . $rcb->getRawId(),
+                'message' => $message,
                 'requestId' => $rcb->getRawId(),
             ]
         );

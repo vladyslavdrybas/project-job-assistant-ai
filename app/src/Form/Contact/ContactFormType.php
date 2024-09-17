@@ -38,7 +38,7 @@ class ContactFormType extends AbstractType
                 TextType::class,
                 [
                     'required' => true,
-                    'label' => 'Name',
+                    'label' => 'Full Name',
                     'row_attr' => [
                         'class' => 'mb-3 input-group',
                     ],
@@ -53,8 +53,8 @@ class ContactFormType extends AbstractType
                             'message' => 'Please enter your name.',
                         ]),
                         new Length([
-                            'min' => 6,
-                            'minMessage' => 'Your name should be at least 6 and no more than 100 characters',
+                            'min' => 3,
+                            'minMessage' => 'Your name should be at least 3 and no more than 100 characters',
                             'max' => 100,
                         ]),
                     ],
