@@ -1,0 +1,15 @@
+<!-- Header Section -->
+<header id="header" class="header">
+    <nav class="navbar navbar-expand-md navbar-light">
+        <div class="container">
+
+            <a class="navbar-brand" href="{{ absolute_url(path('admin_panel_dashboard')) }}">Panel</a>
+
+            <div class="collapse navbar-collapse" id="headerNavbarCollapse">
+
+            {% include 'components/header/login-buttons.html.twig' %}
+        </div>
+
+        </div>
+    </nav>
+</header>

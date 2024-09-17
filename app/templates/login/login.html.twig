@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
-        {% include 'components/header/top-fixed.html.twig' %}
+        {% include 'components/header/top-request-call-back.html.twig' %}
 {% endblock %}
 
 {% block content %}
@@ -51,11 +51,15 @@
                         <label class="mb-3">
                             <input type="checkbox" name="_remember_me"> Remember me
                         </label>
-                        <a href="{{ absolute_url(path('security_register')) }}"
-                           class="text-primary d-inline-block mb-3"
-                        >
-                            Do not have account? Register now!
-                        </a>
+
+                        {% if security_is_register_open %}
+                            <a href="{{ absolute_url(path('security_register')) }}"
+                               class="text-primary d-inline-block mb-3"
+                            >
+                                Do not have account? Register now!
+                            </a>
+                        {% endif %}
+
                     </div>
 
                     <div class="text-center">

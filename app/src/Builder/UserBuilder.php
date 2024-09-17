@@ -39,13 +39,22 @@ class UserBuilder implements IEntityBuilder
         $user->setEmail(trim($email));
         $user->setPassword($this->hashPassword($user, $password));
 
-        if (null === $username) {
+        if (
+            null === $username
+            ||
+            strlen($username) > 100
+            || strlen($username) < 6
+            || null !== $this->userRepository->findOneBy(['username' => $username])
+        ) {
             $rndGen = new RandomGenerator();
-            $user->setUsername($rndGen->uniqueId('u'));
+            $username = $rndGen->uniqueId('u');
         }
+        $user->setUsername($username);
 
         return $user;
     }
+
+
 
     public function hashPassword(User $user, string $password): string
     {

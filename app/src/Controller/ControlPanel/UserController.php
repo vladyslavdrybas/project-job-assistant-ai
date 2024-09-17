@@ -26,7 +26,7 @@ use Symfony\Component\Routing\Attribute\Route;
     "/u/{user}",
     name: "cp_user",
     requirements: [
-        'user' => RouteRequirements::UNIQUE_ID->value
+        'user' => RouteRequirements::USER_ALIAS->value
     ]
 )]
 class UserController extends AbstractControlPanelController

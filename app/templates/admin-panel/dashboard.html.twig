@@ -2,17 +2,18 @@
 
 {% block headstylesheets %}
     <link rel="stylesheet" href="{{ absolute_url(asset('style-cp.css?t=' ~ 'now'|date('Y-m-d-H-i') , 'css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('style-ap.css?t=' ~ 'now'|date('Y-m-d-H-i') , 'css')) }}">
 {% endblock %}
 
 {% block header %}
-    {% include 'control-panel/header.html.twig' %}
+    {% include 'admin-panel/header.html.twig' %}
 {% endblock %}
 
 {% block content %}
     <div class="bg-gradient-primary min-vh-100 pt-5">
         <div class="container pt-5 text-white">
             <div class="row">
-                control panel
+                admin panel dashboard
             </div>
         </div>
     </div>

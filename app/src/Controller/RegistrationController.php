@@ -28,6 +28,8 @@ class RegistrationController extends AbstractController
         UserBuilder $userBuilder,
         EmailVerifier $emailVerifier
     ): ViewResponseDto {
+        $this->closeFromPublic();
+
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);

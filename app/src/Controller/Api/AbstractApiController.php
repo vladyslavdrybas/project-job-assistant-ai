@@ -11,6 +11,6 @@ use Symfony\Component\Routing\Attribute\Route;
     "/api",
     name: "api",
 )]
-abstract class AbstractController extends BaseController
+abstract class AbstractApiController extends BaseController
 {
 }

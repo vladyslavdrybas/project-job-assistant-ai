@@ -3,11 +3,13 @@
 namespace App\Security;
 
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
@@ -26,6 +28,7 @@ class AppFormLoginAuthenticator extends AbstractLoginFormAuthenticator
     public function __construct(
         protected readonly UrlGeneratorInterface $urlGenerator,
         protected readonly UserProviderInterface $userProvider,
+        protected readonly AuthorizationCheckerInterface $authorizationChecker,
     ) {
     }
 
@@ -64,6 +67,10 @@ class AppFormLoginAuthenticator extends AbstractLoginFormAuthenticator
 
         /** @var User $user */
         $user = $token->getUser();
+
+        if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            return new RedirectResponse($this->urlGenerator->generate('admin_panel_dashboard'));
+        }
 
         return new RedirectResponse($this->urlGenerator->generate('cp_user_show', ['user' => $user->getUsername()]));
     }

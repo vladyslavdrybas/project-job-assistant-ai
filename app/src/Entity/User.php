@@ -80,6 +80,11 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         return $this->roles;
     }
 
+    public function isRoleAdmin(): bool
+    {
+        return in_array('ROLE_ADMIN', $this->getRoles());
+    }
+
     public function getUserIdentifier(): string
     {
         return $this->email;

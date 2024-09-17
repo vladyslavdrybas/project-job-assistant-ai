@@ -7,7 +7,6 @@ use App\DataTransferObject\Form\Contact\ClientRequestCallBackDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\RequestCallBack;
 use App\Form\Contact\ContactFormType;
-use Cassandra\Exception\ValidationException;
 use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -15,13 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 #[Route(
     "/api/contact",
     name: "api_contact"
 )]
-class ContactController extends AbstractController
+class ContactController extends AbstractApiController
 {
     #[Route(
         "/request-call-back",
@@ -33,6 +31,10 @@ class ContactController extends AbstractController
         MailerInterface $mailer,
         ParameterBagInterface $params,
     ): ViewResponseDto {
+        dump([
+            $params->get('email_is_active'),
+            $params->get('email_autoreply'),
+        ]);
         $form = $this->createForm(
                 ContactFormType::class,
                 new ClientRequestCallBackDto('','','')
@@ -55,7 +57,8 @@ class ContactController extends AbstractController
             $this->entityManager->persist($rcb);
             $this->entityManager->flush();
 
-            if ($params->get('email_is_active')) {
+
+            if (filter_var($params->get('email_is_active'), FILTER_VALIDATE_BOOLEAN)) {
                 $email = (new TemplatedEmail())
                     ->from(new Address($params->get('email_autoreply'), 'Request Call Back Received'))
                     ->to($rcb->getEmail())

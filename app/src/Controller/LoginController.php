@@ -16,6 +16,15 @@ class LoginController extends AbstractController
     public function login(
         AuthenticationUtils $authenticationUtils
     ): ViewResponseDto {
+        $user = $this->getUser();
+        if (null !== $user) {
+            return $this->response(
+                [
+                    'user' => $user->getUsername()
+                ],
+                'cp_user_show'
+            );
+        }
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 

@@ -46,4 +46,11 @@ abstract class AbstractController extends SymfonyAbstractController
             $headers
         );
     }
+
+    protected function closeFromPublic(): void
+    {
+        if (!$this->getParameter('security_is_register_open')) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        }
+    }
 }

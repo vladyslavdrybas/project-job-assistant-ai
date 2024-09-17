@@ -10,8 +10,10 @@ parameters:
   api_version: '%env(API_VERSION)%'
   service_name: '%env(SERVICE_NAME)%'
   app_name: '%env(APP_NAME)%'
-  app_title: 'Vladyslav Drybas Portfolio'
   
+  app_title: 'Vladyslav Drybas Portfolio'
+    
+  security_is_register_open: '%env(default:no:bool:SECURITY_IS_REGISTER_OPEN)%'
   email_default: 'vlad.drybas@gmail.com'
   email_is_active: '%env(default:no:bool:EMAIL_IS_ACTIVE)%'
   email_request_call_back_enable: '%env(default:no:bool:EMAIL_REQUEST_CALL_BACK_ENABLE)%'
