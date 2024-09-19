@@ -16,6 +16,8 @@ framework:
     
     assets:
       packages:
+        assets:
+          base_path: 'assets'
         img:
           base_path: 'assets/img'
         js:
