@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Error {{ exception.code }}{% endblock %}
+
+{% block header %}
+    {% include 'components/header/top-request-call-back.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <div class="bg-light py-5">
+        <div class="container">
+            <div class="row text-center">
+                <h1>Ooops! {{ exception.code }}!</h1>
+                <p>
+                    {{ exception.message }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
