@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Builder;
 
+use App\DataTransferObject\Security\GoogleUserDto;
 use App\Entity\User;
 use App\Exceptions\AlreadyExists;
 use App\Repository\UserRepository;
@@ -14,6 +15,10 @@ use function strlen;
 
 class UserBuilder implements IEntityBuilder
 {
+    public const VALIDATE_EMAIL_MIN_LENGTH = 6;
+    public const VALIDATE_USERNAME_MIN_LENGTH = 6;
+    public const VALIDATE_USERNAME_MAX_LENGTH = 100;
+
     public function __construct(
         protected readonly UserPasswordHasherInterface $passwordHasher,
         protected readonly RandomGenerator $randomGenerator,
@@ -25,15 +30,46 @@ class UserBuilder implements IEntityBuilder
         string $password,
         ?string $username = null
     ): User {
-        if (strlen($email) < 6) {
-            throw new InvalidArgumentException('Invalid email length. Expect string length greater than 5.');
+        $this->throwInvalidEmail($email);
+        $this->throwIfExists($email);
+
+        return $this->createWithoutValidation($email, $password, $username);
+    }
+
+    public function google(GoogleUserDto $dto): User
+    {
+        $this->throwInvalidEmail($dto->email);
+
+        $user = $this->userRepository->findByEmail($dto->email);
+        if ($user instanceof User) {
+            return $user;
         }
 
-        $exist = $this->userRepository->findByEmail($email);
-        if ($exist instanceof User) {
-            throw new AlreadyExists('Such a user already exists.');
-        }
+        $user = $this->createWithoutValidation(
+            $dto->email,
+            $dto->email . microtime(),
+        );
 
+        $user->setFirstName($dto->firstName);
+        $user->setLastname($dto->lastName);
+
+        return $user;
+    }
+
+
+    public function hashPassword(User $user, string $password): string
+    {
+        return $this->passwordHasher->hashPassword(
+            $user,
+            trim($password)
+        );
+    }
+
+    protected function createWithoutValidation(
+        string $email,
+        string $password,
+        ?string $username = null
+    ): User {
         $user = new User();
 
         $user->setEmail(trim($email));
@@ -41,9 +77,8 @@ class UserBuilder implements IEntityBuilder
 
         if (
             null === $username
-            ||
-            strlen($username) > 100
-            || strlen($username) < 6
+            || strlen($username) > static::VALIDATE_USERNAME_MAX_LENGTH
+            || strlen($username) < static::VALIDATE_USERNAME_MIN_LENGTH
             || null !== $this->userRepository->findOneBy(['username' => $username])
         ) {
             $rndGen = new RandomGenerator();
@@ -54,13 +89,18 @@ class UserBuilder implements IEntityBuilder
         return $user;
     }
 
-
-
-    public function hashPassword(User $user, string $password): string
+    protected function throwIfExists(string $email): void
     {
-        return $this->passwordHasher->hashPassword(
-            $user,
-            trim($password)
-        );
+        $user = $this->userRepository->findByEmail($email);
+        if ($user instanceof User) {
+            throw new AlreadyExists('Such a user already exists.');
+        }
+    }
+
+    protected function throwInvalidEmail(string $email): void
+    {
+        if (strlen($email) < static::VALIDATE_EMAIL_MIN_LENGTH) {
+            throw new InvalidArgumentException('Invalid email length. Expect string length greater than 5.');
+        }
     }
 }

@@ -13,12 +13,18 @@ An ATS compliant resume is one that can be easily scanned and interpreted by an 
 2. auth/login
 3. auth/token/refresh
 
-## Github connect
-1. show button with generated key from generator/hash/oauth
-2. user redirect to github
-3. oauth/github/connect/hash-{hash}
-4. oauth/github/connect/check
-5. redirect to profile page
+## OAuth
+source: https://github.com/knpuniversity/oauth2-client-bundle
+
+### Github connect
+source: https://github.com/thephpleague/oauth2-github
+
+### Google connect
+scopes: https://developers.google.com/identity/protocols/oauth2/scopes
+source: https://github.com/thephpleague/oauth2-google
+
+### LinkedIn connect
+source: https://github.com/thephpleague/oauth2-linkedin
 
 ## Design
 ### Freemium to use illustrations

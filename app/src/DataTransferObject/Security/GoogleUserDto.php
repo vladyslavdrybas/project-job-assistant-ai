@@ -19,7 +19,7 @@ class GoogleUserDto
         #[SerializedPath('[picture]')]
         public string $avatar,
         #[SerializedPath('[email_verified]')]
-        public bool $emailVerified = false,
+        public bool $isEmailVerified = false,
         public ?string $locale = null,
         #[SerializedPath('[hd]')]
         public ?string $hostedDomain = null,
