@@ -10,6 +10,7 @@ class GoogleUserDto
     public function __construct(
         #[SerializedPath('[sub]')]
         public string $id,
+        public string $email,
         public string $name,
         #[SerializedPath('[given_name]')]
         public string $firstName,
@@ -17,7 +18,6 @@ class GoogleUserDto
         public string $lastName,
         #[SerializedPath('[picture]')]
         public string $avatar,
-        public string $email,
         #[SerializedPath('[email_verified]')]
         public bool $emailVerified = false,
         public ?string $locale = null,

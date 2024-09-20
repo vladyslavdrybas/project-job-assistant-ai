@@ -28,9 +28,10 @@ class GoogleController extends AbstractController
     public function connectAction(
         ClientRegistry $clientRegistry
     ) {
-        return $clientRegistry
-            ->getClient('google')
-            ->redirect(
+        /** @var GoogleClient $client */
+        $client = $clientRegistry->getClient('google');
+
+        return $client->redirect(
                 [
                     'email',
                     'profile',
@@ -52,12 +53,8 @@ class GoogleController extends AbstractController
         $client = $clientRegistry->getClient('google');
 
         try {
-            // the exact class depends on which provider you're using
             /** @var GoogleUser $user */
             $user = $client->fetchUser();
-
-            // do something with all this new power!
-            // e.g. $name = $user->getFirstName();
 
             dump($user->toArray());
 
