@@ -3,3 +3,10 @@
         min-height: 90vh;
     }
 }
+@media (min-width: 768px) {
+    .logo-wrapper {
+        width: 55vw;
+        height: 55vw;
+    }
+}
+

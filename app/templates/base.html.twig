@@ -6,53 +6,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- HTML Meta Tags -->
     <title>{% block title %}{% if meta is defined and meta.title is defined %}{{ meta.title }}{% elseif title is defined %}{{ title }}{% else %}Vladyslav Drybas Portfolio{% endif %}{% endblock %}</title>
-    <meta name="description" content="Experienced Senior Software Engineer with over a decade of industry expertise. Design, Develop, and Deploy WEB projects. Full Stack Development.">
-    <meta name="keywords" content="Senior Software Engineer, Software Engineer, full stack developer, Developer, Web Developer, PHP, JavaScript, TypeScript, Back End, Back-End, backend, HTML, CSS, JavaScript, API, website">
-    <meta name="author" content="Vladyslav Drybas">
 
-    <!-- Standard favicon -->
-    <link rel="icon" href="{{ absolute_url(asset('favicon.ico', 'img')) }}" type="image/x-icon">
-    <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ absolute_url(asset('apple-touch-icon.png', 'img')) }}">
-    <!-- Android Chrome Icon -->
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ absolute_url(asset('android-chrome-192x192.png', 'img')) }}">
-    <link rel="icon" type="image/png" sizes="512x512" href="{{ absolute_url(asset('android-chrome-512x512.png', 'img')) }}">
-    <!-- Safari Pinned Tab Icon -->
-    <link rel="mask-icon" href="{{ absolute_url(asset('safari-pinned-tab.svg', 'img')) }}" color="#5353d3">
-    <!-- Microsoft Tile Icon -->
-    <meta name="msapplication-TileImage" content="{{ absolute_url(asset('mstile-150x150.png', 'img')) }}">
-    <meta name="msapplication-TileColor" content="#5353d3">
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="{{ absolute_url(asset('site.webmanifest', 'assets')) }}">
-
-    <!-- Facebook Meta Tags -->
-    <meta property="og:title" content="Vladyslav Drybas - Senior Software Engineer">
-    <meta property="og:description" content="Experienced Senior Software Engineer with over a decade of industry expertise. Design, Develop, and Deploy WEB projects. Full Stack Development.">
-    <meta property="og:url" content="https://vladyslavdrybas.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Vladyslav Drybas Portfolio">
-    <meta property="og:image" content="{{ absolute_url(asset('avatar/me.jpeg', 'img')) }}">
-    <meta property="og:image:width" content="400">
-    <meta property="og:image:height" content="400">
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:domain" content="vladyslavdrybas.com">
-    <meta property="twitter:url" content="https://vladyslavdrybas.com/">
-    <meta name="twitter:title" content="Vladyslav Drybas Portfolio">
-    <meta name="twitter:description" content="Experienced Senior Software Engineer with over a decade of industry expertise. Design, Develop, and Deploy WEB projects.Full Stack Development.">
-    <meta name="twitter:image" content="{{ absolute_url(asset('avatar/me.jpeg', 'img')) }}">
-
-    <link rel="canonical" href="https://vladyslavdrybas.com/">
+    {% include 'meta.html.twig' %}
 
     <link rel="stylesheet" href="{{ absolute_url(asset('use-bootstrap-tag.min.css', 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('highlight.default.min.css', 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap-icons.min.css', 'bootstrap')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap.min.css', 'bootstrap')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('style.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('logo.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('media.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
 
     {% block headstylesheets %}
@@ -62,7 +25,7 @@
 
 </head>
 
-<body class="bg-light">
+<body class="bg-dark-blue">
 
 {% include'analytics/google-tag.html.twig' %}
 
@@ -83,7 +46,7 @@
     </div>
     {% endif %}
 
-    <main class="position-relative z-0">
+    <main class="position-relative z-0 w-100 d-flex flex-column justify-content-center align-items-center">
         {% block content %}
         {% endblock %}
     </main>

@@ -1,0 +1,118 @@
+.logo-wrapper {
+    position: relative;
+    width: 95vw;
+    height: 95vw;
+    max-width: 89vh; /* Maintain responsiveness */
+    max-height: 89vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: wave1 5s infinite ease-in-out; /* Animation for wave effect */
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    animation: wave 5s infinite ease-in-out; /* Animation for wave effect */
+}
+
+.circle:last-child {
+    position: absolute;
+    border-radius: 50%;
+    animation: none;
+}
+
+/* The wave animation */
+@keyframes wave {
+    0%, 100% {
+        /* Initial state, no shadow */
+        box-shadow: 0.34em 0 0.13em var(--shadow-color-1),
+        inset -0.34em 0 0.13em var(--shadow-color-3)
+    ;
+    }
+    50% {
+        /* Wave shadow peak (midway), strongest shadow */
+        box-shadow: -0.34em 0 0.13em var(--shadow-color-3),
+        inset 0.34em 0 0.13em var(--shadow-color-1)
+    ;
+    }
+}
+
+/* The wave animation */
+@keyframes wave1 {
+    0%, 100% {
+        width: 100%;
+        height: 100%;
+    }
+    50% {
+        width: 97%;
+        height: 97%;
+    }
+}
+
+/* Apply staggered delays to each circle for wave effect */
+.circle-1 {
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, var(--gradient-start), var(--gradient-end));
+    animation-delay: 0s; /* No delay for first circle */
+}
+
+.circle-2 {
+    width: 70%;
+    height: 70%;
+    background: transparent;
+    animation-delay: 0.2s; /* Slight delay */
+}
+
+.circle-3 {
+    width: 60%;
+    height: 60%;
+    background: transparent;
+    animation-delay: 0.3s; /* More delay */
+}
+
+.circle-4 {
+    width: 50%;
+    height: 50%;
+    background: transparent;
+    animation-delay: 0.5s; /* Further delay */
+}
+
+.circle-5 {
+    width: 40%;
+    height: 40%;
+    background: transparent;
+    animation-delay: 0.13s; /* Continue delaying */
+}
+
+.circle-6 {
+    width: 30%;
+    height: 30%;
+    background: transparent;
+    animation-delay: 0.21s;
+}
+
+.circle-7 {
+    width: 20%;
+    height: 20%;
+    background: transparent;
+    animation-delay: 0.34s;
+}
+
+.circle-8 {
+    width: 10%;
+    height: 10%;
+    background: var(--background-color);
+    animation-delay: 0.55s;
+    opacity: 0.89;
+}

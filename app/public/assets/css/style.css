@@ -1,10 +1,17 @@
 :root {
     /*--palette-input-outline: rgba(253, 13, 49, 0.25);*/
-    --palette-primary: #5353d3;
+    --palette-primary: #0e1a28;
     --palette-primary-rgb: 83,83,211;
     --palette-primary-hover: #6666e4;
     --palette-primary-disabled: #9595fa;
-    --palette-input-outline: #5353d3;
+    --palette-input-outline: #0e1a28;
+
+    --background-color: #0e1a28; /* Dark blue background */
+    --gradient-start: #6a9be3;   /* Light blue gradient start */
+    --gradient-end: #1b3c5c;     /* Dark blue gradient end */
+    --shadow-color-1: rgba(0, 0, 0, 0.2); /* Lighter shadow */
+    --shadow-color-2: rgba(0, 0, 0, 0.4); /* Medium shadow */
+    --shadow-color-3: rgba(0, 0, 0, 0.6); /* Darker shadow */
 }
 
 .btn-primary {
@@ -26,8 +33,11 @@
 
 body {
     /*font-family: Roboto, Arial, sans-serif !important;*/
-
     font-family: Arial, Tahoma, Verdana, 'Times New Roman', serif;
+}
+
+.bg-dark-blue {
+    background-color: var(--background-color) !important;
 }
 
 .text-primary,
@@ -37,7 +47,7 @@ body {
 }
 
 #section--hero {
-    min-height: 80vh;
+    /*min-height: 80vh;*/
 }
 
 .btn-loading::after {
