@@ -10,6 +10,8 @@ parameters:
   api_version: '%env(API_VERSION)%'
   service_name: '%env(SERVICE_NAME)%'
   app_name: '%env(APP_NAME)%'
+  app_secret: '%env(APP_SECRET)%'
+  hash_secret: '%env(HASH_SECRET)%'
   
   app_title: 'Vladyslav Drybas Portfolio'
     
