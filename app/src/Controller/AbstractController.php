@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -18,6 +19,7 @@ abstract class AbstractController extends SymfonyAbstractController
         protected EntityManagerInterface $entityManager,
         protected UrlGeneratorInterface $urlGenerator,
         protected SerializerInterface $serializer,
+        protected LoggerInterface $logger,
         protected string $projectDir,
         protected string $projectEnvironment
     ) {}

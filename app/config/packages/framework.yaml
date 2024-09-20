@@ -2,8 +2,11 @@
 framework:
     secret: '%env(APP_SECRET)%'
     error_controller: App\Controller\ErrorController::show
-    #csrf_protection: true
-
+    
+    csrf_protection: true
+    
+    trusted_proxies: '127.0.0.1,REMOTE_ADDR'
+    
     default_locale: 'en'
     
     translator:

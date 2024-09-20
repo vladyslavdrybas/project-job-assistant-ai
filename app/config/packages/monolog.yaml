@@ -1,6 +1,7 @@
 monolog:
     channels:
-        - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
+        - deprecation
+        - google_oauth
 
 when@local:
     monolog:
@@ -9,20 +10,17 @@ when@local:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: ["!event"]
-            # uncomment to get logging in your browser
-            # you may have to allow bigger header sizes in your Web server configuration
-            #firephp:
-            #    type: firephp
-            #    level: info
-            #chromephp:
-            #    type: chromephp
-            #    level: info
+                channels: ["!event", "!google_oauth"]
             console:
                 type: console
                 process_psr_3_messages: false
-                channels: ["!event", "!doctrine", "!console"]
-
+                channels: ["!event", "!doctrine", "!console", "!google_oauth"]
+            google_oauth:
+              type: stream
+              path: "%kernel.logs_dir%/google-oauth-%kernel.environment%.log"
+              level: debug
+              channels: ["google_oauth"]
+          
 when@dev:
     monolog:
         handlers:
@@ -30,19 +28,17 @@ when@dev:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: ["!event"]
-            # uncomment to get logging in your browser
-            # you may have to allow bigger header sizes in your Web server configuration
-            #firephp:
-            #    type: firephp
-            #    level: info
-            #chromephp:
-            #    type: chromephp
-            #    level: info
+                channels: ["!event", "!google_oauth"]
             console:
                 type: console
                 process_psr_3_messages: false
-                channels: ["!event", "!doctrine", "!console"]
+                channels: ["!event", "!doctrine", "!console", "!google_oauth"]
+            
+            google_oauth:
+              type: stream
+              path: "%kernel.logs_dir%/google-oauth-%kernel.environment%.log"
+              level: debug
+              channels: ["google_oauth"]
 
 when@test:
     monolog:

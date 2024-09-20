@@ -6,9 +6,9 @@ namespace App\Controller;
 use App\Constants\RouteRequirements;
 use App\Entity\Media;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-#[\Symfony\Component\Routing\Attribute\Route(
+#[Route(
     "/m",
     name: "app_media",
     requirements: [
