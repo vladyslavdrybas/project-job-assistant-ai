@@ -1,16 +1,63 @@
-{% extends 'base.html.twig'%}
+{% extends 'base.html.twig' %}
 
 {% block header %}
-        {% include 'components/header/homepage.html.twig' %}
+    {% include 'components/header/homepage.html.twig' %}
 {% endblock %}
 
 {% block content %}
-<div
-    id="section--hero"
-    class="position-relative p-0 m-0 text-center text-white container d-flex flex-column justify-content-center align-items-center"
->
+    <div
+        id="section--hero"
+        class="
+            section--hero
 
-</div>
+            container
+            position-relative
+            pt-5
+            m-0
+            text-center
+            text-white
+            d-flex
+            flex-column
+            justify-content-center
+            align-items-center
+        "
+    >
+        <h1 class="section--hero-title">Online resume builder</h1>
+        <h2 class="section--hero--title-secondary">Only 2% of resumes make it past the first round. Be in the top 2%</h2>
+        <p class="section--hero--subtitle">
+            Use professional field-tested resume templates that follow
+            the exact ‘resume rules’ employers look for. Easy to use and done within minutes
+            - try now for free!
+        </p>
+
+        <div class="section--hero-cta my-2">
+            <a
+                class="btn btn-light"
+                href="/resume-create"
+            >
+                Create my resume
+            </a>
+        </div>
+
+        <div class="section--hero-counter text-center my-2">
+            <span class="me-1">25,477</span><span>resumes created today</span>
+        </div>
+
+        <div
+            class="col col-md-9 col-lg-7 mx-auto"
+        >
+            <a class="text-decoration-none"
+               href="/resume-templates">
+                <img
+                    class="w-100"
+                    alt="Create my resume"
+                    src="{{ absolute_url(asset('landing/hero-resume-screen.png', 'img')) }}"
+                >
+            </a>
+        </div>
+    </div>
+
+
 {% endblock %}
 
 {% block footer %}

@@ -25,7 +25,7 @@
 
 </head>
 
-<body class="bg-dark-blue">
+<body class="bg-dark-blue" data-locale="en">
 
 {% include'analytics/google-tag.html.twig' %}
 
@@ -34,7 +34,7 @@
 
 <div id="home" class="anchor invisible"></div>
 
-<div id="page-wrapper" class="d-flex flex-column {% if isNotHomePage %}justify-content-start{% else %}justify-content-between{% endif %} min-vh-100">
+<div id="page-wrapper" class="d-flex flex-column justify-content-start min-vh-100">
 {% block header %}
 {#    {% include 'components/header/top-contact-widget.html.twig' %}#}
 {% endblock %}

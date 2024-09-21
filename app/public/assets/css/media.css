@@ -1,10 +1,5 @@
-@media (min-width: 992px) {
-    #section--hero {
-        min-height: 90vh;
-    }
-}
 @media (min-width: 768px) {
-    .logo-wrapper {
+    .loader-full-screen {
         width: 55vw;
         height: 55vw;
     }
