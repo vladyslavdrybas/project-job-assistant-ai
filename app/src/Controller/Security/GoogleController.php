@@ -9,6 +9,7 @@ use App\DataTransferObject\Security\GoogleUserDto;
 use App\Entity\UserGoogle;
 use App\Repository\UserGoogleRepository;
 use DateTime;
+use Exception;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -57,55 +58,56 @@ class GoogleController extends AbstractController
         UserBuilder $userBuilder,
         UserGoogleRepository $userGoogleRepository
     ): void {
-        /** @var GoogleClient $client */
-        $client = $clientRegistry->getClient('google');
-
-        try {
-            $doctrineChanges = false;
-            /** @var GoogleUser $user */
-            $googleUser = $client->fetchUser();
-
-            $googleUserDto = $this->serializer
-                ->denormalize(
-                    $googleUser->toArray(),
-                    GoogleUserDto::class
-                );
-
-            $user = $userBuilder->google($googleUserDto);
-
-            $isUserNew = (new DateTime())->diff($user->getCreatedAt())->s < 5;
-            if ($isUserNew) {
-                $doctrineChanges = true;
-                $userGoogleRepository->add($user);
-            }
-
-            $userGoogle = $userGoogleRepository->findOneBy(['email' => $googleUserDto->email]);
-            if (!$userGoogle instanceof UserGoogle) {
-                $userGoogle = new UserGoogle();
-                $userGoogle->setOwner($user);
-                $userGoogle->setGoogleId($googleUserDto->id);
-                $userGoogle->setEmail($googleUserDto->email);
-                $userGoogle->setFullName($googleUserDto->name);
-                $userGoogle->setFirstName($googleUserDto->firstName);
-                $userGoogle->setLastName($googleUserDto->lastName);
-                $userGoogle->setAvatar($googleUserDto->avatar);
-                $userGoogle->setIsEmailVerified($googleUserDto->isEmailVerified);
-                $userGoogle->setLocale($googleUserDto->locale);
-                $userGoogle->setHostedDomain($googleUserDto->hostedDomain);
-
-                $doctrineChanges = true;
-                $userGoogleRepository->add($userGoogle);
-            }
-
-            if ($doctrineChanges) {
-                $userGoogleRepository->save();
-            }
-            die;
-            // ...
-        } catch (IdentityProviderException $e) {
-            // something went wrong!
-            // probably you should return the reason to the user
-            dump($e->getMessage()); die;
-        }
+        throw new Exception('Should not be achieved.');
+//        /** @var GoogleClient $client */
+//        $client = $clientRegistry->getClient('google');
+//
+//        try {
+//            $doctrineChanges = false;
+//            /** @var GoogleUser $user */
+//            $googleUser = $client->fetchUser();
+//
+//            $googleUserDto = $this->serializer
+//                ->denormalize(
+//                    $googleUser->toArray(),
+//                    GoogleUserDto::class
+//                );
+//
+//            $user = $userBuilder->google($googleUserDto);
+//
+//            $isUserNew = (new DateTime())->diff($user->getCreatedAt())->s < 5;
+//            if ($isUserNew) {
+//                $doctrineChanges = true;
+//                $userGoogleRepository->add($user);
+//            }
+//
+//            $userGoogle = $userGoogleRepository->findOneBy(['email' => $googleUserDto->email]);
+//            if (!$userGoogle instanceof UserGoogle) {
+//                $userGoogle = new UserGoogle();
+//                $userGoogle->setOwner($user);
+//                $userGoogle->setGoogleId($googleUserDto->id);
+//                $userGoogle->setEmail($googleUserDto->email);
+//                $userGoogle->setFullName($googleUserDto->name);
+//                $userGoogle->setFirstName($googleUserDto->firstName);
+//                $userGoogle->setLastName($googleUserDto->lastName);
+//                $userGoogle->setAvatar($googleUserDto->avatar);
+//                $userGoogle->setIsEmailVerified($googleUserDto->isEmailVerified);
+//                $userGoogle->setLocale($googleUserDto->locale);
+//                $userGoogle->setHostedDomain($googleUserDto->hostedDomain);
+//
+//                $doctrineChanges = true;
+//                $userGoogleRepository->add($userGoogle);
+//            }
+//
+//            if ($doctrineChanges) {
+//                $userGoogleRepository->save();
+//            }
+//            die;
+//            // ...
+//        } catch (IdentityProviderException $e) {
+//            // something went wrong!
+//            // probably you should return the reason to the user
+//            dump($e->getMessage()); die;
+//        }
     }
 }
