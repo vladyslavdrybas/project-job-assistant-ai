@@ -2,83 +2,81 @@
 
 
 {% block content %}
-    <div class="min-vh-100 pt-5">
-        <div class="container pt-5 ">
-            <div class="row gx-5 justify-content-center">
+    <div class="container pt-2 pt-lg-5">
+        <div class="row justify-content-center">
 
-                <div class="col-md-5 col-lg-3">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">{{ user.username }}</li>
+            <div class="col-md-5 col-lg-3">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ user.username }}</li>
 
-                        {% if user.firstname is not null or user.lastname is not null %}
-                            <li class="list-group-item">{{ user.firstname }} {{ user.lastname }}</li>
+                    {% if user.firstname is not null or user.lastname is not null %}
+                        <li class="list-group-item">{{ user.firstname }} {{ user.lastname }}</li>
+                    {% endif %}
+
+                    <li
+                        class="list-group-item"
+
+                        {% if user.isEmailVerified == false %}
                         {% endif %}
+                    >
+                        {% if user.isEmailVerified %}
+                            <div
+                                title="Confirmed"
+                            >
+                                <span>
+                                    {{ user.email }}
+                                </span>
+                                <svg class="bi bi-small"><use xlink:href="#checked"/></svg>
 
-                        <li
-                            class="list-group-item"
+                            </div>
 
-                            {% if user.isEmailVerified == false %}
-                            {% endif %}
-                        >
-                            {% if user.isEmailVerified %}
-                                <div
-                                    title="Confirmed"
-                                >
-                                    <span>
-                                        {{ user.email }}
-                                    </span>
-                                    <svg class="bi bi-small"><use xlink:href="#checked"/></svg>
-
-                                </div>
-
-                            {% else %}
-                                <a
-                                    href="{{ absolute_url(path('cp_user_verify_email', {'user': user.username})) }}"
-                                    class="text-danger text-decoration-none"
-                                    title="Verify email"
-                                >
-                                    <span>
-                                        {{ user.email }}
-                                    </span>
-                                    <svg class="bi bi-small"><use xlink:href="#block"/></svg>
-                                </a>
-                            {% endif %}
-                        </li>
-                        <li class="list-group-item">{% if user.isActive %}Active{% else %}Not Active{% endif %}</li>
-                        <li class="list-group-item">{% if user.isBanned %}Banned{% else %}Not Banned{% endif %}</li>
-                    </ul>
-
-                    {% if user.id == app.user.id %}
-                        <div class="d-flex justify-content-between align-items-center">
-                            {% if user.isRoleAdmin %}
-                                <a
-                                    href="{{ absolute_url(path('admin_panel_dashboard')) }}"
-                                    type="button"
-                                    class="btn btn-primary rounded-0"
-                                >
-                                    admin <svg class="bi bi-small"><use xlink:href="#link-redirect"/></svg>
-                                </a>
-                            {% endif %}
-
+                        {% else %}
                             <a
-                                href="{{ absolute_url(path('cp_user_edit', {'user': user.username})) }}"
+                                href="{{ absolute_url(path('cp_user_verify_email', {'user': user.username})) }}"
+                                class="text-danger text-decoration-none"
+                                title="Verify email"
+                            >
+                                <span>
+                                    {{ user.email }}
+                                </span>
+                                <svg class="bi bi-small"><use xlink:href="#block"/></svg>
+                            </a>
+                        {% endif %}
+                    </li>
+                    <li class="list-group-item">{% if user.isActive %}Active{% else %}Not Active{% endif %}</li>
+                    <li class="list-group-item">{% if user.isBanned %}Banned{% else %}Not Banned{% endif %}</li>
+                </ul>
+
+                {% if user.id == app.user.id %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        {% if user.isRoleAdmin %}
+                            <a
+                                href="{{ absolute_url(path('admin_panel_dashboard')) }}"
                                 type="button"
                                 class="btn btn-primary rounded-0"
                             >
-                                <svg class="bi bi-small"><use xlink:href="#edit"/></svg>
+                                admin <svg class="bi bi-small"><use xlink:href="#link-redirect"/></svg>
                             </a>
+                        {% endif %}
 
-                            <a
-                               href="{{ absolute_url(path('security_logout')) }}"
-                               class="btn btn-outline-dark rounded-0"
-                            >
-                                Logout
-                            </a>
-                        </div>
-                    {% endif %}
-                </div>
+                        <a
+                            href="{{ absolute_url(path('cp_user_edit', {'user': user.username})) }}"
+                            type="button"
+                            class="btn btn-primary rounded-0"
+                        >
+                            <svg class="bi bi-small"><use xlink:href="#edit"/></svg>
+                        </a>
 
+                        <a
+                           href="{{ absolute_url(path('security_logout')) }}"
+                           class="btn btn-outline-dark rounded-0"
+                        >
+                            Logout
+                        </a>
+                    </div>
+                {% endif %}
             </div>
+
         </div>
     </div>
 {% endblock %}
