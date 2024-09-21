@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Uid\Uuid;
 
 class UserValueResolver implements ValueResolverInterface
@@ -41,7 +42,6 @@ class UserValueResolver implements ValueResolverInterface
             return [$user];
         }
 
-        // create and return the value object
-        return [];
+        throw new NotFoundHttpException(sprintf('User \'%s\' not found.', $value));
     }
 }

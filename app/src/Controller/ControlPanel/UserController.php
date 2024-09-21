@@ -89,7 +89,7 @@ class UserController extends AbstractControlPanelController
 
         try {
             if ($userPasswordChangeForm->isSubmitted() && $userPasswordChangeForm->isValid()) {
-                $currentPassword = trim($userPasswordChangeForm->get('currentPassword')->getData());
+//                $currentPassword = trim($userPasswordChangeForm->get('currentPassword')->getData());
                 $newPassword = trim($userPasswordChangeForm->get('newPassword')->getData());
                 $confirmPassword = trim($userPasswordChangeForm->get('confirmPassword')->getData());
 
@@ -97,16 +97,16 @@ class UserController extends AbstractControlPanelController
                     throw new BadRequestHttpException('Passwords do not match');
                 }
 
-                if(!$userPasswordHasher->isPasswordValid($user, $currentPassword)) {
-                    throw new BadRequestHttpException('Bad credentials');
-                }
+//                if(!$userPasswordHasher->isPasswordValid($user, $currentPassword)) {
+//                    throw new BadRequestHttpException('Bad credentials');
+//                }
 
-                if ($currentPassword !== $newPassword) {
+//                if ($currentPassword !== $newPassword) {
                     $user->setPassword($userBuilder->hashPassword($user, $newPassword));
 
                     $userRepository->add($user);
                     $userRepository->save();
-                }
+//                }
 
                 // sendPasswordChangeEmail
                 $this->addFlash('success', 'Password changed.');

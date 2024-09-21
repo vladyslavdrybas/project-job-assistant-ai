@@ -16,24 +16,24 @@ class UserPasswordChangeForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('currentPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'mapped' => false,
-                'required' => true,
-                'attr' => ['autocomplete' => 'current-password'],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a current password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
-            ])
+//            ->add('currentPassword', PasswordType::class, [
+//                // instead of being set onto the object directly,
+//                // this is read and encoded in the controller
+//                'mapped' => false,
+//                'required' => true,
+//                'attr' => ['autocomplete' => 'current-password'],
+//                'constraints' => [
+//                    new NotBlank([
+//                        'message' => 'Please enter a current password',
+//                    ]),
+//                    new Length([
+//                        'min' => 6,
+//                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+//                        // max length allowed by Symfony for security reasons
+//                        'max' => 4096,
+//                    ]),
+//                ],
+//            ])
             ->add('newPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller

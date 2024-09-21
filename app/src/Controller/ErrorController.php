@@ -4,14 +4,18 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\DataTransferObject\ViewResponseDto;
-use App\Exceptions\AlreadyExists;
 use Exception;
+use Monolog\Attribute\WithMonologChannel;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Response;
+use TypeError;
 
+#[WithMonologChannel('error_controller')]
 class ErrorController extends AbstractController
 {
-    public function show(Exception $exception): ViewResponseDto
+    public function show(Exception|TypeError|FlattenException $exception): ViewResponseDto
     {
+        $this->logger->error($exception->getMessage());
         $message = 'Hm... Do you really want to try this page?';
         $code = 400;
         if ($exception->getCode() > 0) {

@@ -2,6 +2,7 @@ monolog:
     channels:
         - deprecation
         - google_oauth
+        - error_controller
 
 when@local:
     monolog:
@@ -10,16 +11,21 @@ when@local:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: ["!event", "!google_oauth"]
+                channels: ["!event", "!google_oauth", "!error_controller"]
             console:
                 type: console
                 process_psr_3_messages: false
-                channels: ["!event", "!doctrine", "!console", "!google_oauth"]
+                channels: ["!event", "!doctrine", "!console", "!google_oauth", "!error_controller"]
             google_oauth:
               type: stream
               path: "%kernel.logs_dir%/google-oauth-%kernel.environment%.log"
               level: debug
               channels: ["google_oauth"]
+            error_controller:
+              type: stream
+              path: "%kernel.logs_dir%/error-controller-%kernel.environment%.log"
+              level: debug
+              channels: ["error_controller"]
           
 when@dev:
     monolog:
@@ -28,17 +34,22 @@ when@dev:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: ["!event", "!google_oauth"]
+                channels: ["!event", "!google_oauth", "!error_controller"]
             console:
                 type: console
                 process_psr_3_messages: false
-                channels: ["!event", "!doctrine", "!console", "!google_oauth"]
+                channels: ["!event", "!doctrine", "!console", "!google_oauth", "!error_controller"]
             
             google_oauth:
               type: stream
               path: "%kernel.logs_dir%/google-oauth-%kernel.environment%.log"
               level: debug
               channels: ["google_oauth"]
+            error_controller:
+              type: stream
+              path: "%kernel.logs_dir%/error-controller-%kernel.environment%.log"
+              level: debug
+              channels: ["error_controller"]
 
 when@test:
     monolog:
