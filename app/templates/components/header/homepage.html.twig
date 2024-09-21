@@ -1,0 +1,57 @@
+<!-- Header Section -->
+<header id="header" class="header bg-light">
+    <nav class="navbar navbar-expand-md navbar-light">
+        <div class="container">
+
+            <div
+                class="loader-logo"
+                style="width: 3em; height: 3em;"
+            >
+                {% include 'loader.html.twig' %}
+            </div>
+
+            <a class="navbar-brand" href="/">ResumeAi</a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#headerNavbarCollapse"
+                aria-controls="headerNavbarCollapse"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="headerNavbarCollapse">
+
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#first-screen">What</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Why</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonial</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+
+                <button class="btn btn-outline-light">Get top 1% CV</button>
+
+                {% include 'components/header/login-buttons.html.twig' %}
+            </div>
+
+        </div>
+    </nav>
+</header>

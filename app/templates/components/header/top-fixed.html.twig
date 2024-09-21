@@ -3,7 +3,39 @@
     <nav class="navbar navbar-expand-md navbar-light">
         <div class="container">
 
-            <a class="navbar-brand" href="/">Vladyslav Drybas</a>
+{#            {% if (brand is defined and brand is not null) %}#}
+{#                <a class="navbar-brand" href="#">#}
+{#                    <div#}
+{#                        class="header-brand-logo"#}
+{#                    >#}
+{#                        {% if data.brand.media.url is defined and data.brand.media.url is not null%}#}
+{#                            <img#}
+{#                                src="{{ data.brand.media.url }}"#}
+{#                                class="h-100"#}
+{#                                alt="icon"#}
+{#                            >#}
+{#                        {% elseif data.brand.media.content is defined and data.brand.media.content is not null %}#}
+{#                            <img#}
+{#                                src="data:{{ data.brand.media.mimeType }};base64,{{ data.brand.media.content }}"#}
+{#                                class="h-100"#}
+{#                                alt="icon"#}
+{#                            >#}
+{#                        {% elseif data.brand.media.id is defined and data.brand.media.id is not null %}#}
+{#                            <img#}
+{#                                src="{{ absolute_url(path('app_media_show', {'media': data.brand.media.id})) }}"#}
+{#                                class="h-100"#}
+{#                                alt="icon"#}
+{#                            >#}
+{#                        {% endif %}#}
+{#                    </div>#}
+{#                </a>#}
+{#            {% endif %}#}
+
+            <a class="navbar-brand" href="#">
+                {{ data.brand.text }}
+            </a>
+
+            <a class="navbar-brand" href="/">ResumeAi</a>
 
             <button
                 class="navbar-toggler"

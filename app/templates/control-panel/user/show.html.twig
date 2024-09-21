@@ -48,7 +48,7 @@
                 </ul>
 
                 {% if user.id == app.user.id %}
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-end align-items-center bg-light">
                         {% if user.isRoleAdmin %}
                             <a
                                 href="{{ absolute_url(path('admin_panel_dashboard')) }}"
@@ -69,7 +69,7 @@
 
                         <a
                            href="{{ absolute_url(path('security_logout')) }}"
-                           class="btn btn-outline-dark rounded-0"
+                           class="btn btn-primary rounded-0 ms-1"
                         >
                             Logout
                         </a>

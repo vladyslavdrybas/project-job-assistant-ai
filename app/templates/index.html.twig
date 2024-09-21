@@ -1,15 +1,14 @@
 {% extends 'base.html.twig'%}
 
+{% block header %}
+        {% include 'components/header/homepage.html.twig' %}
+{% endblock %}
+
 {% block content %}
 <div
     id="section--hero"
     class="position-relative p-0 m-0 text-center text-white container d-flex flex-column justify-content-center align-items-center"
 >
-    <div class="btn btn-outline-light">Get top 1% CV</div>
-
-    <div class="loader-full-screen">
-        {% include 'loader.html.twig' %}
-    </div>
 
 </div>
 {% endblock %}

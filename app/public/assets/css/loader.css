@@ -16,19 +16,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: wave1 5s infinite ease-in-out; /* Animation for wave effect */
 }
 
 .loader .circle {
     position: absolute;
     border-radius: 50%;
-    animation: wave 5s infinite ease-in-out; /* Animation for wave effect */
 }
 
 .loader .circle:last-child {
     position: absolute;
     border-radius: 50%;
     animation: none;
+}
+
+.loader-full-screen .circle {
+    animation: wave 5s infinite ease-in-out; /* Animation for wave effect */
+}
+
+.loader-full-screen .loader {
+    animation: wave1 5s infinite ease-in-out; /* Animation for wave effect */
+}
+
+.loader-logo .loader {
+    animation: wave1 5s infinite ease-in-out; /* Animation for wave effect */
 }
 
 /* The wave animation */
@@ -43,6 +53,22 @@
         /* Wave shadow peak (midway), strongest shadow */
         box-shadow: -0.34em 0 0.13em var(--shadow-color-3),
         inset 0.34em 0 0.13em var(--shadow-color-1)
+    ;
+    }
+}
+
+/* The wave animation */
+@keyframes wave-logo {
+    0%, 100% {
+        /* Initial state, no shadow */
+        box-shadow: 0.13em 0 0.05em var(--shadow-color-1),
+        inset -0.13em 0 0.05em var(--shadow-color-3)
+    ;
+    }
+    50% {
+        /* Wave shadow peak (midway), strongest shadow */
+        box-shadow: -0.13em 0 0.05em var(--shadow-color-3),
+        inset 0.13em 0 0.05em var(--shadow-color-1)
     ;
     }
 }
