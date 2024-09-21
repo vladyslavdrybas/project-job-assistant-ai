@@ -1,4 +1,4 @@
-.logo-wrapper {
+.loader-full-screen {
     position: relative;
     width: 95vw;
     height: 95vw;
@@ -9,7 +9,7 @@
     align-items: center;
 }
 
-.logo {
+.loader {
     position: relative;
     width: 100%;
     height: 100%;
@@ -19,13 +19,13 @@
     animation: wave1 5s infinite ease-in-out; /* Animation for wave effect */
 }
 
-.circle {
+.loader .circle {
     position: absolute;
     border-radius: 50%;
     animation: wave 5s infinite ease-in-out; /* Animation for wave effect */
 }
 
-.circle:last-child {
+.loader .circle:last-child {
     position: absolute;
     border-radius: 50%;
     animation: none;
@@ -60,56 +60,56 @@
 }
 
 /* Apply staggered delays to each circle for wave effect */
-.circle-1 {
+.loader .circle-1 {
     width: 80%;
     height: 80%;
     background: radial-gradient(circle, var(--gradient-start), var(--gradient-end));
     animation-delay: 0s; /* No delay for first circle */
 }
 
-.circle-2 {
+.loader .circle-2 {
     width: 70%;
     height: 70%;
     background: transparent;
     animation-delay: 0.2s; /* Slight delay */
 }
 
-.circle-3 {
+.loader .circle-3 {
     width: 60%;
     height: 60%;
     background: transparent;
     animation-delay: 0.3s; /* More delay */
 }
 
-.circle-4 {
+.loader .circle-4 {
     width: 50%;
     height: 50%;
     background: transparent;
     animation-delay: 0.5s; /* Further delay */
 }
 
-.circle-5 {
+.loader .circle-5 {
     width: 40%;
     height: 40%;
     background: transparent;
     animation-delay: 0.13s; /* Continue delaying */
 }
 
-.circle-6 {
+.loader .circle-6 {
     width: 30%;
     height: 30%;
     background: transparent;
     animation-delay: 0.21s;
 }
 
-.circle-7 {
+.loader .circle-7 {
     width: 20%;
     height: 20%;
     background: transparent;
     animation-delay: 0.34s;
 }
 
-.circle-8 {
+.loader .circle-8 {
     width: 10%;
     height: 10%;
     background: var(--background-color);
