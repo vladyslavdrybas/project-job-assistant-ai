@@ -45,3 +45,32 @@ source: https://github.com/thephpleague/oauth2-linkedin
 5. font https://www.fontsquirrel.com/fonts/aller
 6. mailer https://mailpit.axllent.org/docs/
 7. js data table https://datatables.net/manual/index
+
+## Job Posting Api & RSS
+* [techmap](https://jobdatafeeds.com/job-api)
+* [Rapid linkedin job scraper](https://rapidapi.com/bebity-bebity-default/api/linkedin-jobs-scraper-api)
+* [Apify linkedin scraper](https://apify.com/bebity/linkedin-jobs-scraper)
+* [Apify recruitment scrapers](https://apify.com/store/categories/jobs)
+* [Aplist fun jobs api](https://apilist.fun/category/jobs)
+* [Scrapingdog scrap linkedIn jobs](https://docs.scrapingdog.com/linkedin-jobs-scraper/scrape-linkedin-jobs)
+* [Crawling API - crawl web tool](https://crawlbase.com/crawling-api-avoid-captchas-blocks)
+* [Companies rss feed](https://rss.app/rss-feed/linkedin)
+* [Rss feed automation with zapier](https://zapier.com/blog/automatically-track-job-listings/)
+* Jobs rss feed:
+  * [Feed Spot top 40 jobs rss](https://rss.feedspot.com/job_hunting_rss_feeds/)
+  * [Remotive.com specific job rss](https://remotive.com/remote-jobs/rss-feed)
+  * [Jobicy.com  public API, RSS and XML feeds](https://jobicy.com/jobs-rss-feed)
+  * [We Work Remotely Public RSS Feed](https://weworkremotely.com/remote-job-rss-feed)
+  * [WP job manager](https://wpjobmanager.com/document/advanced-usage/rss-feed-for-jobs/)
+  * [Himalayas](https://himalayas.app/rss)
+  * [infrontfinanace](https://mycareer.infrontfinance.com/job/all-rss-feeds.aspx)
+  * [jobisland](https://www.jobisland.com/jobs-rss-feed/)
+  * [togetherabroad](https://www.togetherabroad.nl/RSS-.html)
+  * [webfx 10 rss lists](https://www.webfx.com/blog/web-design/10-rss-feeds-for-design-and-development-job-seekers/)
+  * [eu remote jobs](https://euremotejobs.com/get-widget-embed-code/)
+  * [gamers job rss](https://www.games-career.com/FeedsRss/)
+  * [Which job websites have an RSS feed?](https://www.quora.com/Which-job-websites-have-an-RSS-feed)
+  * [Reddit forum post about rss on indeed](https://www.reddit.com/r/rss/comments/de9018/indeed_job_search_rss_feed/)
+  * [list of sites with job sites rss](https://gofetchjobs.com/support/available-feed-api-providers/)
+* [ScrapFly Linkedin Scrapper in 2024](https://scrapfly.io/blog/how-to-scrape-linkedin-person-profile-company-job-data/)
+* [ScrapFly How to Scrape Hidden APIs](https://scrapfly.io/blog/how-to-scrape-hidden-apis/)
