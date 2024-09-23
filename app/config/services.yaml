@@ -14,6 +14,8 @@ parameters:
   hash_secret: '%env(HASH_SECRET)%'
   
   app_title: 'Vladyslav Drybas Portfolio'
+  
+  error_handle_show_origin_message: '%env(default:no:bool:ERROR_HANDLE_SHOW_ORIGIN_MESSAGE)%'
     
   security_is_register_open: '%env(default:no:bool:SECURITY_IS_REGISTER_OPEN)%'
   email_default: 'vlad.drybas@gmail.com'

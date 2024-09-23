@@ -32,6 +32,10 @@ class ErrorController extends AbstractController
             $message = 'Page not found';
         }
 
+        if ($this->getParameter('error_handle_show_origin_message')) {
+            $message = $exception->getMessage();
+        }
+
         return $this->response(
             [
                 'exception' => [

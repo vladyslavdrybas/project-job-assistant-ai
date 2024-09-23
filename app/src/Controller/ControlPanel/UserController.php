@@ -65,8 +65,8 @@ class UserController extends AbstractControlPanelController
                     $user->setIsEmailVerified(false);
                 }
 
-                if (strlen($user->getUsername()) < 3 || strlen($user->getUsername()) > 21) {
-                    throw new BadRequestHttpException('Username must be between 3 and 21 characters long');
+                if (strlen($user->getUsername()) < 3 || strlen($user->getUsername()) > 100) {
+                    throw new BadRequestHttpException('Username must be between 3 and 100 characters long');
                 }
 
                 if (null !== $user->getFirstname() && strlen($user->getFirstname()) > 100) {
