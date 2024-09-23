@@ -35,6 +35,10 @@ class LinkedInAuthenticator extends BaseOAuthAuthenticator
                 $locale = implode('_', $locale);
             }
 
+            if (empty($locale)) {
+                $locale = null;
+            }
+
             $userLinkedIn = new UserLinkedIn();
             $userLinkedIn->setOwner($user);
             $userLinkedIn->setOAuthId($dto->id);
