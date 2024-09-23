@@ -7,6 +7,7 @@ use App\DataTransferObject\Security\OAuth2ResourceOwnerDto;
 use App\Entity\User;
 use App\Entity\UserLinkedIn;
 use App\Exceptions\RegistrationClosed;
+use App\Exceptions\SocialOwnerAndUserMismatch;
 use DateTime;
 
 class LinkedInAuthenticator extends BaseOAuthAuthenticator
@@ -20,16 +21,26 @@ class LinkedInAuthenticator extends BaseOAuthAuthenticator
 
         $userLinkedInRepository = $this->entityManager->getRepository(UserLinkedIn::class);
 
-        $user = $this->userBuilder->linkedin($dto);
-
-        $isUserNew = (new DateTime())->diff($user->getCreatedAt())->s < 5;
-        if ($isUserNew) {
-            $doctrineChanges = true;
-            $userLinkedInRepository->add($user);
-        }
-
+        $user = $this->security->getUser();
         $userLinkedIn = $userLinkedInRepository->findOneBy(['oAuthId' => $dto->id]);
         if (!$userLinkedIn instanceof UserLinkedIn) {
+            if (null === $user && !$this->parameterBag->get('security_is_register_open')) {
+                throw new RegistrationClosed();
+            }
+
+            $user = $this->security->getUser() ?? $this->userBuilder->linkedin($dto);
+            if (
+                null == $user->getEmail()
+                && null !== $dto->email
+            ) {
+                $user->setEmail($dto->email);
+            }
+
+            $isUserNew = (new DateTime())->diff($user->getCreatedAt())->s < 5;
+            if ($isUserNew) {
+                $userLinkedInRepository->add($user);
+            }
+
             $locale = $dto->locale;
             if (is_array($locale)) {
                 $locale = implode('_', $locale);
@@ -53,13 +64,23 @@ class LinkedInAuthenticator extends BaseOAuthAuthenticator
 
             $doctrineChanges = true;
             $userLinkedInRepository->add($userLinkedIn);
+        } else {
+            if ($userLinkedIn->getOwner() !== $user && null !== $user) {
+                throw new SocialOwnerAndUserMismatch();
+            }
+
+            $user = $userLinkedIn->getOwner();
+
+            if (
+                null == $user->getEmail()
+                && null !== $dto->email
+            ) {
+                $doctrineChanges = true;
+                $user->setEmail($dto->email);
+            }
         }
 
         if ($doctrineChanges) {
-            if (!$this->parameterBag->get('security_is_register_open')) {
-                throw new RegistrationClosed();
-            }
-
             $userLinkedInRepository->save();
         }
 

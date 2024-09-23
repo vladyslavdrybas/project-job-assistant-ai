@@ -44,6 +44,8 @@ class GoogleController extends AbstractController
         methods: ["GET"]
     )]
     public function check(): void {
+        dump(__METHOD__);
+        exit;
         throw new Exception('Should not be achieved.');
     }
 }

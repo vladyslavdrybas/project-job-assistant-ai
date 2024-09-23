@@ -9,6 +9,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +45,8 @@ abstract class BaseOAuthAuthenticator extends OAuth2Authenticator implements Aut
         protected readonly AuthorizationCheckerInterface $authorizationChecker,
         protected readonly UserProviderInterface $userProvider,
         protected readonly SerializerInterface $serializer,
-        protected readonly ParameterBagInterface $parameterBag
+        protected readonly ParameterBagInterface $parameterBag,
+        protected readonly Security $security,
     ) {}
 
     public function authenticate(Request $request): Passport

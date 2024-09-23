@@ -2,12 +2,33 @@
 
 
 {% block content %}
-    <div class="container pt-2 pt-lg-5 bg-light">
+    <div class="container pt-2 pt-lg-5 bg-light py-5">
 
-        <div class="row gx-5 justify-content-center">
+        <div class="row justify-content-center">
             <div class="col-md-8 col-lg-5">
                 {{ form(userEditForm, {'method': 'POST'}) }}
                 {{ form(userPasswordChangeForm, {'method': 'POST'}) }}
+
+                <hr class="divider">
+                <h3 class="text-center">Connect Social Accounts</h3>
+
+                <div class="text-center">
+                    <a
+                        class="btn btn-lg btn-outline-dark rounded-0"
+                        href="{{ absolute_url(path('security_google_connect')) }}"
+                        type="button"
+                    >
+                        Google
+                    </a>
+                    <a
+                        class="btn btn-lg btn-outline-dark rounded-0"
+                        href="{{ absolute_url(path('security_linkedin_connect')) }}"
+                        type="button"
+                    >
+                        LinkedIn
+                    </a>
+                </div>
+
             </div>
         </div>
 
