@@ -28,7 +28,8 @@ security:
             entry_point: App\Security\AuthenticationEntryPoint
             custom_authenticators:
               - App\Security\AppFormLoginAuthenticator
-              - App\Security\GoogleAuthenticator
+              - App\Security\OAuth\GoogleAuthenticator
+              - App\Security\OAuth\LinkedInAuthenticator
             logout:
                 path: security_logout
                 target: security_login

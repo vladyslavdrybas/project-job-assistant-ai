@@ -1,18 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Security;
+namespace App\Security\OAuth;
 
 use App\Builder\UserBuilder;
-use App\DataTransferObject\Security\GoogleUserDto;
+use App\DataTransferObject\Security\OAuth2ResourceOwnerDto;
 use App\Entity\User;
-use App\Entity\UserGoogle;
-use App\Repository\UserGoogleRepository;
-use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
-use KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
-use League\OAuth2\Client\Provider\GoogleUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,22 +18,26 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationEntrypointInterface
+abstract class BaseOAuthAuthenticator extends OAuth2Authenticator implements AuthenticationEntrypointInterface
 {
+    abstract protected function buildUserFromOAuthDto(OAuth2ResourceOwnerDto $dto): User;
+
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'security_login';
+    public const CONNECT_CHECK_ROUTE = 'undefined';
+    public const OAUTH_CLIENT = 'undefined';
 
     public function __construct(
         protected readonly ClientRegistry $clientRegistry,
-        protected readonly UserGoogleRepository $userGoogleRepository,
+        protected readonly EntityManagerInterface $entityManager,
         protected readonly UserBuilder $userBuilder,
         protected readonly UrlGeneratorInterface $urlGenerator,
         protected readonly AuthorizationCheckerInterface $authorizationChecker,
@@ -45,66 +45,32 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
         protected SerializerInterface $serializer
     ) {}
 
-
-    public function supports(Request $request): ?bool
-    {
-        return $request->attributes->get('_route') === 'security_google_connect_check';
-    }
-
     public function authenticate(Request $request): Passport
     {
-        /** @var GoogleClient $client */
-        $client = $this->clientRegistry->getClient('google');
+        $client = $this->clientRegistry->getClient(static::OAUTH_CLIENT);
         $accessToken = $this->fetchAccessToken($client);
 
         $userBadge = new UserBadge(
             $accessToken->getToken(),
             function() use ($accessToken, $client) {
-                $doctrineChanges = false;
-                /** @var GoogleUser $user */
-                $googleUser = $client->fetchUserFromToken($accessToken);
+                $oAuthProviderResourceOwner = $client->fetchUserFromToken($accessToken);
 
-                $googleUserDto = $this->serializer
+                $oAuth2resourceOwnerDto = $this->serializer
                     ->denormalize(
-                        $googleUser->toArray(),
-                        GoogleUserDto::class
+                        $oAuthProviderResourceOwner->toArray(),
+                        OAuth2ResourceOwnerDto::class
                     );
 
-                $user = $this->userBuilder->google($googleUserDto);
-
-                $isUserNew = (new DateTime())->diff($user->getCreatedAt())->s < 5;
-                if ($isUserNew) {
-                    $doctrineChanges = true;
-                    $this->userGoogleRepository->add($user);
-                }
-
-                $userGoogle = $this->userGoogleRepository->findOneBy(['email' => $googleUserDto->email]);
-                if (!$userGoogle instanceof UserGoogle) {
-                    $userGoogle = new UserGoogle();
-                    $userGoogle->setOwner($user);
-                    $userGoogle->setGoogleId($googleUserDto->id);
-                    $userGoogle->setEmail($googleUserDto->email);
-                    $userGoogle->setFullName($googleUserDto->name);
-                    $userGoogle->setFirstName($googleUserDto->firstName);
-                    $userGoogle->setLastName($googleUserDto->lastName);
-                    $userGoogle->setAvatar($googleUserDto->avatar);
-                    $userGoogle->setIsEmailVerified($googleUserDto->isEmailVerified);
-                    $userGoogle->setLocale($googleUserDto->locale);
-                    $userGoogle->setHostedDomain($googleUserDto->hostedDomain);
-
-                    $doctrineChanges = true;
-                    $this->userGoogleRepository->add($userGoogle);
-                }
-
-                if ($doctrineChanges) {
-                    $this->userGoogleRepository->save();
-                }
-
-                return $user;
+                return $this->buildUserFromOAuthDto($oAuth2resourceOwnerDto);
             }
         );
 
         return new SelfValidatingPassport($userBadge);
+    }
+
+    public function supports(Request $request): ?bool
+    {
+        return $request->attributes->get('_route') === static::CONNECT_CHECK_ROUTE;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response

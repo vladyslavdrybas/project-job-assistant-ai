@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(
-    "/security/google",
-    name: "security_google"
+    "/security/linkedin",
+    name: "security_linkedin"
 )]
-#[WithMonologChannel('google_oauth')]
-class GoogleController extends AbstractController
+#[WithMonologChannel('linkedin_oauth')]
+class LinkedInController extends AbstractController
 {
     #[Route(
         "/connect",
@@ -27,13 +27,13 @@ class GoogleController extends AbstractController
         ClientRegistry $clientRegistry
     ): RedirectResponse {
         /** @var GoogleClient $client */
-        $client = $clientRegistry->getClient('google');
+        $client = $clientRegistry->getClient('linkedin_2024');
 
         return $client->redirect(
                 [
                     'email',
                     'profile',
-                    'openid'
+                    'openid',
                 ]
             );
     }

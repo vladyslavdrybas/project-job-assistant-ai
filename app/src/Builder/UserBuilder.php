@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Builder;
 
-use App\DataTransferObject\Security\GoogleUserDto;
+use App\DataTransferObject\Security\OAuth2ResourceOwnerDto;
 use App\Entity\User;
+use App\Entity\UserGoogle;
+use App\Entity\UserLinkedIn;
 use App\Exceptions\AlreadyExists;
+use App\Repository\UserGoogleRepository;
+use App\Repository\UserLinkedInRepository;
 use App\Repository\UserRepository;
 use App\Utility\RandomGenerator;
 use InvalidArgumentException;
@@ -22,7 +26,9 @@ class UserBuilder implements IEntityBuilder
     public function __construct(
         protected readonly UserPasswordHasherInterface $passwordHasher,
         protected readonly RandomGenerator $randomGenerator,
-        protected readonly UserRepository $userRepository
+        protected readonly UserRepository $userRepository,
+        protected readonly UserGoogleRepository $googleRepository,
+        protected readonly UserLinkedInRepository $userLinkedInRepository
     ) {}
 
     public function base(
@@ -33,22 +39,30 @@ class UserBuilder implements IEntityBuilder
         $this->throwInvalidEmail($email);
         $this->throwIfExists($email);
 
-        return $this->createWithoutValidation($email, $password, $username);
+        $user = $this->initUser();
+        $user->setEmail(trim($email));
+
+        $this->setUsername($user, $username);
+        $this->setPassword($user, $password);
+
+        return $this->createWithoutValidation($password, $email, $username);
     }
 
-    public function google(GoogleUserDto $dto): User
+    public function google(OAuth2ResourceOwnerDto $dto): User
     {
-        $this->throwInvalidEmail($dto->email);
-
-        $user = $this->userRepository->findByEmail($dto->email);
-        if ($user instanceof User) {
-            return $user;
+        if (null !== $dto->email) {
+            $this->throwInvalidEmail($dto->email);
         }
 
-        $user = $this->createWithoutValidation(
-            $dto->email,
-            $dto->email . microtime(),
-        );
+        $userGoogle = $this->googleRepository->findOneBy(['oAuthId' => $dto->id]);
+        if ($userGoogle instanceof UserGoogle) {
+            $user = $userGoogle->getOwner();
+        } else {
+            $user = $this->createWithoutValidation(
+                bin2hex(random_bytes(3)) . substr($dto->id, 0, 10),
+                $dto->email
+            );
+        }
 
         $user->setFirstName($dto->firstName);
         $user->setLastname($dto->lastName);
@@ -56,6 +70,27 @@ class UserBuilder implements IEntityBuilder
         return $user;
     }
 
+    public function linkedin(OAuth2ResourceOwnerDto $dto): User
+    {
+        if (null !== $dto->email) {
+            $this->throwInvalidEmail($dto->email);
+        }
+
+        $userLinkedIn = $this->userLinkedInRepository->findOneBy(['oAuthId' => $dto->id]);
+        if ($userLinkedIn instanceof UserLinkedIn) {
+            $user = $userLinkedIn->getOwner();
+        } else {
+            $user = $this->createWithoutValidation(
+                bin2hex(random_bytes(3)) . substr($dto->id, 0, 10),
+                $dto->email
+            );
+        }
+
+        $user->setFirstName($dto->firstName);
+        $user->setLastname($dto->lastName);
+
+        return $user;
+    }
 
     public function hashPassword(User $user, string $password): string
     {
@@ -66,15 +101,30 @@ class UserBuilder implements IEntityBuilder
     }
 
     protected function createWithoutValidation(
-        string $email,
         string $password,
+        string $email = null,
         ?string $username = null
     ): User {
         $user = new User();
 
-        $user->setEmail(trim($email));
+        if (null !== $email) {
+            $user->setEmail(trim($email));
+        }
+
+        $this->setUsername($user, $username);
+
         $user->setPassword($this->hashPassword($user, $password));
 
+        return $user;
+    }
+
+    protected function initUser(): User
+    {
+        return new User();
+    }
+
+    protected function setUsername(User $user, ?string $username = null): User
+    {
         if (
             null === $username
             || strlen($username) > static::VALIDATE_USERNAME_MAX_LENGTH
@@ -85,6 +135,13 @@ class UserBuilder implements IEntityBuilder
             $username = $rndGen->uniqueId('u');
         }
         $user->setUsername($username);
+
+        return $user;
+    }
+
+    protected function setPassword(User $user, string $password): User
+    {
+        $user->setPassword($this->hashPassword($user, $password));
 
         return $user;
     }

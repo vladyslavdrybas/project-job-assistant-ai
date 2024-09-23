@@ -12,17 +12,4 @@ use App\Entity\UserGoogle;
  */
 class UserGoogleRepository extends AbstractRepository
 {
-    public function findByEmail(string $email): ?UserGoogle
-    {
-        $query = $this->createQueryBuilder('t')
-            ->where('t.email = :email')
-            ->setParameter('email', $email);
-
-        $result = $query->getQuery()->getOneOrNullResult();
-        if ($result instanceof UserGoogle) {
-            return $result;
-        }
-
-        return null;
-    }
 }

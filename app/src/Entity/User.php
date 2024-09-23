@@ -30,13 +30,12 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     #[ORM\Column( name: "roles", type: Types::JSON, nullable: false )]
     protected array $roles = [self::ROLE_USER];
 
-    #[Assert\Email]
-    #[Assert\NotBlank]
-    #[ORM\Column( name: "email", type: Types::STRING, length: 250, unique: true, nullable: false )]
-    protected string $email;
-
     #[ORM\Column( name: "username", type: Types::STRING, length: 100, unique: true, nullable: false)]
     protected string $username = '';
+
+    #[Assert\Email]
+    #[ORM\Column( name: "email", type: Types::STRING, length: 250, unique: true, nullable: true )]
+    protected ?string $email = null;
 
     #[ORM\Column( name: "firstname", type: Types::STRING, length: 100, nullable: true)]
     protected ?string $firstname = null;
@@ -87,7 +86,7 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
 
     public function getUserIdentifier(): string
     {
-        return $this->email;
+        return $this->username;
     }
 
     public function getUsername(): string
@@ -122,18 +121,12 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         $this->password = $password;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }

@@ -12,9 +12,10 @@ knpu_oauth2_client:
       client_secret: '%env(GOOGLE_CLIENT_SECRET)%'
       redirect_route: security_google_connect_check
       redirect_params: {}
-    linkedin:
-      type: linkedin
+    linkedin_2024:
+      type: generic
+      provider_class: App\Security\OAuth\LinkedIn\LinkedInProvider
       client_id: '%env(LINKEDIN_CLIENT_ID)%'
       client_secret: '%env(LINKEDIN_CLIENT_SECRET)%'
-      redirect_route: security_facebook_connect_check
+      redirect_route: security_linkedin_connect_check
       redirect_params: {}
