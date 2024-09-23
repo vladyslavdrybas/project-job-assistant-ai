@@ -7,6 +7,9 @@ use App\Builder\UserBuilder;
 use App\Constants\RouteRequirements;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\User;
+use App\Entity\UserGoogle;
+use App\Entity\UserLinkedIn;
+use App\Exceptions\AccessDenied;
 use App\Form\CommandCenter\Profile\UserEditForm;
 use App\Form\CommandCenter\Profile\UserPasswordChangeForm;
 use App\Repository\UserRepository;
@@ -15,9 +18,9 @@ use App\ValueResolver\UserValueResolver;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\ValueResolver;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
@@ -35,13 +38,58 @@ class UserController extends AbstractControlPanelController
     public function show(
         #[ValueResolver(UserValueResolver::class)] User $user
     ): ViewResponseDto {
+        $googleUsers = $this->entityManager->getRepository(UserGoogle::class)->findBy(['owner' => $user]);
+        $linkedinUsers = $this->entityManager->getRepository(UserLinkedIn::class)->findBy(['owner' => $user]);
+
         return $this->response(
             [
                 'user' => $user,
+                'googleUsers' => $googleUsers,
+                'linkedinUsers' => $linkedinUsers,
             ],
             'control-panel/user/show.html.twig'
         );
     }
+    #[Route(
+        path: '/{socialType}/{socialId}/disconnect',
+        name: '_social_disconnect',
+        requirements: [
+            'social' => 'google|linkedin',
+            'socialId' => RouteRequirements::UUID->value
+        ],
+        methods: ['GET']
+    )]
+    public function socialDisconnect(
+        #[ValueResolver(UserValueResolver::class)] User $user,
+        string $socialType,
+        string $socialId
+    ): ViewResponseDto {
+        if ($user !== $this->getUser()) {
+            throw new AccessDenied();
+        }
+
+        $social = match ($socialType) {
+            'google' => $this->entityManager->getRepository(UserGoogle::class)->findOneBy(['owner' => $user, 'id' => $socialId]),
+            'linkedin' => $this->entityManager->getRepository(UserLinkedIn::class)->findOneBy(['owner' => $user, 'id' => $socialId]),
+            default => throw new BadRequestHttpException("Unknown social type '$socialType'"),
+        };
+
+        if (null === $social) {
+            throw new NotFoundHttpException("Not found social #$socialId.");
+        }
+
+        $this->entityManager->remove($social);
+        $this->entityManager->flush();
+
+        return $this->response(
+            [
+                'user' => $user->getUsername(),
+            ],
+            'cp_user_show'
+        );
+    }
+
+
 
     #[Route(path: '/edit', name: '_edit', methods: ['GET','POST'])]
     public function edit(

@@ -5,7 +5,7 @@
     <div class="container pt-2 pt-lg-5 bg-light">
         <div class="row justify-content-center">
 
-            <div class="col-md-5 col-lg-3">
+            <div class="col-md-8 col-lg-5">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ user.username }}</li>
 
@@ -76,7 +76,52 @@
                     </div>
                 {% endif %}
             </div>
-
+        </div>
+    </div>
+    <div class="container pt-2 pt-lg-5 bg-light">
+        <div class="row d-flex flex-column align-items-center justify-content-center">
+            {% for googler in googleUsers %}
+                <div class="col-md-8 col-lg-5 d-flex align-items-center mb-4">
+                    <div class="flex-shrink-0">
+                        {% if googler.avatar is not null %}
+                            <img src="{{ googler.avatar }}" alt="google account avatar" class="img-fluid rounded-circle border border-light border-3" style="width: 5.5em;">
+                        {% endif %}
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="d-flex flex-row align-items-center mb-2">
+                            <svg class="bi bi-small"><use xlink:href="#social-google"/></svg>
+                            <p class="mb-0 ms-2">{{ googler.email ? googler.email : googler.fullname }}</p>
+                        </div>
+                        <div class="">
+                            <a
+                                href="{{ absolute_url(path('cp_user_social_disconnect', {'user': user.username, 'socialType': 'google', 'socialId': googler.id})) }}"
+                                class="btn btn-sm btn-outline-danger" type="button"
+                            >Disconnect</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% for linkedInor in linkedinUsers %}
+                <div class="col-md-8 col-lg-5 d-flex align-items-center mb-4">
+                    <div class="flex-shrink-0">
+                        {% if linkedInor.avatar is not null %}
+                            <img src="{{ linkedInor.avatar }}" alt="google account avatar" class="img-fluid rounded-circle border border-light border-3" style="width: 5.5em;">
+                        {% endif %}
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="d-flex flex-row align-items-center mb-2">
+                            <svg class="bi bi-small"><use xlink:href="#social-linkedin"/></svg>
+                            <p class="mb-0 ms-2">{{ linkedInor.email ? linkedInor.email : linkedInor.fullname }}</p>
+                        </div>
+                        <div class="">
+                            <a
+                                href="{{ absolute_url(path('cp_user_social_disconnect', {'user': user.username, 'socialType': 'linkedin', 'socialId': linkedInor.id})) }}"
+                                class="btn btn-sm btn-outline-danger" type="button"
+                            >Disconnect</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
