@@ -1,0 +1,37 @@
+<!-- Header Section -->
+<header id="header" class="header bg-light">
+    <nav class="navbar navbar-expand-md navbar-light">
+        <div class="container">
+
+            <div
+                class="loader-logo"
+                style="width: 3em; height: 3em;"
+            >
+                {% include 'loader.html.twig' %}
+            </div>
+
+            <a class="navbar-brand" href="/">ResumeAi</a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#headerNavbarCollapse"
+                aria-controls="headerNavbarCollapse"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="headerNavbarCollapse">
+                {% block headerNavigation %}
+                    {% include 'components/header/navigation-homepage.html.twig' %}
+                {% endblock %}
+
+                {% include 'components/header/login-buttons.html.twig' %}
+            </div>
+
+        </div>
+    </nav>
+</header>
