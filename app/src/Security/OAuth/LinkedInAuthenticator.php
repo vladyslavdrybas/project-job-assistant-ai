@@ -5,8 +5,8 @@ namespace App\Security\OAuth;
 
 use App\DataTransferObject\Security\OAuth2ResourceOwnerDto;
 use App\Entity\User;
-use App\Entity\UserGoogle;
 use App\Entity\UserLinkedIn;
+use App\Exceptions\RegistrationClosed;
 use DateTime;
 
 class LinkedInAuthenticator extends BaseOAuthAuthenticator
@@ -14,7 +14,7 @@ class LinkedInAuthenticator extends BaseOAuthAuthenticator
     public const CONNECT_CHECK_ROUTE = 'security_linkedin_connect_check';
     public const OAUTH_CLIENT = 'linkedin_2024';
 
-    protected function buildUserFromOAuthDto(OAuth2ResourceOwnerDto $dto): User
+    protected function buildUserFromOAuthDto(OAuth2ResourceOwnerDto $dto): ?User
     {
         $doctrineChanges = false;
 
@@ -52,6 +52,10 @@ class LinkedInAuthenticator extends BaseOAuthAuthenticator
         }
 
         if ($doctrineChanges) {
+            if (!$this->parameterBag->get('security_is_register_open')) {
+                throw new RegistrationClosed();
+            }
+
             $userLinkedInRepository->save();
         }
 

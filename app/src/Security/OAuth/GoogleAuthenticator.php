@@ -6,6 +6,7 @@ namespace App\Security\OAuth;
 use App\DataTransferObject\Security\OAuth2ResourceOwnerDto;
 use App\Entity\User;
 use App\Entity\UserGoogle;
+use App\Exceptions\RegistrationClosed;
 use DateTime;
 
 class GoogleAuthenticator extends BaseOAuthAuthenticator
@@ -13,7 +14,7 @@ class GoogleAuthenticator extends BaseOAuthAuthenticator
     public const CONNECT_CHECK_ROUTE = 'security_google_connect_check';
     public const OAUTH_CLIENT = 'google';
 
-    protected function buildUserFromOAuthDto(OAuth2ResourceOwnerDto $dto): User
+    protected function buildUserFromOAuthDto(OAuth2ResourceOwnerDto $dto): ?User
     {
         $doctrineChanges = false;
 
@@ -55,6 +56,10 @@ class GoogleAuthenticator extends BaseOAuthAuthenticator
         }
 
         if ($doctrineChanges) {
+            if (!$this->parameterBag->get('security_is_register_open')) {
+                throw new RegistrationClosed();
+            }
+
             $userGoogleRepository->save();
         }
 
