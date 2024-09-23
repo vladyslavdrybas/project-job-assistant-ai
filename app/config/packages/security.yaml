@@ -41,7 +41,7 @@ security:
     access_control:
          - { path: ^/ap/, roles: ROLE_ADMIN }
          - { path: ^/[cp/|p/|u/], roles: ROLE_USER }
-#
+
 #when@test:
 #    security:
 #        password_hashers:
