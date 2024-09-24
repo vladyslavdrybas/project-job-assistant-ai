@@ -74,3 +74,4 @@ source: https://github.com/thephpleague/oauth2-linkedin
   * [list of sites with job sites rss](https://gofetchjobs.com/support/available-feed-api-providers/)
 * [ScrapFly Linkedin Scrapper in 2024](https://scrapfly.io/blog/how-to-scrape-linkedin-person-profile-company-job-data/)
 * [ScrapFly How to Scrape Hidden APIs](https://scrapfly.io/blog/how-to-scrape-hidden-apis/)
+* [Quora rss jobs resources](https://www.quora.com/Which-job-websites-have-an-RSS-feed#:~:text=Several%20job%20websites%20offer%20RSS,SimplyHired%2C%20Monster%2C%20and%20Glassdoor.)
