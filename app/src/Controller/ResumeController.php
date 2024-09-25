@@ -5,13 +5,9 @@ namespace App\Controller;
 
 use App\Constants\RouteRequirements;
 use App\DataTransferObject\ViewResponseDto;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use Knp\Snappy\Pdf;
-use Nucleos\DompdfBundle\Factory\DompdfFactoryInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route(
     "/resume",
