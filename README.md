@@ -56,6 +56,7 @@ source: https://github.com/thephpleague/oauth2-linkedin
 * [Crawling API - crawl web tool](https://crawlbase.com/crawling-api-avoid-captchas-blocks)
 * [Companies rss feed](https://rss.app/rss-feed/linkedin)
 * [Rss feed automation with zapier](https://zapier.com/blog/automatically-track-job-listings/)
+* [Some interesting but small jobs API - Jobicy - https://jobicy.com/](https://github.com/Jobicy/remote-jobs-api)
 * Jobs rss feed:
   * [Feed Spot top 40 jobs rss](https://rss.feedspot.com/job_hunting_rss_feeds/)
   * [Remotive.com specific job rss](https://remotive.com/remote-jobs/rss-feed)
@@ -75,3 +76,4 @@ source: https://github.com/thephpleague/oauth2-linkedin
 * [ScrapFly Linkedin Scrapper in 2024](https://scrapfly.io/blog/how-to-scrape-linkedin-person-profile-company-job-data/)
 * [ScrapFly How to Scrape Hidden APIs](https://scrapfly.io/blog/how-to-scrape-hidden-apis/)
 * [Quora rss jobs resources](https://www.quora.com/Which-job-websites-have-an-RSS-feed#:~:text=Several%20job%20websites%20offer%20RSS,SimplyHired%2C%20Monster%2C%20and%20Glassdoor.)
+* [Huge set of jobs. freemium. millions of global job posting data](https://coresignal.com/solutions/jobs-data-api/)

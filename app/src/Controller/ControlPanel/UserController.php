@@ -50,6 +50,7 @@ class UserController extends AbstractControlPanelController
             'control-panel/user/show.html.twig'
         );
     }
+
     #[Route(
         path: '/{socialType}/{socialId}/disconnect',
         name: '_social_disconnect',
@@ -88,8 +89,6 @@ class UserController extends AbstractControlPanelController
             'cp_user_show'
         );
     }
-
-
 
     #[Route(path: '/edit', name: '_edit', methods: ['GET','POST'])]
     public function edit(

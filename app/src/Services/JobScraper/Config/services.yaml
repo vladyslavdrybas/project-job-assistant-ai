@@ -1,0 +1,17 @@
+parameters:
+  job_scraper:
+    clients:
+      jooble:
+        uri_origin: https://jooble.org
+        uri_jobs: https://jooble.org/api/serp/jobs
+        content_type: application/json
+        payload:
+            coords: null
+            isCityRegion: false
+            isRemoteItSerp: false
+            jobTypes: []
+            page: 2
+            region: ""
+            regionId: -1
+            search: "software engineer"
+            workTitle: null
