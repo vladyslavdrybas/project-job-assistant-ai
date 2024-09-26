@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\DataTransferObject\Security;
 
+use App\DataTransferObject\IDataTransferObject;
 use Symfony\Component\Serializer\Attribute\SerializedPath;
 
-class OAuth2ResourceOwnerDto
+class OAuth2ResourceOwnerDto implements IDataTransferObject
 {
     public function __construct(
         #[SerializedPath('[sub]')]

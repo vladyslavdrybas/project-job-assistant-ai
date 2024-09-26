@@ -5,7 +5,7 @@ namespace App\DataTransferObject;
 
 use Symfony\Component\HttpFoundation\Response;
 
-readonly class ViewResponseDto
+readonly class ViewResponseDto implements IDataTransferObject
 {
     public function __construct(
         public array   $data = [],

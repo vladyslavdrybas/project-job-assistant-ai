@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\DataTransferObject\Form\Contact;
 
-class ClientRequestCallBackDto
+use App\DataTransferObject\IDataTransferObject;
+
+class ClientRequestCallBackDto implements IDataTransferObject
 {
     public function __construct(
         public ?string $clientName = null,

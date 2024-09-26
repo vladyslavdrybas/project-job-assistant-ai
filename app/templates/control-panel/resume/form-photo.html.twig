@@ -1,0 +1,26 @@
+<div class="mb-3">
+    {{ form_row(form.file,
+        {
+            'label': false,
+            'attr': {
+                'data-content-target': '#' ~ form.vars.id ~ '_media_choose_file',
+                'class': 'file-upload with-preview d-none'
+            }
+        }
+    ) }}
+
+    <label
+        for="{{ form.file.vars.id }}"
+        id="{{ form.vars.id }}_media_chooseFileBtn"
+        style="width: 5.5em; height: 5.5rem;"
+    >
+        <img
+            id="{{ form.vars.id }}_media_choose_file"
+            class="img-thumbnail rounded-circle"
+            alt="uploaded file"
+            title="uploaded file"
+            src="{{ absolute_url(asset('avatar/person-circle.svg', 'img')) }}"
+        />
+    </label>
+
+</div>

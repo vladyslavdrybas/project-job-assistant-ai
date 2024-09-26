@@ -1,0 +1,52 @@
+{% extends 'control-panel/index.html.twig'%}
+
+
+{% block content %}
+    <div class="container pt-2 pt-lg-5 bg-light py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-5">
+                {{ form_start(editForm,
+                    {
+                        'method': editForm.vars.method,
+                        'attr': {
+                            'id': editForm.vars.id,
+                            'class': 'w-100'
+                        }
+                    }
+                ) }}
+                    {{ form_errors(editForm) }}
+
+                    {{ form_row(editForm.title) }}
+
+                    {% include 'control-panel/resume/form-photo.html.twig' with {'form': editForm.photo} only %}
+                {{ form_end(editForm) }}
+                <button
+                    class="btn btn-outline-dark"
+                    form="{{ editForm.vars.id }}"
+                >
+                    Save
+                </button>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block scriptsbottom %}
+    <script type="application/javascript">
+        $('.file-upload.with-preview').on('change', function(event) {
+            const me = $(this);
+            const output = $(me.attr('data-content-target'));
+            if (event.target.files.length === 0) {
+                output.addClass('d-none');
+
+                return;
+            }
+            output.attr('src', URL.createObjectURL(event.target.files[0]));
+            output.on('load', function() {
+                URL.revokeObjectURL(output.attr('src')) // free memory
+            });
+            output.removeClass('d-none');
+        });
+    </script>
+{% endblock %}

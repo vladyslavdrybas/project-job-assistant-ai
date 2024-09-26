@@ -25,7 +25,6 @@ class ResumeController extends AbstractController
     )]
     public function show(): ViewResponseDto
     {
-
         return $this->response(
             [
                 'isPrintPdf' => false,
@@ -75,7 +74,7 @@ class ResumeController extends AbstractController
             $this->renderView(
                 'resume-print/index-print.html.twig',
                 [
-                    'isPrintPdf' => false,
+                    'isPrintPdf' => true,
                     'data' => $data,
                 ]
             ),
@@ -118,7 +117,7 @@ class ResumeController extends AbstractController
         ];
     }
 
-    public function getAsideTestimonials(): array
+    protected function getAsideTestimonials(): array
     {
         return [
           [
