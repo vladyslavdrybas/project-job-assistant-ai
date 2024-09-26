@@ -4,7 +4,7 @@
             id="accordion-item-{{ record.vars.id }}"
             class="mb-2 record accordion-item {% if loop.index != 1 and record.title.vars.value == null %}d-none{% endif %}"
         >
-            <h2 class="accordion-header">
+            <h2 class="accordion-header record-header">
                 <a
                     class="accordion-button collapsed text-decoration-none"
                     type="button"
@@ -14,10 +14,25 @@
                     aria-controls="accordion-item-content-{{ record.vars.id }}"
                 >
                     <span
-                        id="{{ record.vars.id }}-headline-title"
+                        role="button"
+                        class="me-3 btn-remove-record"
+                        data-bs-toggle="modal"
+                        data-bs-target="#widget--remove-record-modal"
+                        data-target="#accordion-item-{{ record.vars.id }}"
+                        data-target-add-more-records="#section--accordion-wrapper-{{ links.vars.id }}-add-more-records"
                     >
-                        {% if record.title.vars.value %}{{ record.title.vars.value }}{% else %}Untitled{% endif %}
+                        <svg class="bi bi-small bi-fix"><use xlink:href="#remove"/></svg>
                     </span>
+                    <div
+                        class="headline-text"
+                    >
+                        <span
+                            id="{{ record.vars.id }}-headline-title"
+                            data-content-default="Untitled"
+                        >
+                            {% if record.title.vars.value %}{{ record.title.vars.value }}{% else %}Untitled{% endif %}
+                        </span>
+                    </div>
                 </a>
             </h2>
             <div id="accordion-item-content-{{ record.vars.id }}" class="accordion-collapse collapse" data-bs-parent="#section--accordion-wrapper-{{ links.vars.id }}">
@@ -52,6 +67,7 @@
 </div>
 
 <a
+    id="section--accordion-wrapper-{{ links.vars.id }}-add-more-records"
     class="text-decoration-none text-info mt-2 d-inline-block add-more-records"
     role="button"
     data-target="#section--accordion-wrapper-{{ links.vars.id }}"

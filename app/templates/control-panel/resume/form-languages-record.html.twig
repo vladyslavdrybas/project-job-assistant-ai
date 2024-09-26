@@ -14,15 +14,30 @@
                     aria-controls="accordion-item-content-{{ record.vars.id }}"
                 >
                     <span
-                        id="{{ record.vars.id }}-headline-title"
-                    >{% if record.title.vars.value %}{{ record.title.vars.value }}{% else %}Untitled{% endif %}
-                    </span>
-                    <span
-                        id="{{ record.vars.id }}-headline-level"
-                        class="ms-2"
+                        role="button"
+                        class="me-3 btn-remove-record"
+                        data-bs-toggle="modal"
+                        data-bs-target="#widget--remove-record-modal"
+                        data-target="#accordion-item-{{ record.vars.id }}"
+                        data-target-add-more-records="#section--accordion-wrapper-{{ languages.vars.id }}-add-more-records"
                     >
-                        {% if record.level.vars.value %}{{ record.level.vars.value|languageLabel }}{% endif %}
+                        <svg class="bi bi-small bi-fix"><use xlink:href="#remove"/></svg>
                     </span>
+                    <div
+                        class="headline-text"
+                    >
+                        <span
+                            id="{{ record.vars.id }}-headline-title"
+                            data-content-default="Untitled"
+                        >{% if record.title.vars.value %}{{ record.title.vars.value }}{% else %}Untitled{% endif %}
+                        </span>
+                        <span
+                            id="{{ record.vars.id }}-headline-level"
+                            class="ms-2"
+                        >
+                            {% if record.level.vars.value %}{{ record.level.vars.value|languageLabel }}{% endif %}
+                        </span>
+                    </div>
                 </a>
             </h2>
             <div id="accordion-item-content-{{ record.vars.id }}" class="accordion-collapse collapse" data-bs-parent="#section--accordion-wrapper-{{ languages.vars.id }}">
@@ -59,6 +74,7 @@
 </div>
 
 <a
+    id="section--accordion-wrapper-{{ languages.vars.id }}-add-more-records"
     class="text-decoration-none text-info mt-2 d-inline-block add-more-records"
     role="button"
     data-target="#section--accordion-wrapper-{{ languages.vars.id }}"

@@ -92,6 +92,39 @@
     </div>
 </div>
 
+<!-- Remove Record Modal -->
+<div class="modal fade" id="widget--remove-record-modal" tabindex="-1" aria-labelledby="widget--remove-record-modal-label" aria-hidden="true" data-nosnippet>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="widget--remove-record-modal-label">Remove Record</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to remove record?</p>
+                <button
+                    role="button"
+                    class="btn btn-outline-dark btn-clean-record"
+                    data-target=""
+                    data-target-add-more-records=""
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                >
+                    Delete
+                </button>
+                <button
+                    role="button"
+                    class="btn btn-primary"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                >
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="{{ absolute_url(asset('js/bootstrap.bundle.min.js', 'bootstrap')) }}"></script>
 <script src="{{ absolute_url(asset('jquery-3.7.1.min.js', 'js')) }}"></script>
 <script src="{{ absolute_url(asset('use-bootstrap-tag.min.js', 'js')) }}"></script>

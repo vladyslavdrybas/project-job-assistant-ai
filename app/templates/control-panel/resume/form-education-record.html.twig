@@ -14,29 +14,44 @@
                     aria-controls="accordion-item-content-{{ record.vars.id }}"
                 >
                     <span
-                        id="{{ record.vars.id }}-headline-degree"
+                        role="button"
+                        class="me-3 btn-remove-record"
+                        data-bs-toggle="modal"
+                        data-bs-target="#widget--remove-record-modal"
+                        data-target="#accordion-item-{{ record.vars.id }}"
+                        data-target-add-more-records="#section--accordion-wrapper-{{ history.vars.id }}-add-more-records"
                     >
-                        {% if record.degree.vars.value %}{{ record.degree.vars.value }}{% else %}Untitled{% endif %}
+                        <svg class="bi bi-small bi-fix"><use xlink:href="#remove"/></svg>
                     </span>
-                    <span
-                        id="{{ record.vars.id }}-headline-school-title"
-                        class="ms-2"
+
+                    <div
+                        class="headline-text"
                     >
-                        {% if record.school.title.vars.value %}at {{ record.school.title.vars.value }}{% endif %}
-                    </span>
-                    <br>
-                    <span
-                        id="{{ record.vars.id }}-headline-start-date"
-                        class="ms-2 text-muted"
-                    >
-                        {% if record.startDate.vars.value %}{{ record.startDate.vars.value|date('M,Y') }}{% endif %}
-                    </span>
-                    <span
-                        id="{{ record.vars.id }}-headline-end-date"
-                        class="ms-2 text-muted"
-                    >
-                        {% if record.endDate.vars.value %}- {{ record.endDate.vars.value|date('M,Y') }}{% endif %}
-                    </span>
+                        <span
+                            id="{{ record.vars.id }}-headline-degree"
+                            data-content-default="Untitled"
+                        >
+                            {% if record.degree.vars.value %}{{ record.degree.vars.value }}{% else %}Untitled{% endif %}
+                        </span>
+                        <span
+                            id="{{ record.vars.id }}-headline-school-title"
+                            class="ms-2"
+                        >
+                            {% if record.school.title.vars.value %}at {{ record.school.title.vars.value }}{% endif %}
+                        </span>
+                        <span
+                            id="{{ record.vars.id }}-headline-start-date"
+                            class="ms-2 text-muted"
+                        >
+                            {% if record.startDate.vars.value %}{{ record.startDate.vars.value|date('M,Y') }}{% endif %}
+                        </span>
+                        <span
+                            id="{{ record.vars.id }}-headline-end-date"
+                            class="ms-2 text-muted"
+                        >
+                            {% if record.endDate.vars.value %}- {{ record.endDate.vars.value|date('M,Y') }}{% endif %}
+                        </span>
+                    </div>
                 </a>
             </h2>
             <div id="accordion-item-content-{{ record.vars.id }}" class="accordion-collapse collapse" data-bs-parent="#section--accordion-wrapper-{{ history.vars.id }}">
@@ -108,6 +123,7 @@
 </div>
 
 <a
+    id="section--accordion-wrapper-{{ history.vars.id }}-add-more-records"
     class="text-decoration-none text-info mt-2 d-inline-block add-more-records"
     role="button"
     data-target="#section--accordion-wrapper-{{ history.vars.id }}"

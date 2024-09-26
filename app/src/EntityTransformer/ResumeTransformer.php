@@ -38,45 +38,28 @@ class ResumeTransformer extends AbstractEntityTransformer
 
         $dto->owner = $entity->getOwner();
 
-        $employmentHistory = [
-            new EmploymentRecordDto(),
-            new EmploymentRecordDto(),
-            new EmploymentRecordDto(),
-            new EmploymentRecordDto(),
-            new EmploymentRecordDto(),
-            new EmploymentRecordDto(),
-            new EmploymentRecordDto(),
-            new EmploymentRecordDto(),
-            new EmploymentRecordDto(),
-            new EmploymentRecordDto(),
-        ];
+        $employmentHistory = [];
+        for ($i = 0; $i < 30; $i++) {
+            $employmentHistory[] = new EmploymentRecordDto();
+        }
         $dto->employmentHistory = $employmentHistory;
 
-        $educationHistory = [
-            new EducationRecordDto(),
-            new EducationRecordDto(),
-            new EducationRecordDto(),
-            new EducationRecordDto(),
-            new EducationRecordDto(),
-            new EducationRecordDto(),
-        ];
+        $educationHistory = [];
+        for ($i = 0; $i < 10; $i++) {
+            $educationHistory[] = new EducationRecordDto();
+        }
         $dto->educationHistory = $educationHistory;
 
-        $links = [
-            new LinkDto(),
-            new LinkDto(),
-            new LinkDto(),
-            new LinkDto(),
-            new LinkDto(),
-            new LinkDto(),
-        ];
+        $links = [];
+        for ($i = 0; $i < 10; $i++) {
+            $links[] = new LinkDto();
+        }
         $dto->links = $links;
 
-        $languages = [
-            new LanguageDto(),
-            new LanguageDto(),
-            new LanguageDto(),
-        ];
+        $languages = [];
+        for ($i = 0; $i < 15; $i++) {
+            $languages[] = new LanguageDto();
+        }
         $dto->languages = $languages;
 
         return $dto;

@@ -160,5 +160,31 @@
                 me.addClass('d-none');
             }
         })
+
+        $('.btn-remove-record').on('click', function () {
+            const me = $(this);
+            const target = me.attr('data-target');
+            const addRecordsTarget = me.attr('data-target-add-more-records');
+            const modal = me.attr('data-bs-target');
+            $(modal).find('.btn-clean-record')
+                .attr('data-target', target)
+                .attr('data-target-add-more-records', addRecordsTarget)
+            ;
+        })
+
+        $('.btn-clean-record').on('click', function () {
+            const me = $(this);
+            const target = $(me.attr('data-target'));
+            const addRecordsTarget = $(me.attr('data-target-add-more-records'));
+            target.find('input').each((i,e)=> $(e).prop('value', null));
+            target.find('textarea').each((i,e)=> $(e).prop('value', null));
+            const spans = target.find('.headline-text').find('span');
+            spans.each((i,e)=> $(e).text(''));
+            spans.first().text(spans.attr('data-content-default'));
+            target.addClass('d-none');
+            if (addRecordsTarget.hasClass('d-none')) {
+                addRecordsTarget.removeClass(('d-none'));
+            }
+        })
     </script>
 {% endblock %}

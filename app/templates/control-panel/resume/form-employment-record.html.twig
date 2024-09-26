@@ -14,29 +14,43 @@
                     aria-controls="accordion-item-content-{{ record.vars.id }}"
                 >
                     <span
-                        id="{{ record.vars.id }}-headline-job-title"
+                        role="button"
+                        class="me-3 btn-remove-record"
+                        data-bs-toggle="modal"
+                        data-bs-target="#widget--remove-record-modal"
+                        data-target="#accordion-item-{{ record.vars.id }}"
+                        data-target-add-more-records="#section--accordion-wrapper-{{ history.vars.id }}-add-more-records"
                     >
-                        {% if record.jobTitle.vars.value %}{{ record.jobTitle.vars.value }}{% else %}Untitled{% endif %}
+                        <svg class="bi bi-small bi-fix"><use xlink:href="#remove"/></svg>
                     </span>
-                    <span
-                        id="{{ record.vars.id }}-headline-employer-title"
-                        class="ms-1"
+                    <div
+                        class="headline-text"
                     >
-                        {% if record.employer.title.vars.value %}at {{ record.employer.title.vars.value }}{% endif %}
-                    </span>
-                    <br />
-                    <span
-                        id="{{ record.vars.id }}-headline-start-date"
-                        class="ms-2 text-muted"
-                    >
-                        {% if record.startDate.vars.value %}{{ record.startDate.vars.value|date('M,Y') }}{% endif %}
-                    </span>
-                    <span
-                        id="{{ record.vars.id }}-headline-end-date"
-                        class="ms-2 text-muted"
-                    >
-                        {% if record.endDate.vars.value %}- {{ record.endDate.vars.value|date('M,Y') }}{% endif %}
-                    </span>
+                        <span
+                            id="{{ record.vars.id }}-headline-job-title"
+                            data-content-default="Untitled"
+                        >
+                            {% if record.jobTitle.vars.value %}{{ record.jobTitle.vars.value }}{% else %}Untitled{% endif %}
+                        </span>
+                        <span
+                            id="{{ record.vars.id }}-headline-employer-title"
+                            class="ms-1"
+                        >
+                            {% if record.employer.title.vars.value %}at {{ record.employer.title.vars.value }}{% endif %}
+                        </span>
+                        <span
+                            id="{{ record.vars.id }}-headline-start-date"
+                            class="ms-2 text-muted"
+                        >
+                            {% if record.startDate.vars.value %}{{ record.startDate.vars.value|date('M,Y') }}{% endif %}
+                        </span>
+                        <span
+                            id="{{ record.vars.id }}-headline-end-date"
+                            class="ms-2 text-muted"
+                        >
+                            {% if record.endDate.vars.value %}- {{ record.endDate.vars.value|date('M,Y') }}{% endif %}
+                        </span>
+                    </div>
                 </a>
             </h2>
             <div id="accordion-item-content-{{ record.vars.id }}" class="accordion-collapse collapse" data-bs-parent="#section--accordion-wrapper-{{ history.vars.id }}">
@@ -109,6 +123,7 @@
 </div>
 
 <a
+    id="section--accordion-wrapper-{{ history.vars.id }}-add-more-records"
     class="text-decoration-none text-info mt-2 d-inline-block add-more-records"
     role="button"
     data-target="#section--accordion-wrapper-{{ history.vars.id }}"
