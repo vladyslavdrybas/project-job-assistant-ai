@@ -100,6 +100,10 @@ class ResumeFormType extends AbstractType
             )
             ->add('skills',
                 TagsType::class,
+                [
+                    'mapped' => true,
+//                    'data' => $data?->skills ?? []
+                ]
             )
             ->add('languages',
                 CollectionType::class,

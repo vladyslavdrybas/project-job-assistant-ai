@@ -66,7 +66,7 @@ class ResumeController extends AbstractControlPanelController
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             // TODO handle form changes
-            dump('saving...');
+            dump($editForm->getData());
         }
 
         return $this->response(

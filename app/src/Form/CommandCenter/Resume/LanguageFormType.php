@@ -4,12 +4,10 @@ declare(strict_types=1);
 namespace App\Form\CommandCenter\Resume;
 
 use App\DataTransferObject\Form\LanguageDto;
-use App\DataTransferObject\Form\LinkDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,7 +25,7 @@ class LanguageFormType extends AbstractType
                 ]
             )
             ->add('title',
-                UrlType::class,
+                TextType::class,
                 [
                     'required' => false,
                 ]
