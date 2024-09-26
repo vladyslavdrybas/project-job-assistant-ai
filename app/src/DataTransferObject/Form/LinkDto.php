@@ -8,7 +8,7 @@ use App\DataTransferObject\IDataTransferObject;
 class LinkDto implements IDataTransferObject
 {
     public function __construct(
-       public ?string $name = null,
+       public ?string $title = null,
        public ?string $url = null
     ) {}
 }

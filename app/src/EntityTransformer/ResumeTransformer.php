@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace App\EntityTransformer;
 
+use App\DataTransferObject\Form\EducationHistory\EducationRecordDto;
+use App\DataTransferObject\Form\EmploymentHistory\EmploymentRecordDto;
+use App\DataTransferObject\Form\LanguageDto;
+use App\DataTransferObject\Form\LinkDto;
 use App\DataTransferObject\Form\ResumeDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\EntityInterface;
@@ -33,6 +37,26 @@ class ResumeTransformer extends AbstractEntityTransformer
         $dto = new ResumeDto();
 
         $dto->owner = $entity->getOwner();
+
+        $employmentHistory = [
+            new EmploymentRecordDto()
+        ];
+        $dto->employmentHistory = $employmentHistory;
+
+        $educationHistory = [
+            new EducationRecordDto()
+        ];
+        $dto->educationHistory = $educationHistory;
+
+        $links = [
+            new LinkDto()
+        ];
+        $dto->links = $links;
+
+        $languages = [
+            new LanguageDto()
+        ];
+        $dto->languages = $languages;
 
         return $dto;
     }

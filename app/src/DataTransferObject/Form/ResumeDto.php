@@ -36,8 +36,8 @@ namespace App\DataTransferObject\Form;
 // internships -- array
 
 use App\DataTransferObject\Form\Contact\ContactsDto;
-use App\DataTransferObject\Form\EducationHistory\EducationHistoryDto;
-use App\DataTransferObject\Form\EmploymentHistory\EmploymentHistoryDto;
+use App\DataTransferObject\Form\EducationHistory\EducationRecordDto;
+use App\DataTransferObject\Form\EmploymentHistory\EmploymentRecordDto;
 use App\DataTransferObject\Form\PetProjects\PetProjectDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\UserInterface;
@@ -55,10 +55,10 @@ class ResumeDto implements IDataTransferObject
         public ?ContactsDto $contacts = null,
         public ?string $professionalSummary = null,
 
-        /** @var array<EmploymentHistoryDto> $employmentHistory*/
+        /** @var array<EmploymentRecordDto> $employmentHistory*/
         public array $employmentHistory = [],
 
-        /** @var array<EducationHistoryDto> $educationHistory*/
+        /** @var array<EducationRecordDto> $educationHistory*/
         public array $educationHistory = [],
 
         /** @var array<PetProjectDto> $petProjects*/

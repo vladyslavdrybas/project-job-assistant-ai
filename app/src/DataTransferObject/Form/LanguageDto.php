@@ -8,7 +8,8 @@ use App\DataTransferObject\IDataTransferObject;
 class LanguageDto implements IDataTransferObject
 {
     public function __construct(
-       public ?string $name = null,
-       public ?string $level = null,
+       public ?string $code = null,
+       public ?string $title = null,
+       public ?string $level = 'fluent',
     ) {}
 }

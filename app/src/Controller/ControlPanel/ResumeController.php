@@ -5,9 +5,11 @@ namespace App\Controller\ControlPanel;
 
 use App\Builder\ResumeBuilder;
 use App\Constants\RouteRequirements;
+use App\DataTransferObject\Form\EmploymentHistory\EmploymentRecordDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Resume;
 use App\EntityTransformer\ResumeTransformer;
+use App\Form\CommandCenter\Resume\EducationRecordFormType;
 use App\Form\CommandCenter\Resume\ResumeFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
