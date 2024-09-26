@@ -20,6 +20,7 @@ class SchoolFormType extends AbstractType
             ->add('title',
                 TextType::class,
                 [
+                    'label' => 'School',
                     'required' => false,
                 ]
             )

@@ -10,6 +10,6 @@ class LanguageDto implements IDataTransferObject
     public function __construct(
        public ?string $code = null,
        public ?string $title = null,
-       public ?string $level = 'fluent',
+       public ?string $level = 'a1',
     ) {}
 }

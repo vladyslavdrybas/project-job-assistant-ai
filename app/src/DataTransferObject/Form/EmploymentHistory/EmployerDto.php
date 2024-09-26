@@ -9,7 +9,7 @@ use App\DataTransferObject\IDataTransferObject;
 class EmployerDto implements IDataTransferObject
 {
     public function __construct(
-        public ?string $jobTitle = null,
+        public ?string $title = null,
         public ?string $aboutPage = null,
         public ?ContactsDto $contacts = null
     ) {}

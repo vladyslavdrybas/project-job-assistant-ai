@@ -23,12 +23,12 @@ class TagsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'help' => 'Separate tags via space. Short tags that will help to easy search and filter.',
+            'help' => 'Separate tags via comma or press the enter button. Short tags that will help to easy search and filter.',
             'required' => false,
             'mapped' => false,
             'attr' => [
                 'class' => 'input-tags text-secondary',
-                'data-ub-tag-separator' => TagToStringTransformer::DELIMITER,
+                'data-ub-tag-separator' => TagToStringTransformer::DIVIDER,
             ],
         ]);
     }

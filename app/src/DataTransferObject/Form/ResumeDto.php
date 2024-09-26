@@ -49,6 +49,7 @@ class ResumeDto implements IDataTransferObject
         public ?UserInterface $owner = null,
         public ?string $language = null,
         public ?MediaCreatorFormDto $photo = null,
+        public bool $includePhoto = true,
         public ?string $jobTitle = null,
         public ?string $firstName = null,
         public ?string $lastName = null,

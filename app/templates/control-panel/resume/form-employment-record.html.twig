@@ -1,0 +1,116 @@
+<div class="accordion accordion-flush" id="section--accordion-wrapper-{{ history.vars.id }}">
+    {% for record in history %}
+        <div
+            id="accordion-item-{{ record.vars.id }}"
+            class="accordion-item {% if loop.index != 1 and record.jobTitle.vars.value is null %}d-none{% endif %}"
+        >
+            <h2 class="accordion-header">
+                <a
+                    class="accordion-button collapsed text-decoration-none"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#accordion-item-content-{{ record.vars.id }}"
+                    aria-expanded="false"
+                    aria-controls="accordion-item-content-{{ record.vars.id }}"
+                >
+                    <span
+                        id="{{ record.vars.id }}-headline-job-title"
+                    >
+                        {% if record.jobTitle.vars.value %}{{ record.jobTitle.vars.value }}{% else %}Untitled{% endif %}
+                    </span>
+                    <span
+                        id="{{ record.vars.id }}-headline-employer-title"
+                        class="ms-1"
+                    >
+                        {% if record.employer.title.vars.value %}at {{ record.employer.title.vars.value }}{% endif %}
+                    </span>
+                    <br />
+                    <span
+                        id="{{ record.vars.id }}-headline-start-date"
+                        class="ms-2 text-muted"
+                    >
+                        {% if record.startDate.vars.value %}{{ record.startDate.vars.value|date('M,Y') }}{% endif %}
+                    </span>
+                    <span
+                        id="{{ record.vars.id }}-headline-end-date"
+                        class="ms-2 text-muted"
+                    >
+                        {% if record.endDate.vars.value %}- {{ record.endDate.vars.value|date('M,Y') }}{% endif %}
+                    </span>
+                </a>
+            </h2>
+            <div id="accordion-item-content-{{ record.vars.id }}" class="accordion-collapse collapse" data-bs-parent="#section--accordion-wrapper-{{ history.vars.id }}">
+
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_row(record.jobTitle,
+                            {
+                                'attr':
+                                    {
+                                        'data-content-target': '#' ~ record.vars.id ~ '-headline-job-title',
+                                        'class': 'input-on-change-content-target'
+                                    }
+                            }
+                        ) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(record.employer.title,
+                            {
+                                'attr':
+                                {
+                                    'data-content-type': 'employertitle',
+                                    'data-content-target': '#' ~ record.vars.id ~ '-headline-employer-title',
+                                    'class': 'input-on-change-content-target'
+                                }
+                            }
+                        ) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_row(record.startDate,
+                            {
+                                'attr':
+                                {
+                                    'data-content-type': 'startdate',
+                                    'data-content-target': '#' ~ record.vars.id ~ '-headline-start-date',
+                                    'class': 'input-on-change-content-target'
+                                }
+                            }
+                        ) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(record.endDate,
+                            {
+                                'attr':
+                                {
+                                    'data-content-type': 'enddate',
+                                    'data-content-target': '#' ~ record.vars.id ~ '-headline-end-date',
+                                    'class': 'input-on-change-content-target'
+                                }
+                            }
+                        ) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_row(record.employer.contacts.location.country) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(record.employer.contacts.location.city) }}
+                    </div>
+                </div>
+
+                {{ form_row(record.description) }}
+            </div>
+        </div>
+
+    {% endfor %}
+</div>
+
+<a
+    class="text-decoration-none text-info mt-2 d-inline-block add-more-records"
+    role="button"
+>
+    <svg class="bi bi-small bi-fix"><use xlink:href="#add"/></svg> <span>Add more records</span>
+</a>

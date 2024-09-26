@@ -1,10 +1,15 @@
-<div class="mb-3">
+<div
+    class="w-100 h-100 d-flex flex-column justify-content-center align-items-center"
+>
     {{ form_row(form.file,
         {
             'label': false,
             'attr': {
                 'data-content-target': '#' ~ form.vars.id ~ '_media_choose_file',
-                'class': 'file-upload with-preview d-none'
+                'class': 'file-upload with-preview d-none m-0 p-0',
+            },
+            'row_attr': {
+                'class': 'd-none m-0 p-0'
             }
         }
     ) }}
@@ -12,7 +17,8 @@
     <label
         for="{{ form.file.vars.id }}"
         id="{{ form.vars.id }}_media_chooseFileBtn"
-        style="width: 5.5em; height: 5.5rem;"
+        style="max-width: 100%; max-height: 100%;min-height: 4.4em; min-width: 4.4em;width: 100%;"
+        role="button"
     >
         <img
             id="{{ form.vars.id }}_media_choose_file"
@@ -22,5 +28,4 @@
             src="{{ absolute_url(asset('avatar/person-circle.svg', 'img')) }}"
         />
     </label>
-
 </div>

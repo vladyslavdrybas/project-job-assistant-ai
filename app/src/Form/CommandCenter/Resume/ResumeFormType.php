@@ -5,6 +5,7 @@ namespace App\Form\CommandCenter\Resume;
 
 use App\DataTransferObject\Form\ResumeDto;
 use App\Form\MediaCreatorFormType;
+use App\Form\SwitchType;
 use App\Form\TagsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -12,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ResumeFormType extends AbstractType
 {
@@ -23,7 +25,11 @@ class ResumeFormType extends AbstractType
             ->add('title',
                 TextType::class,
                 [
+                    'label' => 'Title your Resume',
                     'required' => false,
+                    'constraints' => [
+                        new NotBlank(),
+                    ]
                 ]
             )
             ->add('jobTitle',
@@ -36,6 +42,13 @@ class ResumeFormType extends AbstractType
             ->add('photo',
                 MediaCreatorFormType::class,
                 [
+                    'required' => false,
+                ]
+            )
+            ->add('includePhoto',
+                SwitchType::class,
+                [
+                    'label' => 'Show photo',
                     'required' => false,
                 ]
             )

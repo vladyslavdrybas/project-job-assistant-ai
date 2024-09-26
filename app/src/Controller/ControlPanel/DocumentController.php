@@ -25,8 +25,6 @@ class DocumentController extends AbstractControlPanelController
     public function list(
         ResumeRepository $resumeRepository,
     ): ViewResponseDto {
-        dump('show all documents');
-
         $resumes = $resumeRepository->findBy(['owner' => $this->getUser()]);
 
         return $this->response(

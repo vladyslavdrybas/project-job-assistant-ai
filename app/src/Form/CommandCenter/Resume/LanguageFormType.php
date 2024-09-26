@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Form\CommandCenter\Resume;
 
+use App\Constants\LanguageLevelChoicesEnum;
 use App\DataTransferObject\Form\LanguageDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,6 +17,7 @@ class LanguageFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $data = $builder->getData();
+        $levelChoices = LanguageLevelChoicesEnum::array();
 
         $builder
             ->add('code',
@@ -33,18 +35,7 @@ class LanguageFormType extends AbstractType
             ->add('level',
                 ChoiceType::class,
                 [
-                    'choices' => [
-                        'Native speaker' => 'native',
-                        'Fluent' => 'fluent',
-                        'Working knowledge' => 'working_knowledge',
-                        'Documentation reader' => 'documentation_reader',
-                        'Highly proficient' => 'highly_proficient',
-                        'A1' => 'a1',
-                        'B1' => 'b1',
-                        'B2' => 'b2',
-                        'C1' => 'c1',
-                        'C2' => 'c2',
-                    ],
+                    'choices' => $levelChoices,
                     'required' => false,
                     'data' => 'b1'
                 ]

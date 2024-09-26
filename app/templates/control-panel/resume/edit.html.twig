@@ -4,7 +4,7 @@
 {% block content %}
     <div class="container pt-2 pt-lg-5 bg-light py-5">
         <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-5">
+            <div class="col-md-10 col-lg-8" style="min-width: 300px;">
                 {{ form_start(editForm,
                     {
                         'method': editForm.vars.method,
@@ -17,9 +17,105 @@
                     {{ form_errors(editForm) }}
 
                     {{ form_row(editForm.title) }}
+                    {{ form_row(editForm.jobTitle) }}
 
-                    {% include 'control-panel/resume/form-photo.html.twig' with {'form': editForm.photo} only %}
-                {{ form_end(editForm) }}
+                    <div>
+                        <hr>
+                        <h3>Personal details</h3>
+
+                        <div class="row mb-3">
+                            <div class="col-3">
+                                {% include 'control-panel/resume/form-photo.html.twig' with {'form': editForm.photo} only %}
+                            </div>
+                            <div class="col-9">
+                                {{ form_row(editForm.firstName) }}
+
+                                {{ form_row(editForm.lastName) }}
+
+                                {{ form_row(editForm.includePhoto) }}
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_row(editForm.contacts.email) }}
+                            </div>
+                            <div class="col-6">
+                                {{ form_row(editForm.contacts.phone) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_row(editForm.contacts.location.country) }}
+                            </div>
+                            <div class="col-6">
+                                {{ form_row(editForm.contacts.location.city) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <hr>
+                        <h3>Professional summary</h3>
+                        {{ form_row(editForm.professionalSummary,
+                            {
+                                'label': false,
+                                'attr': {
+                                    'rows': 10,
+                                }
+                            }
+                        ) }}
+                    </div>
+
+                    <div>
+                        <hr>
+                        <h3>Skills</h3>
+                        {{ form_row(editForm.skills,
+                            {
+                                'label': false,
+                            }
+                        ) }}
+                    </div>
+
+                    <div>
+                        <hr>
+                        <h3>
+                            Employment History
+                        </h3>
+                        {% include 'control-panel/resume/form-employment-record.html.twig' with {'history': editForm.employmentHistory} only %}
+                    </div>
+
+                    <div>
+                        <hr>
+                        <h3>
+                            Education History
+                        </h3>
+                        {% include 'control-panel/resume/form-education-record.html.twig' with {'history': editForm.educationHistory} only %}
+                    </div>
+
+                    <div>
+                        <hr>
+                        <h3>
+                            Websites & Social Links
+                        </h3>
+                        {% include 'control-panel/resume/form-links-record.html.twig' with {'links': editForm.links} only %}
+                    </div>
+
+                    <div>
+                        <hr>
+                        <h3>
+                            Languages
+                        </h3>
+                        {% include 'control-panel/resume/form-languages-record.html.twig' with {'languages': editForm.languages} only %}
+                    </div>
+
+                    {% if editForm._token is defined %}
+                        {{ form_row(editForm._token) }}
+                    {% endif %}
+                {{ form_end(editForm, {'render_rest': false}) }}
+                <hr class="mb-3">
                 <button
                     class="btn btn-outline-dark"
                     form="{{ editForm.vars.id }}"
@@ -34,19 +130,24 @@
 
 {% block scriptsbottom %}
     <script type="application/javascript">
-        $('.file-upload.with-preview').on('change', function(event) {
+        $('.input-on-change-content-target').on('change', function() {
             const me = $(this);
             const output = $(me.attr('data-content-target'));
-            if (event.target.files.length === 0) {
-                output.addClass('d-none');
+            const contentType = me.attr('data-content-type');
 
-                return;
+            let value = me.prop('value').trim();
+            if (contentType !== undefined && contentType.endsWith('date')) {
+                value = monthNamesShort[(new Date(value)).getMonth()] + ',' + (new Date(value)).getUTCFullYear();
             }
-            output.attr('src', URL.createObjectURL(event.target.files[0]));
-            output.on('load', function() {
-                URL.revokeObjectURL(output.attr('src')) // free memory
-            });
-            output.removeClass('d-none');
+            if (contentType === 'enddate') {
+                value = DIVIDER.hyphen + ' ' + value;
+            } else if (contentType === 'schooltitle' || contentType === 'employertitle') {
+                value = DIVIDER.at + ' ' + value;
+            }
+            if (contentType === 'select') {
+                value = me.find('option:selected').text();
+            }
+            output.text(value);
         });
     </script>
 {% endblock %}

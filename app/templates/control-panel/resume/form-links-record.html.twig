@@ -1,0 +1,59 @@
+<div class="accordion accordion-flush" id="section--accordion-wrapper-{{ links.vars.id }}">
+    {% for record in links %}
+        <div
+            id="accordion-item-{{ record.vars.id }}"
+            class="accordion-item {% if loop.index != 1 and record.title.vars.value is null %}d-none{% endif %}"
+        >
+            <h2 class="accordion-header">
+                <a
+                    class="accordion-button collapsed text-decoration-none"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#accordion-item-content-{{ record.vars.id }}"
+                    aria-expanded="false"
+                    aria-controls="accordion-item-content-{{ record.vars.id }}"
+                >
+                    <span
+                        id="{{ record.vars.id }}-headline-title"
+                    >
+                        {% if record.title.vars.value %}{{ record.title.vars.value }}{% else %}Untitled{% endif %}
+                    </span>
+                </a>
+            </h2>
+            <div id="accordion-item-content-{{ record.vars.id }}" class="accordion-collapse collapse" data-bs-parent="#section--accordion-wrapper-{{ links.vars.id }}">
+
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_row(record.title,
+                            {
+                                'attr':
+                                {
+                                    'data-content-target': '#' ~ record.vars.id ~ '-headline-title',
+                                    'class': 'input-on-change-content-target'
+                                }
+                            }
+                        ) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(record.url,
+                            {
+                                'attr':
+                                {
+                                    'class': 'input-on-change-content-target'
+                                }
+                            }
+                        ) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+</div>
+
+<a
+    class="text-decoration-none text-info mt-2 d-inline-block add-more-records"
+    role="button"
+>
+    <svg class="bi bi-small bi-fix"><use xlink:href="#add"/></svg> Add more records
+</a>

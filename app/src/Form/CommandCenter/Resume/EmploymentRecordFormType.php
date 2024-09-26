@@ -46,7 +46,10 @@ class EmploymentRecordFormType extends AbstractType
                 TextareaType::class,
                 [
                     'required' => false,
-                    'help' => 'Recruiter tip: write 200+ characters to increase interview chances.'
+                    'help' => 'Recruiter tip: write 200+ characters to increase interview chances.',
+                    'attr' => [
+                        'rows' => 10,
+                    ],
                 ]
             )
         ;

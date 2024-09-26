@@ -8,11 +8,10 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 class TagToStringTransformer implements DataTransformerInterface
 {
-    public const DELIMITER = ',';
+    public const DIVIDER = ',';
 
     public function transform(mixed $value): string
     {
-        dump($value);
         if (is_string($value)) {
             return $this->purify($value);
         }
@@ -22,7 +21,7 @@ class TagToStringTransformer implements DataTransformerInterface
         }
 
         if (is_array($value)) {
-            return $this->purify(implode(static::DELIMITER, $value));
+            return $this->purify(implode(static::DIVIDER, $value));
         }
 
         return '';
@@ -35,13 +34,13 @@ class TagToStringTransformer implements DataTransformerInterface
         }
 
         $value = $this->purify($value);
-        $value = array_unique(explode(static::DELIMITER, $value));
+        $value = array_unique(explode(static::DIVIDER, $value));
 
         return $value;
     }
 
     protected function purify(string $value): string
     {
-        return preg_replace('/[^-_\w' . static::DELIMITER . '& ]+/', ' ', $value);
+        return preg_replace('/[^-_\w' . static::DIVIDER . '& ]+/', ' ', $value);
     }
 }

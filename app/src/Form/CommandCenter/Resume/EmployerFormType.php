@@ -21,6 +21,7 @@ class EmployerFormType extends AbstractType
             ->add('title',
                 TextType::class,
                 [
+                    'label' => 'Employer title',
                     'required' => false,
                 ]
             )
