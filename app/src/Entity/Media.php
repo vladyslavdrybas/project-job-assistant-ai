@@ -28,7 +28,7 @@ class Media implements EntityInterface
     protected string $id;
 
     #[Assert\NotBlank(message: 'Media must have owner.')]
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'medias')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id')]
     protected ?User $owner = null;
 
