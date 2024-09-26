@@ -39,22 +39,43 @@ class ResumeTransformer extends AbstractEntityTransformer
         $dto->owner = $entity->getOwner();
 
         $employmentHistory = [
-            new EmploymentRecordDto()
+            new EmploymentRecordDto(),
+            new EmploymentRecordDto(),
+            new EmploymentRecordDto(),
+            new EmploymentRecordDto(),
+            new EmploymentRecordDto(),
+            new EmploymentRecordDto(),
+            new EmploymentRecordDto(),
+            new EmploymentRecordDto(),
+            new EmploymentRecordDto(),
+            new EmploymentRecordDto(),
         ];
         $dto->employmentHistory = $employmentHistory;
 
         $educationHistory = [
-            new EducationRecordDto()
+            new EducationRecordDto(),
+            new EducationRecordDto(),
+            new EducationRecordDto(),
+            new EducationRecordDto(),
+            new EducationRecordDto(),
+            new EducationRecordDto(),
         ];
         $dto->educationHistory = $educationHistory;
 
         $links = [
-            new LinkDto()
+            new LinkDto(),
+            new LinkDto(),
+            new LinkDto(),
+            new LinkDto(),
+            new LinkDto(),
+            new LinkDto(),
         ];
         $dto->links = $links;
 
         $languages = [
-            new LanguageDto()
+            new LanguageDto(),
+            new LanguageDto(),
+            new LanguageDto(),
         ];
         $dto->languages = $languages;
 

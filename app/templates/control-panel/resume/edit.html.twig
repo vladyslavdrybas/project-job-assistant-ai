@@ -149,5 +149,16 @@
             }
             output.text(value);
         });
+
+        $('.add-more-records').on('click', function () {
+            const me = $(this);
+            const target = $(me.attr('data-target'));
+            const elems = target.find('.record.d-none');
+
+            elems.first().removeClass('d-none');
+            if (elems.length <= 1) {
+                me.addClass('d-none');
+            }
+        })
     </script>
 {% endblock %}
