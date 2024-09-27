@@ -12,8 +12,8 @@
 
     <link rel="stylesheet" href="{{ absolute_url(asset('use-bootstrap-tag.min.css', 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('highlight.default.min.css', 'css')) }}">
-    <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap-icons.min.css', 'bootstrap')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap.min.css', 'bootstrap')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap-icons.min.css', 'bootstrap')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('toastui-editor.min.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('style.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('loader.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
@@ -131,6 +131,7 @@
 <script src="{{ absolute_url(asset('use-bootstrap-tag.min.js', 'js')) }}"></script>
 <script src="{{ absolute_url(asset('highlight.min.js', 'js')) }}"></script>
 <script src="{{ absolute_url(asset('toastui-editor-all.min.js?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'js')) }}"></script>
+<script src="{{ absolute_url(asset('app.js?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'js')) }}"></script>
 
 <script type="application/javascript">
     const alerts = document.querySelectorAll(".alert");
@@ -318,6 +319,100 @@
             URL.revokeObjectURL(output.attr('src')) // free memory
         });
         output.removeClass('d-none');
+    });
+</script>
+
+<script type="application/javascript">
+    $('.input-on-change-content-target').on('change', function() {
+        const me = $(this);
+        const output = $(me.attr('data-content-target'));
+        const contentType = me.attr('data-content-type');
+
+        let value = me.prop('value').trim();
+        if (contentType !== undefined && contentType.endsWith('date')) {
+            value = monthNamesShort[(new Date(value)).getMonth()] + ',' + (new Date(value)).getUTCFullYear();
+        }
+        if (contentType === 'enddate') {
+            value = DIVIDER.hyphen + ' ' + value;
+        } else if (contentType === 'schooltitle' || contentType === 'employertitle') {
+            value = DIVIDER.at + ' ' + value;
+        }
+        if (contentType === 'select') {
+            value = me.find('option:selected').text();
+        }
+        output.text(value);
+    });
+
+    $('.add-more-records').on('click', function () {
+        const me = $(this);
+        const target = $(me.attr('data-target'));
+        const elems = target.find('.record.d-none');
+
+        elems.first().removeClass('d-none');
+        if (elems.length <= 1) {
+            me.addClass('d-none');
+        }
+    })
+
+    $('.btn-remove-record').on('click', function () {
+        const me = $(this);
+        const target = me.attr('data-target');
+        const addRecordsTarget = me.attr('data-target-add-more-records');
+        const modal = me.attr('data-bs-target');
+        $(modal).find('.btn-clean-record')
+            .attr('data-target', target)
+            .attr('data-target-add-more-records', addRecordsTarget)
+        ;
+    })
+
+    $('.btn-clean-record').on('click', function () {
+        const me = $(this);
+        const target = $(me.attr('data-target'));
+        const addRecordsTarget = $(me.attr('data-target-add-more-records'));
+        target.find('input').each((i,e)=> $(e).prop('value', null));
+        target.find('textarea').each((i,e)=> $(e).prop('value', null));
+        target.find('select').each((i,e)=> $(e).prop('value', null));
+        const spans = target.find('.headline-text').find('span');
+        spans.each((i,e)=> $(e).text(''));
+        spans.first().text(spans.attr('data-content-default'));
+        target.addClass('d-none');
+        if (addRecordsTarget.hasClass('d-none')) {
+            addRecordsTarget.removeClass(('d-none'));
+        }
+    })
+
+    $(document).ready(function() {
+        const Editor = toastui.Editor;
+        const editors = $(this).find('.editor-wysiwyg');
+        const editorConfig = {
+            el: '',
+            height: '21em',
+            initialEditType: 'wysiwyg',
+            initialValue: '<b>hi-hi</b>',
+            previewStyle: 'vertical',
+            usageStatistics: false,
+            language: 'en-US',
+            hideModeSwitch: true,
+            toolbarItems: [
+                ['heading', 'bold', 'italic', 'strike'],
+                ['hr', 'quote'],
+                ['ul', 'ol', 'indent', 'outdent'],
+                ['link'],
+                ['code'],
+            ]
+        };
+
+        editors.each(function(i,e) {
+            // console.log('Init Editor WYSIWYG : #' + e.id);
+            const target = $('#' + e.id.replace('editor-for-', ''));
+            editorConfig.el = document.getElementById(e.id);
+            editorConfig.initialValue = target.text();
+            const editor = new Editor(editorConfig);
+
+            editor.on('blur', function() {
+                target.text(editor.getMarkdown());
+            });
+        });
     });
 </script>
 
