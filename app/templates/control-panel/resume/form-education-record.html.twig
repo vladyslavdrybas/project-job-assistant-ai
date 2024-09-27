@@ -2,7 +2,7 @@
     {% for record in history %}
         <div
             id="accordion-item-{{ record.vars.id }}"
-            class="mb-2 record accordion-item {% if loop.index != 1 and record.degree.vars.value == null %}d-none{% endif %}"
+            class="mb-2 record accordion-item {% if record.degree.vars.value == null %}d-none{% endif %}"
         >
             <h2 class="accordion-header">
                 <a
@@ -27,30 +27,29 @@
                     <div
                         class="headline-text"
                     >
-                        <span
-                            id="{{ record.vars.id }}-headline-degree"
-                            data-content-default="Untitled"
-                        >
-                            {% if record.degree.vars.value %}{{ record.degree.vars.value }}{% else %}Untitled{% endif %}
-                        </span>
-                        <span
-                            id="{{ record.vars.id }}-headline-school-title"
-                            class="ms-2"
-                        >
-                            {% if record.school.title.vars.value %}at {{ record.school.title.vars.value }}{% endif %}
-                        </span>
-                        <span
-                            id="{{ record.vars.id }}-headline-start-date"
-                            class="ms-2 text-muted"
-                        >
-                            {% if record.startDate.vars.value %}{{ record.startDate.vars.value|date('M,Y') }}{% endif %}
-                        </span>
-                        <span
-                            id="{{ record.vars.id }}-headline-end-date"
-                            class="ms-2 text-muted"
-                        >
-                            {% if record.endDate.vars.value %}- {{ record.endDate.vars.value|date('M,Y') }}{% endif %}
-                        </span>
+                        <div>
+                            <span
+                                id="{{ record.vars.id }}-headline-degree"
+                                data-content-default="Untitled"
+                            >{% if record.degree.vars.value %}{{ record.degree.vars.value }}{% else %}Untitled{% endif %}
+                            </span>
+                            <span
+                                id="{{ record.vars.id }}-headline-school-title"
+                            >{% if record.school.title.vars.value %}at {{ record.school.title.vars.value }}{% endif %}
+                            </span>
+                        </div>
+                        <div>
+                            <span
+                                id="{{ record.vars.id }}-headline-start-date"
+                                class="text-muted"
+                            >{% if record.startDate.vars.value %}{{ record.startDate.vars.value|date('M,Y') }}{% endif %}
+                            </span>
+                            <span
+                                id="{{ record.vars.id }}-headline-end-date"
+                                class="text-muted"
+                            >{% if record.endDate.vars.value %}- {{ record.endDate.vars.value|date('M,Y') }}{% endif %}
+                            </span>
+                        </div>
                     </div>
                 </a>
             </h2>

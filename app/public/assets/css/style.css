@@ -17,6 +17,10 @@
     --bs-accordion-btn-active-icon-white: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
 }
 
+.bg-primary-hover {
+    background-color: var(--palette-primary-hover);
+}
+
 .btn-primary {
     --bs-btn-color: #fff;
     --bs-btn-bg: var(--palette-primary);
@@ -343,4 +347,26 @@ textarea:focus,
 
 .toastui-editor-defaultUI-toolbar {
     background-color: var(--bs-light);
+}
+
+.action-btn-nav {
+    z-index: 999;
+}
+
+.action-btn-nav.sidebar {
+    max-width: 10%;
+    z-index: 999;
+}
+
+.action-btn-nav.center {
+    bottom: 50%;
+}
+
+.action-btn-nav.bottom {
+    bottom: 0;
+    width: 100%;
+}
+
+.action-btn-nav.left {
+    left: 0;
 }

@@ -2,7 +2,7 @@
     {% for record in history %}
         <div
             id="accordion-item-{{ record.vars.id }}"
-            class="mb-2 record accordion-item {% if loop.index != 1 and record.jobTitle.vars.value == null %}d-none{% endif %}"
+            class="mb-2 record accordion-item {% if record.jobTitle.vars.value == null %}d-none{% endif %}"
         >
             <h2 class="accordion-header">
                 <a
@@ -26,30 +26,29 @@
                     <div
                         class="headline-text"
                     >
-                        <span
-                            id="{{ record.vars.id }}-headline-job-title"
-                            data-content-default="Untitled"
-                        >
-                            {% if record.jobTitle.vars.value %}{{ record.jobTitle.vars.value }}{% else %}Untitled{% endif %}
-                        </span>
-                        <span
-                            id="{{ record.vars.id }}-headline-employer-title"
-                            class="ms-1"
-                        >
-                            {% if record.employer.title.vars.value %}at {{ record.employer.title.vars.value }}{% endif %}
-                        </span>
-                        <span
-                            id="{{ record.vars.id }}-headline-start-date"
-                            class="ms-2 text-muted"
-                        >
-                            {% if record.startDate.vars.value %}{{ record.startDate.vars.value|date('M,Y') }}{% endif %}
-                        </span>
-                        <span
-                            id="{{ record.vars.id }}-headline-end-date"
-                            class="ms-2 text-muted"
-                        >
-                            {% if record.endDate.vars.value %}- {{ record.endDate.vars.value|date('M,Y') }}{% endif %}
-                        </span>
+                        <div>
+                            <span
+                                id="{{ record.vars.id }}-headline-job-title"
+                                data-content-default="Untitled"
+                            >{% if record.jobTitle.vars.value %}{{ record.jobTitle.vars.value }}{% else %}Untitled{% endif %}
+                            </span>
+                            <span
+                                id="{{ record.vars.id }}-headline-employer-title"
+                            >{% if record.employer.title.vars.value %}at {{ record.employer.title.vars.value }}{% endif %}
+                            </span>
+                        </div>
+                        <div>
+                            <span
+                                id="{{ record.vars.id }}-headline-start-date"
+                                class="text-muted"
+                            >{% if record.startDate.vars.value %}{{ record.startDate.vars.value|date('M,Y') }}{% endif %}
+                            </span>
+                            <span
+                                id="{{ record.vars.id }}-headline-end-date"
+                                class="text-muted"
+                            >{% if record.endDate.vars.value %}- {{ record.endDate.vars.value|date('M,Y') }}{% endif %}
+                            </span>
+                        </div>
                     </div>
                 </a>
             </h2>

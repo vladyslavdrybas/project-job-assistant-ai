@@ -2,7 +2,7 @@
     {% for record in links %}
         <div
             id="accordion-item-{{ record.vars.id }}"
-            class="mb-2 record accordion-item {% if loop.index != 1 and record.title.vars.value == null %}d-none{% endif %}"
+            class="mb-2 record accordion-item {% if record.title.vars.value == null %}d-none{% endif %}"
         >
             <h2 class="accordion-header record-header">
                 <a

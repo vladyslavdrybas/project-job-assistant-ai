@@ -119,16 +119,81 @@
                     {% endif %}
                 {{ form_end(editForm, {'render_rest': false}) }}
                 <hr class="mb-3">
-                <button
-                    class="btn btn-outline-dark"
-                    form="{{ editForm.vars.id }}"
+                <div
+                    class="d-none d-sm-flex flex-row justify-content-center align-items-center bi-gender-trans px-0 mx-0"
                 >
-                    Save
-                </button>
+
+                    <button
+                        class="btn btn-primary rounded-0"
+                        form="{{ editForm.vars.id }}"
+                    >
+                        Save
+                    </button>
+                    <button
+                        class="btn btn-primary rounded-0 ms-2"
+                        form="{{ editForm.vars.id }}"
+                    >
+                        Preview
+                    </button>
+                    <button
+                        class="btn btn-primary rounded-0 ms-2"
+                        form="{{ editForm.vars.id }}"
+                    >
+                        PDF
+                    </button>
+                </div>
             </div>
 
         </div>
     </div>
+
+    <nav
+        id="section--resume-edit-sidebar-nav"
+        class=" action-btn-nav sidebar center left position-fixed d-none d-sm-flex d-flex flex-column justify-content-start align-items-start"
+    >
+        <button
+            class="btn btn-primary bg-primary-hover rounded-0 mb-2 position-relative"
+            form="{{ editForm.vars.id }}"
+        >
+            Save
+        </button>
+        <button
+            class="btn btn-primary rounded-0 mb-2 position-relative"
+            form="{{ editForm.vars.id }}"
+        >
+            Preview
+        </button>
+        <button
+            class="btn btn-primary rounded-0 mb-2 position-relative"
+            form="{{ editForm.vars.id }}"
+        >
+            PDF
+        </button>
+    </nav>
+
+    <nav
+        id="section--resume-edit-bottom-nav"
+        class="action-btn-nav bottom left d-sm-none position-fixed d-flex flex-row justify-content-between align-items-center bg-light px-2"
+    >
+        <button
+            class="btn btn-primary rounded-0 position-relative"
+            form="{{ editForm.vars.id }}"
+        >
+            Save
+        </button>
+        <button
+            class="btn btn-primary rounded-0 position-relative"
+            form="{{ editForm.vars.id }}"
+        >
+            Preview
+        </button>
+        <button
+            class="btn btn-primary rounded-0 position-relative"
+            form="{{ editForm.vars.id }}"
+        >
+            PDF
+        </button>
+    </nav>
 {% endblock %}
 
 {% block scriptsbottom %}
@@ -181,6 +246,7 @@
             const addRecordsTarget = $(me.attr('data-target-add-more-records'));
             target.find('input').each((i,e)=> $(e).prop('value', null));
             target.find('textarea').each((i,e)=> $(e).prop('value', null));
+            target.find('select').each((i,e)=> $(e).prop('value', null));
             const spans = target.find('.headline-text').find('span');
             spans.each((i,e)=> $(e).text(''));
             spans.first().text(spans.attr('data-content-default'));
