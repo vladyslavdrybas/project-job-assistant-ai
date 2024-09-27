@@ -6,6 +6,14 @@ An ATS compliant resume is one that can be easily scanned and interpreted by an 
 ## Examples
 * bootstrap fake portfolio https://themes.3rdwavemedia.com/devcard/bs5/services.html
 
+## Domain names
+## CVIB
+Career Vitae Intelligent Builder.
+bad abbreviation... Common Variable Immunodeficiency [(CVID)](https://www.niaid.nih.gov/diseases-conditions/common-variable-immunodeficiency-cvid)
+
+* cvib.ai
+* cvib.de - not available
+
 ## Deploy
 
 ## User Auth
