@@ -53,6 +53,11 @@ body {
     color: var(--palette-primary) !important;
 }
 
+.text-primary-hover
+{
+    color: var(--palette-primary-hover) !important;
+}
+
 .btn-loading::after {
     content: '';
     display: inline-block;
