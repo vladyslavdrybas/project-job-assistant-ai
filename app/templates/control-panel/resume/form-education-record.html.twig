@@ -116,7 +116,19 @@
                     </div>
                 </div>
 
-                {{ form_row(record.description) }}
+                {{ form_row(record.description,
+                    {
+                        'label': false,
+                        'attr': {
+                        'class': 'd-none'
+                    }
+                    }
+                ) }}
+
+                <div
+                    id="editor-for-{{ record.description.vars.id }}"
+                    class="editor-wysiwyg"
+                ></div>
             </div>
         </div>
     {% endfor %}

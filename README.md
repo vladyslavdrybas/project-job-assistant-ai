@@ -45,6 +45,8 @@ source: https://github.com/thephpleague/oauth2-linkedin
 5. font https://www.fontsquirrel.com/fonts/aller
 6. mailer https://mailpit.axllent.org/docs/
 7. js data table https://datatables.net/manual/index
+8. wysiwyg tui.editor https://nhn.github.io/tui.editor/latest/#-install
+9. tui.editor license https://github.com/nhn/tui.editor/blob/master/LICENSE
 
 ## Job Posting Api & RSS
 * [techmap](https://jobdatafeeds.com/job-api)

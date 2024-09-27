@@ -39,25 +39,25 @@ class ResumeTransformer extends AbstractEntityTransformer
         $dto->owner = $entity->getOwner();
 
         $employmentHistory = [];
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 22; $i++) {
             $employmentHistory[] = new EmploymentRecordDto();
         }
         $dto->employmentHistory = $employmentHistory;
 
         $educationHistory = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 8; $i++) {
             $educationHistory[] = new EducationRecordDto();
         }
         $dto->educationHistory = $educationHistory;
 
         $links = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 8; $i++) {
             $links[] = new LinkDto();
         }
         $dto->links = $links;
 
         $languages = [];
-        for ($i = 0; $i < 15; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $languages[] = new LanguageDto();
         }
         $dto->languages = $languages;

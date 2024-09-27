@@ -331,3 +331,16 @@ textarea:focus,
 .btn-remove-record {
     opacity: 0.21;
 }
+
+.toastui-editor-contents hr {
+    border-top: 1px solid var(--bs-gray-dark);
+}
+
+
+.toastui-editor-contents blockquote {
+    color: var(--bs-secondary);
+}
+
+.toastui-editor-defaultUI-toolbar {
+    background-color: var(--bs-light);
+}

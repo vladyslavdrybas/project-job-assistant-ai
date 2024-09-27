@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ absolute_url(asset('highlight.default.min.css', 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap-icons.min.css', 'bootstrap')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('css/bootstrap.min.css', 'bootstrap')) }}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('toastui-editor.min.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('style.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('loader.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
     <link rel="stylesheet" href="{{ absolute_url(asset('media.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
@@ -129,6 +130,7 @@
 <script src="{{ absolute_url(asset('jquery-3.7.1.min.js', 'js')) }}"></script>
 <script src="{{ absolute_url(asset('use-bootstrap-tag.min.js', 'js')) }}"></script>
 <script src="{{ absolute_url(asset('highlight.min.js', 'js')) }}"></script>
+<script src="{{ absolute_url(asset('toastui-editor-all.min.js?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'js')) }}"></script>
 
 <script type="application/javascript">
     const alerts = document.querySelectorAll(".alert");
