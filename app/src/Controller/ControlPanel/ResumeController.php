@@ -5,11 +5,9 @@ namespace App\Controller\ControlPanel;
 
 use App\Builder\ResumeBuilder;
 use App\Constants\RouteRequirements;
-use App\DataTransferObject\Form\EmploymentHistory\EmploymentRecordDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Resume;
 use App\EntityTransformer\ResumeTransformer;
-use App\Form\CommandCenter\Resume\EducationRecordFormType;
 use App\Form\CommandCenter\Resume\ResumeFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -52,13 +50,12 @@ class ResumeController extends AbstractControlPanelController
     )]
     public function edit(
         Resume $resume,
-        ResumeBuilder $resumeBuilder,
-        ResumeTransformer $resumeTransformer,
+        ResumeTransformer $transformer,
         Request $request
     ): ViewResponseDto {
         dump($resume);
 
-        $dto = $resumeTransformer->reverseTransform($resume);
+        $dto = $transformer->reverseTransform($resume);
         dump($dto);
 
         $editForm = $this->createForm(ResumeFormType::class, $dto);

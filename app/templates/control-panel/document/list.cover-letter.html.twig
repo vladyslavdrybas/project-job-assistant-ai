@@ -14,154 +14,83 @@
         >
             <a
                 class="me-3"
-                href="{{ absolute_url(path('cp_resume_add')) }}"
+                href="{{ absolute_url(path('cp_cover_letter_add')) }}"
             >
                 <svg class="bi bi-small" style="width:3.4em;height:3.4em;"><use xlink:href="#add"/></svg>
             </a>
             <h5 class="card-title me-3">New Cover Letter</h5>
-            <p class="card-text text-secondary">Create a tailored cover letter for each job application. Double your chances of getting hired!</p>
+            <p class="card-text text-secondary">How do you boost your job search? Make a custom cover letter for each new job application! This is a method used by the most successful candidates.</p>
         </div>
     </div>
 
-    <div class="col-12 col-lg-5 card m-2" style="max-width: 34em;">
-        <div class="row g-0">
-            <div
-                class="col-12 col-sm-6 p-1 d-none d-sm-grid"
-                style="
-                    background-image: url({{ absolute_url(asset('landing/hero-resume-screen.png', 'img')) }});
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-position: top left;
-                    "
-            >
-            </div>
-            <div class="col-12 col-sm-6">
-                <div class="card-body">
-                    <h5 class="card-title text-black text-bold">Cover letter title</h5>
-                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-black text-decoration-none"
-                            >Download PDF</a>
-                        </li>
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-black text-decoration-none"
-                            >Tailor to job</a>
-                        </li>
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-black text-decoration-none"
-                            >Make a copy</a>
-                        </li>
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-secondary text-decoration-none"
-                            >Delete</a>
-                        </li>
-                    </ul>
+    {% for coverLetter in coverLetters %}
+        <div class="col-12 col-lg-5 card m-2 p-0 border-0 rounded-0" style="max-width: 34em;">
+            <div class="row g-0">
+                <div
+                    class="col-12 col-sm-6 d-none d-sm-grid"
+                >
+                    <a
+                        class="img-thumbnail rounded-0"
+                        href="{{ absolute_url(path('cp_cover_letter_edit', {'coverLetter': coverLetter})) }}"
+                    >
+                        <div
+                            class="w-100 h-100"
+                            style="
+                            {% if coverLetter.thumbnail is not null %}
+                                background-image: url({{ absolute_url(path('media_show', {'media': coverLetter.thumbnail})) }});
+                            {% else %}
+                                background-image: url({{ absolute_url(asset('landing/hero-resume-screen.png', 'img')) }});
+                            {% endif %}
+                                background-size: cover;
+                                background-repeat: no-repeat;
+                                background-position: top left;
+                            "
+                        >
+
+                        </div>
+                    </a>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ coverLetter.title ?? 'Untitled' }}
+                        </h5>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a
+                                    href="{{ absolute_url(path('cp_cover_letter_edit', {'coverLetter': coverLetter})) }}"
+                                    class="text-secondary text-decoration-none"
+                                >Edit</a>
+                            </li>
+                            <li class="mb-2">
+                                <a
+                                    href="#"
+                                    class="text-black text-decoration-none"
+                                >Download PDF</a>
+                            </li>
+                            <li class="mb-2">
+                                <a
+                                    href="#"
+                                    class="text-black text-decoration-none"
+                                >Tailor to job</a>
+                            </li>
+                            <li class="mb-2">
+                                <a
+                                    href="#"
+                                    class="text-black text-decoration-none"
+                                >Make a copy</a>
+                            </li>
+                            <li class="mb-2">
+                                <a
+                                    href="#"
+                                    class="text-secondary text-decoration-none"
+                                >Delete</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-12 col-lg-5 card m-2" style="max-width: 34em;">
-        <div class="row g-0">
-            <div
-                class="col-12 col-sm-6 p-1 d-none d-sm-grid"
-                style="
-                    background-image: url({{ absolute_url(asset('landing/hero-resume-screen.png', 'img')) }});
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-position: top left;
-                    "
-            >
-            </div>
-            <div class="col-12 col-sm-6">
-                <div class="card-body">
-                    <h5 class="card-title text-black text-bold">Cover letter title</h5>
-                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-black text-decoration-none"
-                            >Download PDF</a>
-                        </li>
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-black text-decoration-none"
-                            >Tailor to job</a>
-                        </li>
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-black text-decoration-none"
-                            >Make a copy</a>
-                        </li>
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-secondary text-decoration-none"
-                            >Delete</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-12 col-lg-5 card m-2" style="max-width: 34em;">
-        <div class="row g-0">
-            <div
-                class="col-12 col-sm-6 p-1 d-none d-sm-grid"
-                style="
-                    background-image: url({{ absolute_url(asset('landing/hero-resume-screen.png', 'img')) }});
-                    background-size: cover;
-                    background-repeat: no-repeat;
-                    background-position: top left;
-                    "
-            >
-            </div>
-            <div class="col-12 col-sm-6">
-                <div class="card-body">
-                    <h5 class="card-title text-black text-bold">Cover letter title</h5>
-                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-black text-decoration-none"
-                            >Download PDF</a>
-                        </li>
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-black text-decoration-none"
-                            >Tailor to job</a>
-                        </li>
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-black text-decoration-none"
-                            >Make a copy</a>
-                        </li>
-                        <li class="mb-2">
-                            <a
-                                href="#"
-                                class="text-secondary text-decoration-none"
-                            >Delete</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    {% endfor %}
 </div>

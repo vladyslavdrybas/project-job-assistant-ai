@@ -5,6 +5,7 @@ namespace App\Controller\ControlPanel;
 
 use App\Constants\RouteRequirements;
 use App\DataTransferObject\ViewResponseDto;
+use App\Repository\CoverLetterRepository;
 use App\Repository\ResumeRepository;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -24,12 +25,15 @@ class DocumentController extends AbstractControlPanelController
     )]
     public function list(
         ResumeRepository $resumeRepository,
+        CoverLetterRepository $coverLetterRepository,
     ): ViewResponseDto {
         $resumes = $resumeRepository->findBy(['owner' => $this->getUser()]);
+        $coverLetters = $coverLetterRepository->findBy(['owner' => $this->getUser()]);
 
         return $this->response(
             [
                 'resumes' => $resumes,
+                'coverLetters' => $coverLetters,
             ],
             'control-panel/document/list.html.twig'
         );

@@ -14,6 +14,27 @@ bad abbreviation... Common Variable Immunodeficiency [(CVID)](https://www.niaid.
 * cvib.ai
 * cvib.de - not available
 
+## WANTEDDEADORALIVE
+
+[why the name](https://www.quora.com/What-is-the-song-Wanted-Dead-or-Alive-by-Bon-Jovi-about)
+
+> Don't let the wanted dead or alive part fool you.
+> They're not talking about a known criminal.
+> Bon Jovi was referring to them and their fans.
+> This was referring to their over worked situation as musicians.
+> They were just beginning to make a good mark in their careers and if you listened
+> to pop/rock music at that time you heard one of their many songs several times a day
+> so when they were touring, recording records, travel time to their various performances
+> and recordings and all other aspects of their careers they literally had to feel pulled away
+> from normal living. Their fans especially wanted to see them, hear them all of the time so using a play on words they were
+> literally Wanted, Dead or Alive.
+
+passion: [Bon Jovi - Wanted Dead Or Alive](https://youtu.be/SRvCvsRp5ho)
+
+* wanteddeadoralive.de
+* wanteddeadoralive.ai
+* deadoralive.de
+
 ## Deploy
 
 ## User Auth
@@ -44,6 +65,7 @@ source: https://github.com/thephpleague/oauth2-linkedin
 6. https://ui8.net/
 7. https://www.freepik.com/free-photos-vectors/landing-page-design
 8. https://www.uxpeak.com/the-ui-ux-playbook
+9. https://novoresume.com/cover-letter-templates
 
 ### Tools
 1. background remove https://www.remove.bg/upload
@@ -87,3 +109,44 @@ source: https://github.com/thephpleague/oauth2-linkedin
 * [ScrapFly How to Scrape Hidden APIs](https://scrapfly.io/blog/how-to-scrape-hidden-apis/)
 * [Quora rss jobs resources](https://www.quora.com/Which-job-websites-have-an-RSS-feed#:~:text=Several%20job%20websites%20offer%20RSS,SimplyHired%2C%20Monster%2C%20and%20Glassdoor.)
 * [Huge set of jobs. freemium. millions of global job posting data](https://coresignal.com/solutions/jobs-data-api/)
+
+## Structures
+### Cover Letter
+
+1. Header
+   * applicant name
+   * job title
+   * contact information
+     * email
+     * phone
+     * country
+     * city
+   * application date
+   * salutation/greeting
+2. Opening
+   * what you're applying for
+   * where you're applying to
+   * why you're applying
+3. Why company
+   * why do you chose company in context of my achievements and plans
+4. Why you
+   * list relevant experience
+   * Starting behind your achievements with metrics
+   * achievements and facts connected to the company goals and position responsibilities
+5. Conclusion
+   * Mention future plans
+   * call to action (c do not hesitate to contact me)
+   * thank the reader and conclude
+6. Closing
+   * Best Regards
+   * Sign Off
+
+<img src="docs/cover_letter/img_5.png" alt="drawing" style="max-width:768px;"/>
+<br>
+<img src="docs/cover_letter/img.png" alt="drawing" style="max-width:768px;"/>
+<img src="docs/cover_letter/img_3.png" alt="drawing" style="max-width:768px;"/>
+<img src="docs/cover_letter/img_1.png" alt="drawing" style="max-width:768px;"/>
+<img src="docs/cover_letter/img_2.png" alt="drawing" style="max-width:768px;"/>
+<img src="docs/cover_letter/img_4.png" alt="drawing" style="max-width:768px;"/>
+<img src="docs/cover_letter/img_6.png" alt="drawing" style="max-width:768px;"/>
+
