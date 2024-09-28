@@ -6,11 +6,15 @@ namespace App\Controller\ControlPanel;
 use App\Builder\CoverLetterBuilder;
 use App\Builder\ResumeBuilder;
 use App\Constants\RouteRequirements;
+use App\DataTransferObject\Form\CoverLetterAiDto;
+use App\DataTransferObject\Form\EmploymentHistory\EmployerDto;
+use App\DataTransferObject\Form\ResumeDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\CoverLetter;
 use App\Entity\Resume;
 use App\EntityTransformer\CoverLetterTransformer;
 use App\EntityTransformer\ResumeTransformer;
+use App\Form\CommandCenter\CoverLetter\AiCoverLetterFormType;
 use App\Form\CommandCenter\CoverLetter\SimpleCoverLetterFormType;
 use App\Form\CommandCenter\Resume\ResumeFormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -99,24 +103,22 @@ class CoverLetterController extends AbstractControlPanelController
     ): ViewResponseDto {
         dump($coverLetter);
 
-        $dto = $transformer->reverseTransform($coverLetter);
+        $coverLetterDto = $transformer->reverseTransform($coverLetter);
+
+        $dto = new CoverLetterAiDto(
+            $coverLetterDto->owner,
+            $coverLetterDto,
+            new ResumeDto()
+        );
+
         dump($dto);
 
-        $editForm = $this->createForm(SimpleCoverLetterFormType::class, $dto);
+        $editForm = $this->createForm(AiCoverLetterFormType::class, $dto);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             // TODO handle form changes
             dump($editForm->getData());
-            if (filter_var($editForm->get('isNeedAiHelp')->getData(), FILTER_VALIDATE_BOOLEAN)) {
-                // save changes and redirect to cp_cover_letter_edit_ai
-                return $this->response(
-                    [
-                        'editForm' => $editForm,
-                    ],
-                    'cp_cover_letter_edit_ai'
-                );
-            }
         }
 
         return $this->response(

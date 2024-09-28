@@ -27,9 +27,9 @@
                                 {% include 'control-panel/resume/form-photo.html.twig' with {'form': editForm.photo} only %}
                             </div>
                             <div class="col-9">
-                                {{ form_row(editForm.firstName) }}
+                                {{ form_row(editForm.contactPerson.firstName) }}
 
-                                {{ form_row(editForm.lastName) }}
+                                {{ form_row(editForm.contactPerson.lastName) }}
 
                                 {{ form_row(editForm.includePhoto) }}
                             </div>
@@ -38,19 +38,19 @@
 
                         <div class="row">
                             <div class="col-6">
-                                {{ form_row(editForm.contacts.email) }}
+                                {{ form_row(editForm.contactPerson.contacts.email) }}
                             </div>
                             <div class="col-6">
-                                {{ form_row(editForm.contacts.phone) }}
+                                {{ form_row(editForm.contactPerson.contacts.phone) }}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-6">
-                                {{ form_row(editForm.contacts.location.country) }}
+                                {{ form_row(editForm.contactPerson.contacts.location.country) }}
                             </div>
                             <div class="col-6">
-                                {{ form_row(editForm.contacts.location.city) }}
+                                {{ form_row(editForm.contactPerson.contacts.location.city) }}
                             </div>
                         </div>
                     </div>

@@ -52,20 +52,8 @@ class ResumeFormType extends AbstractType
                     'required' => false,
                 ]
             )
-            ->add('firstName',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add('lastName',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add('contacts',
-                ContactsFormType::class,
+            ->add('contactPerson',
+                ContactPersonFormType::class,
                 [
                     'required' => false,
                 ]

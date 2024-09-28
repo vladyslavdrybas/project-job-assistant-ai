@@ -7,6 +7,7 @@ use App\DataTransferObject\Form\CoverLetterDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\CoverLetter;
 use App\Entity\EntityInterface;
+use InvalidArgumentException;
 
 class CoverLetterTransformer extends AbstractEntityTransformer
 {
@@ -15,9 +16,9 @@ class CoverLetterTransformer extends AbstractEntityTransformer
         return $data instanceof CoverLetter || $data instanceof CoverLetterDto;
     }
 
-    public function transform(CoverLetterDto|IDataTransferObject $dto): EntityInterface|CoverLetter|null
+    public function transform(CoverLetterDto|IDataTransferObject $dto): EntityInterface|CoverLetter
     {
-        if (!$this->supports($dto)) return null;
+        if (!$this->supports($dto)) return throw new InvalidArgumentException('Expect ' . CoverLetterDto::class);
 
         $entity = new CoverLetter();
 
@@ -26,9 +27,9 @@ class CoverLetterTransformer extends AbstractEntityTransformer
         return $entity;
     }
 
-    public function reverseTransform(CoverLetter|EntityInterface $entity): IDataTransferObject|CoverLetterDto|null
+    public function reverseTransform(CoverLetter|EntityInterface $entity): IDataTransferObject|CoverLetterDto
     {
-        if (!$this->supports($entity)) return null;
+        if (!$this->supports($entity)) return throw new InvalidArgumentException('Expect ' . CoverLetter::class);
 
         $dto = new CoverLetterDto();
 

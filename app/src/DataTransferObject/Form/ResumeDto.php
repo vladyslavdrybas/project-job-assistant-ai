@@ -35,12 +35,13 @@ namespace App\DataTransferObject\Form;
 // hobbies-- array
 // internships -- array
 
-use App\DataTransferObject\Form\Contact\ContactsDto;
+use App\DataTransferObject\Form\Contact\ContactPersonDto;
 use App\DataTransferObject\Form\EducationHistory\EducationRecordDto;
 use App\DataTransferObject\Form\EmploymentHistory\EmploymentRecordDto;
 use App\DataTransferObject\Form\PetProjects\PetProjectDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\UserInterface;
+use DateTimeInterface;
 
 class ResumeDto implements IDataTransferObject
 {
@@ -51,9 +52,7 @@ class ResumeDto implements IDataTransferObject
         public ?MediaCreatorFormDto $photo = null,
         public bool $includePhoto = true,
         public ?string $jobTitle = null,
-        public ?string $firstName = null,
-        public ?string $lastName = null,
-        public ?ContactsDto $contacts = null,
+        public ?ContactPersonDto $contactPerson = null,
         public ?string $professionalSummary = null,
 
         /** @var array<EmploymentRecordDto> $employmentHistory*/
@@ -72,6 +71,9 @@ class ResumeDto implements IDataTransferObject
         public array $languages = [],
 
         /** @var array<LinkDto> $links*/
-        public array $links = []
+        public array $links = [],
+        public ?string $id = null,
+        public ?DateTimeInterface $createdAt = null,
+        public ?DateTimeInterface $updatedAt = null,
     ){}
 }

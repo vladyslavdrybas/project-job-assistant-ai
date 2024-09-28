@@ -30,8 +30,16 @@
             {{ form_errors(editForm) }}
 
             {{ form_row(editForm.title) }}
+            {{ form_row(editForm.jobTitle) }}
+            {{ form_row(editForm.employer) }}
+            {{ form_row(editForm.sender) }}
+            {{ form_row(editForm.receiver) }}
+            {% if editForm.resume is defined %}
+                {{ form_row(editForm.resume) }}
+            {% endif %}
 
             <hr>
+            <h3>Letter body</h3>
             {{ form_row(editForm.content,
                 {
                     'label': false,

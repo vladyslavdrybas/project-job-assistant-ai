@@ -31,6 +31,9 @@ class Resume extends AbstractEntity
     protected ?string $title = null;
 
     #[ORM\Column(type: Types::STRING, nullable: true )]
+    protected ?string $professionalSummary = null;
+
+    #[ORM\Column(type: Types::STRING, nullable: true )]
     protected ?string $jobTitle = null;
 
     #[ORM\Column(type: Types::STRING, length: 250, nullable: true )]
@@ -146,5 +149,15 @@ class Resume extends AbstractEntity
     public function setSkills(Collection $skills): void
     {
         $this->skills = $skills;
+    }
+
+    public function getProfessionalSummary(): ?string
+    {
+        return $this->professionalSummary;
+    }
+
+    public function setProfessionalSummary(?string $professionalSummary): void
+    {
+        $this->professionalSummary = $professionalSummary;
     }
 }

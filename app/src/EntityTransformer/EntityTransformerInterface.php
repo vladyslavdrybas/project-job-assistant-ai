@@ -8,6 +8,6 @@ use App\Entity\EntityInterface;
 
 interface EntityTransformerInterface
 {
-    public function transform(IDataTransferObject $dto): ?EntityInterface;
-    public function reverseTransform(EntityInterface $entity): ?IDataTransferObject;
+    public function transform(IDataTransferObject $dto): EntityInterface;
+    public function reverseTransform(EntityInterface $entity): IDataTransferObject;
 }
