@@ -17,7 +17,8 @@ class JobTransformer extends AbstractEntityTransformer
     {
         $this->validateDto($dto);
 
-        $entity = new Job();
+        /** @var Job $entity */
+        $entity = $this->findEntityOrCreate($dto);
 
         $entity->setOwner($dto->owner);
         $entity->setTitle($dto->title);

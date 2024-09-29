@@ -10,6 +10,7 @@ use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Job;
 use App\EntityTransformer\JobTransformer;
 use App\Form\CommandCenter\Job\JobFormType;
+use App\Repository\JobRepository;
 use App\Security\Voter\VoterPermissions;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -140,8 +141,10 @@ class UserJobController extends AbstractControlPanelController
         name: '_list',
         methods: ['GET']
     )]
-    public function list(): ViewResponseDto {
-        $jobs = [];
+    public function list(
+        JobRepository $jobRepository
+    ): ViewResponseDto {
+        $jobs = $jobRepository->findBy(['owner' => $this->getUser()]);
 
         return $this->response(
             [

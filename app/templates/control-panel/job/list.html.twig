@@ -31,6 +31,75 @@
                 </div>
 
                 {% for job in jobs %}
+                    <div class="col-12 col-lg-5 card m-2 p-0 border-0 rounded-0" style="max-width: 34em;">
+                        <div class="row g-0">
+                            <div
+                                class="col-12 col-sm-6 d-none d-sm-grid"
+                            >
+                                <a
+                                    class="img-thumbnail rounded-0"
+                                    href="{{ absolute_url(path('cp_job_edit', {'job': job})) }}"
+                                >
+                                    <div
+                                        class="w-100 h-100"
+                                        style="
+                                        {% if job.thumbnail is defined and job.thumbnail is not null %}
+                                            background-image: url({{ absolute_url(path('media_show', {'media': job.thumbnail})) }});
+                                        {% else %}
+                                            /* TODO add default company logo or job description screen */
+                                            background-image: url({{ absolute_url(asset('android-chrome-192x192.png', 'img')) }});
+                                        {% endif %}
+                                            background-size: cover;
+                                            background-repeat: no-repeat;
+                                            background-position: top left;
+                                            "
+                                    >
+
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        {{ job.title ?? 'Untitled' }}
+                                    </h5>
+                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <a
+                                                href="{{ absolute_url(path('cp_job_edit', {'job': job})) }}"
+                                                class="text-secondary text-decoration-none"
+                                            >Edit</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a
+                                                href="#"
+                                                class="text-black text-decoration-none"
+                                            >Tailor a resume</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a
+                                                href="#"
+                                                class="text-secondary text-decoration-none"
+                                            >Tailor a Cover Letter</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a
+                                                href="#"
+                                                class="text-secondary text-decoration-none"
+                                            >clone</a>
+                                        </li>
+                                        <li class="mb-2">
+                                            <a
+                                                href="#"
+                                                class="text-secondary text-decoration-none"
+                                            >Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
 
             </div>
