@@ -3,12 +3,16 @@ declare(strict_types=1);
 
 namespace App\Controller\ControlPanel;
 
+use App\Builder\JobBuilder;
 use App\Constants\JobStatus;
 use App\DataTransferObject\ViewResponseDto;
+use App\Entity\Job;
+use App\Security\Voter\VoterPermissions;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Routing\Requirement\EnumRequirement;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(
     "/cp/job",
@@ -21,28 +25,65 @@ use Symfony\Component\Uid\Uuid;
 class UserJobController extends AbstractControlPanelController
 {
     #[Route(
+        path: '/add',
+        name: '_add',
+        methods: ['GET']
+    )]
+    public function add(
+        JobBuilder $builder
+    ): ViewResponseDto {
+        $job = $builder->base($this->getUser());
+
+        $this->entityManager->persist($job);
+        $this->entityManager->flush();
+
+        return $this->response(
+            [
+                'job' => $job,
+            ]
+            ,'cp_job_edit',
+        );
+    }
+
+    #[Route(
         path: '/{job}',
         name: '_show',
         methods: ['GET']
     )]
-    public function show(): ViewResponseDto {
+    #[IsGranted(
+        VoterPermissions::VIEW->value,
+        'job',
+        'Access denied',
+        Response::HTTP_UNAUTHORIZED
+    )]
+    public function show(
+        Job $job
+    ): ViewResponseDto {
         return $this->response(
-            []
+            [
+                'job' => $job,
+            ]
             ,'control-panel/job/show.html.twig',
         );
     }
 
     #[Route(
-        path: '/add',
-        name: '_add',
+        path: '/{job}/tailor/resume/{resume}',
+        name: '_tailor_resume',
         methods: ['GET']
     )]
-    public function add(): ViewResponseDto {
+    #[IsGranted(
+        VoterPermissions::VIEW->value,
+        'job',
+        'Access denied',
+        Response::HTTP_UNAUTHORIZED
+    )]
+    public function tailorResume(
+        Job $job
+    ): ViewResponseDto {
         return $this->response(
-            [
-                'job' => Uuid::v7(),
-            ]
-            ,'cp_job_edit',
+            []
+            ,'control-panel/job/show.html.twig',
         );
     }
 
@@ -51,9 +92,18 @@ class UserJobController extends AbstractControlPanelController
         name: '_edit',
         methods: ['GET']
     )]
-    public function edit(): ViewResponseDto {
+    #[IsGranted(
+        VoterPermissions::VIEW->value,
+        'job',
+        'Access denied',
+        Response::HTTP_UNAUTHORIZED
+    )]
+    public function edit(
+        Job $job
+    ): ViewResponseDto {
         return $this->response(
-            []
+            [
+            ]
             ,'control-panel/job/edit.html.twig',
         );
     }
@@ -64,8 +114,12 @@ class UserJobController extends AbstractControlPanelController
         methods: ['GET']
     )]
     public function list(): ViewResponseDto {
+        $jobs = [];
+
         return $this->response(
-            []
+            [
+                'jobs' => $jobs,
+            ]
             ,'control-panel/job/list.html.twig',
         );
     }
