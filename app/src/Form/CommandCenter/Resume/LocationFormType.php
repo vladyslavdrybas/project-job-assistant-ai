@@ -28,6 +28,24 @@ class LocationFormType extends AbstractType
                     'required' => false,
                 ]
             )
+            ->add('region',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add('address',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add('postalCode',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
+            )
         ;
     }
 

@@ -1,0 +1,29 @@
+<h3>Employer details</h3>
+{{ form_row(form.title) }}
+{{ form_row(form.aboutPage) }}
+
+<div class="row mb-3">
+    <div class="col-6">
+        {{ form_row(form.contacts.location.country) }}
+    </div>
+
+    <div class="col-6">
+        {{ form_row(form.contacts.location.city) }}
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-6">
+        {{ form_row(form.contacts.location.region) }}
+    </div>
+
+    <div class="col-6">
+        {{ form_row(form.contacts.location.address) }}
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-6">
+        {{ form_row(form.contacts.location.postalCode) }}
+    </div>
+</div>

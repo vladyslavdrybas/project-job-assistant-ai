@@ -74,6 +74,7 @@ class AiCoverLetterFormType extends AbstractType
                 },
                 'data' => $dto->resume ?? $choices[0],
                 'placeholder' => false,
+                'help' => 'Select a resume to feed data to AI.'
             ]
         );
     }

@@ -11,7 +11,8 @@ class LocationDto implements IDataTransferObject
         public ?string $country = null,
         public ?string $city = null,
         public ?string $postalCode = null,
-        public ?string $state = null,
+        public ?string $address = null,
+        public ?string $region = null,
         public ?string $latitude = null,
         public ?string $longitude = null
     ){}
