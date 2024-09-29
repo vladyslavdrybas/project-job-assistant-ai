@@ -5,6 +5,7 @@ namespace App\Controller\ControlPanel;
 
 use App\Builder\JobBuilder;
 use App\Constants\JobStatus;
+use App\DataTransferObject\Form\Job\JobDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Job;
 use App\EntityTransformer\JobTransformer;
@@ -93,7 +94,7 @@ class UserJobController extends AbstractControlPanelController
     #[Route(
         path: '/{job}/edit',
         name: '_edit',
-        methods: ['GET']
+        methods: ['GET', 'POST']
     )]
     #[IsGranted(
         VoterPermissions::VIEW->value,
@@ -115,6 +116,14 @@ class UserJobController extends AbstractControlPanelController
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             dump('form submitted');
             dump($editForm->getData());
+            /** @var JobDto $dto */
+            $dto = $editForm->getData();
+            $dto->isUserAdded = true;
+
+            $entity = $transformer->transform($dto);
+
+            $this->entityManager->persist($entity);
+            $this->entityManager->flush();
         }
 
         return $this->response(
