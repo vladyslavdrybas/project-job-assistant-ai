@@ -22,9 +22,9 @@
                 {{ form_row(editForm.aboutPage) }}
 
                 <hr>
-                {% include 'control-panel/cover-letter/employer-short.html.twig' with {'form': editForm.employer} only %}
+                {% include 'control-panel/job/employer-short.html.twig' with {'form': editForm.employer} only %}
                 <hr>
-                {% include 'control-panel/cover-letter/receiver.html.twig' with {'form': editForm.contactPerson} only %}
+                {% include 'control-panel/job/job-contact-person.html.twig' with {'form': editForm.contactPerson} only %}
 
                 <div>
                     <hr>
