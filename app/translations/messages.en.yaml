@@ -2,12 +2,17 @@ meta:
   title:
     app_homepage: Resume AI
     app_resume_show: Resume of the User
-    cp_user_show: User Profile
-    cp_user_edit: User Editor
-    cp_document_list: Resumes & Cover Letters
     app_media_show: Media
-    cp_user_verify_email: Email confirmation
     security_login: Login
     security_logout: Logout
     security_register: Register
     security_verify_email: Send email confirmation
+    cp_user_verify_email: Email confirmation
+    cp_user_show: User Profile
+    cp_user_edit: User Editor
+    cp_document_list: Resumes & Cover Letters
+    job_search: Job Search
+    cp_job_show: Job Show
+    cp_job_list: Job List
+    cp_job_edit: Job Edit
+    cp_job_filter: Job Filter
