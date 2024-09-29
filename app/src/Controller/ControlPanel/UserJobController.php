@@ -7,7 +7,10 @@ use App\Builder\JobBuilder;
 use App\Constants\JobStatus;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Job;
+use App\EntityTransformer\JobTransformer;
+use App\Form\CommandCenter\Job\JobFormType;
 use App\Security\Voter\VoterPermissions;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
@@ -99,10 +102,25 @@ class UserJobController extends AbstractControlPanelController
         Response::HTTP_UNAUTHORIZED
     )]
     public function edit(
-        Job $job
+        Request $request,
+        Job $job,
+        JobTransformer $transformer
     ): ViewResponseDto {
+        $dto = $transformer->reverseTransform($job);
+        dump($dto);
+
+        $editForm = $this->createForm(JobFormType::class, $dto);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            dump('form submitted');
+            dump($editForm->getData());
+        }
+
         return $this->response(
             [
+                'editForm' => $editForm,
+                'editFormActions' => ['save'],
             ]
             ,'control-panel/job/edit.html.twig',
         );

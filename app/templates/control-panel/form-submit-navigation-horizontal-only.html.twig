@@ -1,0 +1,30 @@
+{% if actions is defined and actions|length > 0 %}
+<div
+    class="d-none d-sm-flex flex-row justify-content-center align-items-center px-0 mx-0"
+>
+    {% if 'save' in actions %}
+    <button
+        class="btn btn-primary rounded-0"
+        form="{{ form.vars.id }}"
+    >
+        Save
+    </button>
+    {% endif %}
+    {% if 'preview' in actions %}
+    <button
+        class="btn btn-primary rounded-0 ms-2"
+        form="{{ form.vars.id }}"
+    >
+        Preview
+    </button>
+    {% endif %}
+    {% if 'pdf' in actions %}
+        <button
+            class="btn btn-primary rounded-0 ms-2"
+            form="{{ form.vars.id }}"
+        >
+            PDF
+        </button>
+    {% endif %}
+</div>
+{% endif %}

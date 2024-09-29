@@ -1,0 +1,61 @@
+{% if actions is defined and actions|length > 0 %}
+<nav
+    id="section--resume-edit-sidebar-nav"
+    class=" action-btn-nav sidebar center left position-fixed d-none d-sm-flex d-flex flex-column justify-content-start align-items-start"
+>
+    {% if 'save' in actions %}
+    <button
+        class="btn btn-primary bg-primary-hover rounded-0 mb-2 position-relative"
+        form="{{ form.vars.id }}"
+    >
+        Save
+    </button>
+    {% endif %}
+    {% if 'preview' in actions %}
+    <button
+        class="btn btn-primary rounded-0 mb-2 position-relative"
+        form="{{ form.vars.id }}"
+    >
+        Preview
+    </button>
+    {% endif %}
+    {% if 'pdf' in actions %}
+    <button
+        class="btn btn-primary rounded-0 mb-2 position-relative"
+        form="{{ form.vars.id }}"
+    >
+        PDF
+    </button>
+    {% endif %}
+</nav>
+
+<nav
+    id="section--resume-edit-bottom-nav"
+    class="action-btn-nav bottom left d-sm-none position-fixed d-flex flex-row justify-content-between align-items-center bg-light px-2"
+>
+    {% if 'save' in actions %}
+    <button
+        class="btn btn-primary rounded-0 position-relative"
+        form="{{ form.vars.id }}"
+    >
+        Save
+    </button>
+    {% endif %}
+    {% if 'preview' in actions %}
+    <button
+        class="btn btn-primary rounded-0 position-relative"
+        form="{{ form.vars.id }}"
+    >
+        Preview
+    </button>
+    {% endif %}
+    {% if 'pdf' in actions %}
+    <button
+        class="btn btn-primary rounded-0 position-relative"
+        form="{{ form.vars.id }}"
+    >
+        PDF
+    </button>
+    {% endif %}
+</nav>>
+{% endif %}

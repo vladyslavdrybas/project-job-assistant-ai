@@ -16,3 +16,5 @@ meta:
     cp_job_list: Job List
     cp_job_edit: Job Edit
     cp_job_filter: Job Filter
+    cp_resume_edit: Resume Edit
+    cp_resume_add: Resume Add

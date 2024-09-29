@@ -1,8 +1,10 @@
 {% extends 'control-panel/index.html.twig'%}
 
 {% block content %}
-    <div class="container pt-2 pt-lg-5 bg-light py-5">
+    <div class="container pt-2 pt-lg-5 bg-light">
         <div class="row justify-content-center">
+            <h1>{{ meta.title }}</h1>
+
             <div class="col-md-10 col-lg-8" style="min-width: 300px;">
                 {{ form_start(editForm,
                     {
@@ -119,79 +121,12 @@
                     {% endif %}
                 {{ form_end(editForm, {'render_rest': false}) }}
                 <hr class="mb-3">
-                <div
-                    class="d-none d-sm-flex flex-row justify-content-center align-items-center px-0 mx-0"
-                >
+                {% include 'control-panel/form-submit-navigation-horizontal-only.html.twig' with {'form': editForm, 'actions': editFormActions} only %}
 
-                    <button
-                        class="btn btn-primary rounded-0"
-                        form="{{ editForm.vars.id }}"
-                    >
-                        Save
-                    </button>
-                    <button
-                        class="btn btn-primary rounded-0 ms-2"
-                        form="{{ editForm.vars.id }}"
-                    >
-                        Preview
-                    </button>
-                    <button
-                        class="btn btn-primary rounded-0 ms-2"
-                        form="{{ editForm.vars.id }}"
-                    >
-                        PDF
-                    </button>
-                </div>
             </div>
-
         </div>
     </div>
 
-    <nav
-        id="section--resume-edit-sidebar-nav"
-        class=" action-btn-nav sidebar center left position-fixed d-none d-sm-flex d-flex flex-column justify-content-start align-items-start"
-    >
-        <button
-            class="btn btn-primary bg-primary-hover rounded-0 mb-2 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            Save
-        </button>
-        <button
-            class="btn btn-primary rounded-0 mb-2 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            Preview
-        </button>
-        <button
-            class="btn btn-primary rounded-0 mb-2 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            PDF
-        </button>
-    </nav>
+    {% include 'control-panel/form-submit-navigation-with-sidebar.html.twig' with {'form': editForm, 'actions': editFormActions} only %}
 
-    <nav
-        id="section--resume-edit-bottom-nav"
-        class="action-btn-nav bottom left d-sm-none position-fixed d-flex flex-row justify-content-between align-items-center bg-light px-2"
-    >
-        <button
-            class="btn btn-primary rounded-0 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            Save
-        </button>
-        <button
-            class="btn btn-primary rounded-0 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            Preview
-        </button>
-        <button
-            class="btn btn-primary rounded-0 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            PDF
-        </button>
-    </nav>
 {% endblock %}

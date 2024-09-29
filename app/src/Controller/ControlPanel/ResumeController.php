@@ -69,6 +69,7 @@ class ResumeController extends AbstractControlPanelController
         return $this->response(
             [
                 'editForm' => $editForm,
+                'editFormActions' => ['preview','save','pdf'],
             ],
             'control-panel/resume/edit.html.twig'
         );

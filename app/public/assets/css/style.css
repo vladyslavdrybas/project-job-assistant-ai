@@ -375,3 +375,8 @@ textarea:focus,
 .action-btn-nav.left {
     left: 0;
 }
+
+label.required:after {
+    content: ' *';
+    color: var(--bs-danger);
+}
