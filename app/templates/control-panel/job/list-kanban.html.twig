@@ -1,13 +1,13 @@
 {% extends 'control-panel/index.html.twig'%}
 
 {% block content %}
-    <div class="container-fluid pt-2 pt-lg-5 bg-light">
-        <div class="row justify-content-center">
 
-            <h1>{{ meta.title }}</h1>
+    <div class="container bg-light">
 
-            <div
-                class="
+        <h1 class="bg-light">{{ meta.title }}</h1>
+
+        <div
+            class="
                     d-flex
                     flex-row
                     justify-content-start
@@ -15,18 +15,21 @@
                     bg-white
                     p-2
                     mt-0
+                    bg-light
                 "
+        >
+            <a
+                class="me-3"
+                href="{{ absolute_url(path('cp_job_add')) }}"
             >
-                <a
-                    class="me-3"
-                    href="{{ absolute_url(path('cp_job_add')) }}"
-                >
-                    <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
-                </a>
-                <h5 class="card-title me-3">New Job</h5>
-                <p class="card-text text-secondary">Add a job description you want apply to.</p>
-            </div>
-
+                <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
+            </a>
+            <h5 class="card-title me-3">New Job</h5>
+            <p class="card-text text-secondary">Add a job description you want apply to.</p>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
             <div
                 class="
                     row

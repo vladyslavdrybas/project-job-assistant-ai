@@ -1,4 +1,4 @@
-<div>
+<div class="bg-light rounded-1">
     <button
         class="
                 text-break
@@ -9,6 +9,7 @@
                 align-items-center
                 rounded
                 collapsed
+                w-100
             "
         data-bs-toggle="collapse"
         data-bs-target="#section--job-list-column-{{ status }}-wrapper"
@@ -26,39 +27,46 @@
             list-group
             list-group-flush
             collapse show
-            bg-info
+            pt-1
         "
         style="min-height: 21em;height: 100%;"
         data-status="{{ status }}"
     >
         {% for job in jobs %}
             <div
-                class="draggable-item list-group-item p-1 lh-sm"
+                class="draggable-item list-group-item p-1 mb-1 lh-sm border border-1"
                 data-job-id="{{ job.id }}"
             >
-                <a
-                    href=""
-                    class="text-decoration-none text-black"
-                    aria-current="true"
-                >
-                    <div class="d-flex w-100 align-items-center justify-content-between">
-                        <strong class="mb-1">{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}</strong>
-                        {% if job.employer.title is defined %}
-                            <small>{{ job.employer.title }}</small>
-                        {% endif %}
-                    </div>
-                    <div class="col-10 mb-1 small">
-                        {% if job.employer.contacts.location.country is defined %}
-                            {{ job.employer.contacts.location.country }}
-                        {% endif %}
-                        {% if job.employer.contacts.location.region is defined %}
-                            {{ job.employer.contacts.location.region }}
-                        {% endif %}
-                        {% if job.employer.contacts.location.city is defined %}
-                            {{ job.employer.contacts.location.city }}
-                        {% endif %}
-                    </div>
-                </a>
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                    <strong class="mb-1 text-small">
+                        {% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}
+                    </strong>
+
+                    <a
+                        href="{{ absolute_url(path('cp_job_show', {'job': job.id})) }}"
+                        class="
+                                text-decoration-none
+                                text-info
+                                px-1
+                            "
+                    >
+                        <svg class="bi bi-small"><use xlink:href="#view"/></svg>
+                    </a>
+                    {% if job.employer.title is defined %}
+                        <small>{{ job.employer.title }}</small>
+                    {% endif %}
+                </div>
+                <div class="col-10 text-small">
+                    {% if job.employer.contacts.location.country is defined %}
+                        {{ job.employer.contacts.location.country }}
+                    {% endif %}
+                    {% if job.employer.contacts.location.region is defined %}
+                        {{ job.employer.contacts.location.region }}
+                    {% endif %}
+                    {% if job.employer.contacts.location.city is defined %}
+                        {{ job.employer.contacts.location.city }}
+                    {% endif %}
+                </div>
             </div>
         {% endfor %}
     </div>

@@ -145,7 +145,7 @@ class UserJobController extends AbstractControlPanelController
         JobRepository $jobRepository,
         JobTransformer $transformer
     ): ViewResponseDto {
-        $entities = $jobRepository->findBy(['owner' => $this->getUser()]);
+        $entities = $jobRepository->findBy(['owner' => $this->getUser()],['createdAt' => 'DESC']);
 
         $dtos = array_map(function(Job $job) use ($transformer) {
             return $transformer->reverseTransform($job);
