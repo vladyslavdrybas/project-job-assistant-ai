@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(
-    "/cp/r",
+    "/cp/resume",
     name: "cp_resume",
     requirements: [
         'resume' => RouteRequirements::UUID->value,
@@ -40,6 +40,24 @@ class ResumeController extends AbstractControlPanelController
                 'resume' => $resume->getRawId(),
             ],
             'cp_resume_edit'
+        );
+    }
+
+    #[Route(
+        '/{resume}',
+        name: '_show',
+        methods: ['GET']
+    )]
+    public function show(
+        Resume $resume,
+    ): ViewResponseDto {
+        dump($resume);
+
+        return $this->response(
+            [
+                'resume' => $resume,
+            ],
+            'control-panel/resume/show.html.twig'
         );
     }
 

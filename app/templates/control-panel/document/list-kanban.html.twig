@@ -1,0 +1,139 @@
+{% extends 'control-panel/index.html.twig'%}
+
+{% set resumeColumnWrapperId = 'section--document-list-column-resume-wrapper' %}
+{% set coverLetterColumnWrapperId = 'section--document-list-column-cover-letter-wrapper' %}
+{% set archiveColumnWrapperId = 'section--document-list-column-archive-wrapper' %}
+
+{% block content %}
+    <div class="container bg-light">
+        <div
+            class="
+                d-flex
+                flex-row
+                justify-content-start
+                align-items-baseline
+            "
+        >
+            <a
+                class="pointer-primary me-2"
+                href="{{ absolute_url(path('cp_resume_add')) }}"
+            >
+                <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
+            </a>
+            <h5 class="text-black me-2">New Resume</h5>
+            <p class="text-secondary">Create a tailored resume for each job application. Double your chances of getting hired!</p>
+        </div>
+        <div
+            class="
+                d-flex
+                flex-row
+                justify-content-start
+                align-items-baseline
+                mt-1
+            "
+        >
+            <a
+                class="pointer-primary me-2"
+                href="{{ absolute_url(path('cp_cover_letter_add')) }}"
+            >
+                <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
+            </a>
+            <h5 class="text-black me-2">New Cover Letter</h5>
+            <p class="text-secondary">How do you boost your job search? Make a custom cover letter for each new job application! This is a method used by the most successful candidates.</p>
+        </div>
+    </div>
+
+    <div class="container pe-5 position-relative">
+        <div class="row justify-content-center">
+            <div
+                class="
+                    row
+                    mt-3
+                "
+            >
+                <div
+                    class="
+                        col-12
+                        col-md-6
+                    "
+                >
+                    {% include 'control-panel/document/list-kanban-resume.html.twig' with {'documents': resumes, 'dragulaId': resumeColumnWrapperId} only %}
+                </div>
+                <div
+                    class="
+                        col-12
+                        col-md-6
+                    "
+                >
+                    {% include 'control-panel/document/list-kanban-cover-letter.html.twig' with {'documents': coverLetters, 'dragulaId': coverLetterColumnWrapperId} only %}
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="
+                trash-column-fixed
+                document-list
+            "
+        >
+            <a
+                href="{{ absolute_url(path('cp_document_filter', {'status': 'archived'})) }}"
+                class="text-danger text-decoration-none"
+            >
+                <svg class="bi bi-small mb-1" style="width:2.1em;height:2.1em;"><use xlink:href="#trash"/></svg>
+            </a>
+            <div
+                id="{{ archiveColumnWrapperId }}"
+                data-status="archived"
+                class="min-h-10"
+            >
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scriptsbottom %}
+    <script src="{{ absolute_url(asset('dragula.min.js', 'js')) }}"></script>
+
+    <script type="application/javascript">
+
+        const documentStatusColumnIds = [
+            document.getElementById("{{ resumeColumnWrapperId }}"),
+            document.getElementById("{{ coverLetterColumnWrapperId }}"),
+            document.getElementById("{{ archiveColumnWrapperId }}"),
+        ];
+
+        const drakeDocuments = dragula(documentStatusColumnIds,
+            {
+                accepts: function (el, target, source, sibling) {
+
+                    const documentType = $(el).attr('data-document-type');
+                    const newStatus = $(target).attr('data-status');
+
+                    if (documentType === newStatus) {
+                        return true;
+                    }
+
+                    return 'archived' === newStatus;
+                },
+            }
+        );
+
+        drakeDocuments.on('drop', function (el, target, source, sibling) {
+            console.log([
+                el,
+                target,
+                source,
+                sibling,
+            ]);
+
+            const newStatus = $(target).attr('data-status');
+            const documentId = $(el).attr('data-document-id');
+            console.log(newStatus);
+            console.log(documentId);
+            // TODO add ajax to change status
+        });
+
+    </script>
+{% endblock %}

@@ -1,0 +1,79 @@
+<div class="bg-light rounded-1 mt-2">
+    <button
+        class="
+                text-break
+                p-1
+                m-0
+                btn
+                btn-toggle
+                align-items-center
+                rounded-0
+                collapsed
+                w-100
+            "
+        data-bs-toggle="collapse"
+        data-bs-target="#section--job-list-column-cover-letter-wrapper"
+        aria-expanded="true"
+    >
+        Cover Letter
+    </button>
+
+    <hr class="m-0">
+
+    <div
+        id="{{ dragulaId }}"
+        class="
+            jobs-list
+            list-group
+            list-group-flush
+            collapse show
+            pt-1
+            min-h-10
+        "
+        data-status="cover-letter"
+    >
+        {% for document in documents %}
+            <div
+                class="draggable-item list-group-item p-1 mb-1 lh-sm border border-1 dragula-item"
+                data-document-id="{{ document.id }}"
+                data-document-type="cover-letter"
+            >
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                    <strong class="mb-1 text-small">
+                        {% if document.title %}{{ document.title }}{% else %}Untitled{% endif %}
+                    </strong>
+
+                    <a
+                        href="{{ absolute_url(path('cp_cover_letter_show', {'coverLetter': document.id})) }}"
+                        class="
+                                text-decoration-none
+                                pointer-primary
+                                px-1
+                            "
+                    >
+                        <svg class="bi bi-small"><use xlink:href="#view"/></svg>
+                    </a>
+                </div>
+
+                {% if document.employer.title is defined %}
+                <div class="text-small">
+                    <a
+                        href="/employer-show"
+                        class="
+                            text-decoration-none
+                            fw-bold
+                            text-secondary
+                        "
+                    >
+                        {{ document.employer.title }}
+                    </a>
+                </div>
+                {% endif %}
+
+                <div class="text-small text-muted">
+                    <span class="published-at-date">{{ date_diff(document.createdAt) }}</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

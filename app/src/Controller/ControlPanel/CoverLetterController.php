@@ -4,24 +4,19 @@ declare(strict_types=1);
 namespace App\Controller\ControlPanel;
 
 use App\Builder\CoverLetterBuilder;
-use App\Builder\ResumeBuilder;
 use App\Constants\RouteRequirements;
 use App\DataTransferObject\Form\CoverLetterAiDto;
-use App\DataTransferObject\Form\EmploymentHistory\EmployerDto;
 use App\DataTransferObject\Form\ResumeDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\CoverLetter;
-use App\Entity\Resume;
 use App\EntityTransformer\CoverLetterTransformer;
-use App\EntityTransformer\ResumeTransformer;
 use App\Form\CommandCenter\CoverLetter\AiCoverLetterFormType;
 use App\Form\CommandCenter\CoverLetter\SimpleCoverLetterFormType;
-use App\Form\CommandCenter\Resume\ResumeFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(
-    "/cp/cl",
+    "/cp/cover-letter",
     name: "cp_cover_letter",
     requirements: [
         'coverLetter' => RouteRequirements::UUID->value,
@@ -48,6 +43,24 @@ class CoverLetterController extends AbstractControlPanelController
                 'coverLetter' => $entity->getRawId(),
             ],
             'cp_cover_letter_edit'
+        );
+    }
+
+    #[Route(
+        '/{coverLetter}',
+        name: '_show',
+        methods: ['GET']
+    )]
+    public function show(
+        CoverLetter $coverLetter
+    ): ViewResponseDto {
+        dump($coverLetter);
+
+        return $this->response(
+            [
+                'coverLetter' => $coverLetter,
+            ],
+            'control-panel/cover-letter/show.html.twig'
         );
     }
 

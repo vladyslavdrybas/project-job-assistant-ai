@@ -10,7 +10,7 @@ use App\Repository\ResumeRepository;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(
-    "/cp/d",
+    "/cp/document",
     name: "cp_document",
     requirements: [
         'resume' => RouteRequirements::UUID->value,
@@ -19,8 +19,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class DocumentController extends AbstractControlPanelController
 {
     #[Route(
-        '',
-        name: '_list',
+        's',
+        name: '_board',
         methods: ['GET']
     )]
     public function list(
@@ -35,7 +35,23 @@ class DocumentController extends AbstractControlPanelController
                 'resumes' => $resumes,
                 'coverLetters' => $coverLetters,
             ],
-            'control-panel/document/list.html.twig'
+            'control-panel/document/list-kanban.html.twig'
+        );
+    }
+
+    #[Route(
+        path: 's/filter/{status}',
+        name: '_filter',
+        methods: ['GET']
+    )]
+    public function filter(
+        string $status
+    ): ViewResponseDto {
+        return $this->response(
+            [
+                'status' => $status,
+            ]
+            ,'control-panel/document/filter.html.twig',
         );
     }
 }

@@ -6,13 +6,13 @@
 
         <div
             class="
-                    d-flex
-                    flex-row
-                    justify-content-start
-                    align-items-center
-                    p-2
-                    mt-0
-                "
+                d-flex
+                flex-row
+                justify-content-start
+                align-items-center
+                p-2
+                mt-0
+            "
         >
             <a
                 class="me-3 pointer-primary"
@@ -82,9 +82,9 @@
         document.getElementById("section--job-list-column-archived-wrapper"),
     ];
 
-    const drake = dragula(jobStatusColumnIds);
+    const drakeJobs = dragula(jobStatusColumnIds);
 
-    drake.on('drop', function (el, target, source, sibling) {
+    drakeJobs.on('out', function (el, target, source, sibling) {
         console.log([
             el,
             target,
@@ -96,6 +96,7 @@
         const jobId = $(el).attr('data-job-id');
         console.log(newStatus);
         console.log(jobId);
+
         // TODO add ajax to change status
     });
 

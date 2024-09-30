@@ -464,6 +464,10 @@ label.required:after {
     background: var(--palette-primary-rgb);
 }
 
+.trash-column-fixed.document-list {
+    top: 2.1rem;
+}
+
 .dragula-item {
     cursor: pointer;
 }

@@ -10,7 +10,6 @@ meta:
     cp_user_verify_email: Email confirmation
     cp_user_show: User Profile
     cp_user_edit: User Editor
-    cp_document_list: Resumes & Cover Letters
     job_search: Job Search
     cp_job_show: Job Show
     cp_job_board: Jobs Board
@@ -18,3 +17,8 @@ meta:
     cp_job_filter: Job Filter
     cp_resume_edit: Resume Edit
     cp_resume_add: Resume Add
+    cp_resume_show: Resume Show
+    cp_resume_filter: Resume Filter
+    cp_document_board: Document Board
+    cp_document_filter: Document Filter
+    cp_cover_letter_show: Cover Letter Show
