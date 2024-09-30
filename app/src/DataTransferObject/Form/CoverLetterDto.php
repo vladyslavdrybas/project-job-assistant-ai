@@ -7,6 +7,7 @@ use App\DataTransferObject\Form\Contact\ContactPersonDto;
 use App\DataTransferObject\Form\EmploymentHistory\EmployerDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\UserInterface;
+use DateTimeInterface;
 
 // TODO add job connection
 class CoverLetterDto implements IDataTransferObject
@@ -20,6 +21,11 @@ class CoverLetterDto implements IDataTransferObject
        public ?EmployerDto $employer = null,
        public ?ContactPersonDto $sender = null,
        public ?ContactPersonDto $receiver = null,
-       public bool $isNeedAiHelp = false
+       public bool $isNeedAiHelp = false,
+
+        public bool $isUserAdded = false,
+        public ?string $id = null,
+        public ?DateTimeInterface $createdAt = null,
+        public ?DateTimeInterface $updatedAt = null
     ) {}
 }

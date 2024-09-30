@@ -52,13 +52,27 @@ class CoverLetterController extends AbstractControlPanelController
         methods: ['GET']
     )]
     public function show(
-        CoverLetter $coverLetter
+        CoverLetter $coverLetter,
+        CoverLetterTransformer $transformer
     ): ViewResponseDto {
+        $dto = $transformer->reverseTransform($coverLetter);
         dump($coverLetter);
 
         return $this->response(
             [
-                'coverLetter' => $coverLetter,
+                'coverLetter' => $dto,
+                'navActions' => [
+                    'edit' => [
+                        'type' => 'link',
+                        'title' => 'Edit',
+                        'link' => $this->generateUrl('cp_cover_letter_edit', ['coverLetter' => $dto->id]),
+                    ],
+                    'pdf' => [
+                        'type' => 'link',
+                        'title' => 'PDF',
+                        'link' => $this->generateUrl('cp_cover_letter_edit', ['coverLetter' => $dto->id]),
+                    ],
+                ],
             ],
             'control-panel/cover-letter/show.html.twig'
         );
@@ -94,11 +108,24 @@ class CoverLetterController extends AbstractControlPanelController
                     'cp_cover_letter_edit_ai'
                 );
             }
+
+            $actionBtn = $editForm->get('actionBtn')->getData();
+            dump($actionBtn);
+
+            if ('view' === $actionBtn) {
+                return $this->response(
+                    [
+                        'coverLetter' => $coverLetter,
+                    ],
+                    'cp_cover_letter_show',
+                );
+            }
         }
 
         return $this->response(
             [
                 'editForm' => $editForm,
+                'editFormActions' => ['save', 'view', 'pdf'],
             ],
             'control-panel/cover-letter/edit.html.twig'
         );
@@ -132,11 +159,23 @@ class CoverLetterController extends AbstractControlPanelController
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             // TODO handle form changes
             dump($editForm->getData());
+            $actionBtn = $editForm->get('actionBtn')->getData();
+            dump($actionBtn);
+
+            if ('view' === $actionBtn) {
+                return $this->response(
+                    [
+                        'coverLetter' => $coverLetter,
+                    ],
+                    'cp_cover_letter_show',
+                );
+            }
         }
 
         return $this->response(
             [
                 'editForm' => $editForm,
+                'editFormActions' => ['save', 'view', 'pdf'],
             ],
             'control-panel/cover-letter/edit-ai.html.twig'
         );

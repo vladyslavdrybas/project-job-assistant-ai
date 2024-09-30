@@ -50,12 +50,26 @@ class ResumeController extends AbstractControlPanelController
     )]
     public function show(
         Resume $resume,
+        ResumeTransformer $transformer
     ): ViewResponseDto {
-        dump($resume);
+        $dto = $transformer->reverseTransform($resume);
+        dump($dto);
 
         return $this->response(
             [
-                'resume' => $resume,
+                'resume' => $dto,
+                'navActions' => [
+                    'edit' => [
+                        'type' => 'link',
+                        'title' => 'Edit',
+                        'link' => $this->generateUrl('cp_resume_edit', ['resume' => $dto->id]),
+                    ],
+                    'pdf' => [
+                        'type' => 'link',
+                        'title' => 'PDF',
+                        'link' => $this->generateUrl('cp_resume_edit', ['resume' => $dto->id]),
+                    ],
+                ],
             ],
             'control-panel/resume/show.html.twig'
         );
@@ -82,12 +96,24 @@ class ResumeController extends AbstractControlPanelController
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             // TODO handle form changes
             dump($editForm->getData());
+
+            $actionBtn = $editForm->get('actionBtn')->getData();
+            dump($actionBtn);
+
+            if ('view' === $actionBtn) {
+                return $this->response(
+                    [
+                        'resume' => $resume,
+                    ],
+                    'cp_resume_show',
+                );
+            }
         }
 
         return $this->response(
             [
                 'editForm' => $editForm,
-                'editFormActions' => ['preview','save','pdf'],
+                'editFormActions' => ['view','save','pdf'],
             ],
             'control-panel/resume/edit.html.twig'
         );

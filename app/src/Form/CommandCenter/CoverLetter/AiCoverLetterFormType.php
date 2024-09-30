@@ -12,6 +12,7 @@ use App\Repository\ResumeRepository;
 use Exception;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -62,21 +63,29 @@ class AiCoverLetterFormType extends AbstractType
         }
 
         $builder->add('resume',
-            ChoiceType::class,
-            [
-                'required' => false,
-                'multiple' => false,
-                'choices' => $choices,
-                'choice_label' => 'title',
-                'choice_value' => 'id',
-                'group_by' => function (ResumeDto $dto): string {
-                    return $dto->jobTitle ?? 'Untitled';
-                },
-                'data' => $dto->resume ?? $choices[0],
-                'placeholder' => false,
-                'help' => 'Select a resume to feed data to AI.'
-            ]
-        );
+                ChoiceType::class,
+                [
+                    'required' => false,
+                    'multiple' => false,
+                    'choices' => $choices,
+                    'choice_label' => 'title',
+                    'choice_value' => 'id',
+                    'group_by' => function (ResumeDto $dto): string {
+                        return $dto->jobTitle ?? 'Untitled';
+                    },
+                    'data' => $dto->resume ?? $choices[0],
+                    'placeholder' => false,
+                    'help' => 'Select a resume to feed data to AI.'
+                ]
+            )
+            ->add('actionBtn',
+                HiddenType::class,
+                [
+                    'mapped' => false,
+                    'empty_data' => 'save'
+                ]
+            )
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

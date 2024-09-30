@@ -8,6 +8,7 @@ use App\Form\CommandCenter\Resume\ContactPersonFormType;
 use App\Form\CommandCenter\Resume\EmployerFormType;
 use App\Form\SwitchType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -63,6 +64,13 @@ class SimpleCoverLetterFormType extends AbstractType
                     'row_attr' => [
                         'class' => 'd-none',
                     ]
+                ]
+            )
+            ->add('actionBtn',
+                HiddenType::class,
+                [
+                    'mapped' => false,
+                    'empty_data' => 'save'
                 ]
             )
         ;

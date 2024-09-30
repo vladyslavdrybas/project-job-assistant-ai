@@ -1,9 +1,16 @@
 {% extends 'control-panel/index.html.twig'%}
 
 {% block content %}
-<div class="container pt-2 pt-lg-5 bg-light">
+<div class="container-fluid container-lg bg-light">
     <div class="row justify-content-center">
-        <h1>{{ meta.title }}</h1>
+        <div class="col-md-10 col-lg-8" style="min-width: 300px;">
+            {% include 'control-panel/cover-letter/template/base.html.twig' %}
+
+            <hr class="mb-3">
+            {% include 'control-panel/object-links-navigation-horizontal-only.html.twig' with {'actions': navActions} only %}
+        </div>
     </div>
 </div>
+
+    {% include 'control-panel/object-links-navigation-with-sidebar.html.twig' with {'actions': navActions} only %}
 {% endblock %}

@@ -23,6 +23,8 @@ class CoverLetterTransformer extends AbstractEntityTransformer
         $entity = new CoverLetter();
 
         $entity->setOwner($dto->owner);
+        $entity->setContent($dto->content);
+        $entity->setTitle($dto->title);
 
         return $entity;
     }
@@ -36,6 +38,10 @@ class CoverLetterTransformer extends AbstractEntityTransformer
         $dto->owner = $entity->getOwner();
         $dto->content = $entity->getContent();
         $dto->title = $entity->getTitle();
+
+        $dto->id = $entity->getRawId();
+        $dto->createdAt = $entity->getCreatedAt();
+        $dto->updatedAt = $entity->getUpdatedAt();
 
         return $dto;
     }

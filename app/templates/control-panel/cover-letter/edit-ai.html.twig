@@ -1,170 +1,105 @@
 {% extends 'control-panel/index.html.twig' %}
 
 {% block content %}
-    <div class="container bg-light">
-        <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-8" style="min-width: 300px;">
-                {{ form_start(editForm,
-                    {
-                        'method': editForm.vars.method,
-                        'attr': {
-                        'id': editForm.vars.id,
-                        'class': 'w-100'
-                    }
-                    }
-                ) }}
+<div class="container bg-light">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8" style="min-width: 300px;">
+            {{ form_start(editForm,
+                {
+                    'method': editForm.vars.method,
+                    'attr': {
+                    'id': editForm.vars.id,
+                    'class': 'w-100'
+                }
+                }
+            ) }}
 
-                {{ form_errors(editForm) }}
+            {{ form_errors(editForm) }}
 
-                {{ form_row(editForm.coverLetter.title) }}
-                {{ form_row(editForm.coverLetter.jobTitle) }}
-                {% if editForm.resume is defined %}
-                    {{ form_row(editForm.resume) }}
-                {% endif %}
-                <hr>
+            {{ form_row(editForm.coverLetter.title) }}
+            {{ form_row(editForm.coverLetter.jobTitle) }}
+            {% if editForm.resume is defined %}
+                {{ form_row(editForm.resume) }}
+            {% endif %}
+            <hr>
 
-                {% include 'control-panel/cover-letter/employer-short.html.twig' with {'form': editForm.coverLetter.employer} only %}
-                <hr>
-                {% include 'control-panel/cover-letter/sender.html.twig' with {'form': editForm.coverLetter.sender} only %}
-                <hr>
-                {% include 'control-panel/cover-letter/receiver.html.twig' with {'form': editForm.coverLetter.receiver} only %}
+            {% include 'control-panel/cover-letter/employer-short.html.twig' with {'form': editForm.coverLetter.employer} only %}
+            <hr>
+            {% include 'control-panel/cover-letter/sender.html.twig' with {'form': editForm.coverLetter.sender} only %}
+            <hr>
+            {% include 'control-panel/cover-letter/receiver.html.twig' with {'form': editForm.coverLetter.receiver} only %}
 
-                <hr>
-                <h3>Letter Body</h3>
+            <hr>
+            <h3>Letter Body</h3>
 
-                <h4 class="mt-3">{{ editForm.coverLetter.content.opening.vars.label }}</h4>
-                {{ form_row(editForm.coverLetter.content.opening,
-                    {
-                        'label': false,
-                        'attr': {
-                        'class': 'd-none'
-                    }
-                    }
-                ) }}
-                <div
-                    id="editor-for-{{ editForm.coverLetter.content.opening.vars.id }}"
-                    class="editor-wysiwyg"
-                ></div>
+            <h4 class="mt-3">{{ editForm.coverLetter.content.opening.vars.label }}</h4>
+            {{ form_row(editForm.coverLetter.content.opening,
+                {
+                    'label': false,
+                    'attr': {
+                    'class': 'd-none'
+                }
+                }
+            ) }}
+            <div
+                id="editor-for-{{ editForm.coverLetter.content.opening.vars.id }}"
+                class="editor-wysiwyg"
+            ></div>
 
-                <h4 class="mt-3">{{ editForm.coverLetter.content.whyMe.vars.label }}</h4>
-                {{ form_row(editForm.coverLetter.content.whyMe,
-                    {
-                        'label': false,
-                        'attr': {
-                        'class': 'd-none'
-                    }
-                    }
-                ) }}
-                <div
-                    id="editor-for-{{ editForm.coverLetter.content.whyMe.vars.id }}"
-                    class="editor-wysiwyg"
-                ></div>
+            <h4 class="mt-3">{{ editForm.coverLetter.content.whyMe.vars.label }}</h4>
+            {{ form_row(editForm.coverLetter.content.whyMe,
+                {
+                    'label': false,
+                    'attr': {
+                    'class': 'd-none'
+                }
+                }
+            ) }}
+            <div
+                id="editor-for-{{ editForm.coverLetter.content.whyMe.vars.id }}"
+                class="editor-wysiwyg"
+            ></div>
 
-                <h4 class="mt-3">{{ editForm.coverLetter.content.conclusion.vars.label }}</h4>
-                {{ form_row(editForm.coverLetter.content.conclusion,
-                    {
-                        'label': false,
-                        'attr': {
-                        'class': 'd-none'
-                    }
-                    }
-                ) }}
-                <div
-                    id="editor-for-{{ editForm.coverLetter.content.conclusion.vars.id }}"
-                    class="editor-wysiwyg"
-                ></div>
+            <h4 class="mt-3">{{ editForm.coverLetter.content.conclusion.vars.label }}</h4>
+            {{ form_row(editForm.coverLetter.content.conclusion,
+                {
+                    'label': false,
+                    'attr': {
+                    'class': 'd-none'
+                }
+                }
+            ) }}
+            <div
+                id="editor-for-{{ editForm.coverLetter.content.conclusion.vars.id }}"
+                class="editor-wysiwyg"
+            ></div>
 
-                <h4 class="mt-3">{{ editForm.coverLetter.content.signoff.vars.label }}</h4>
-                {{ form_row(editForm.coverLetter.content.signoff,
-                    {
-                        'label': false,
-                        'attr': {
-                        'class': 'd-none'
-                    }
-                    }
-                ) }}
-                <div
-                    id="editor-for-{{ editForm.coverLetter.content.signoff.vars.id }}"
-                    class="editor-wysiwyg"
-                ></div>
+            <h4 class="mt-3">{{ editForm.coverLetter.content.signoff.vars.label }}</h4>
+            {{ form_row(editForm.coverLetter.content.signoff,
+                {
+                    'label': false,
+                    'attr': {
+                    'class': 'd-none'
+                }
+                }
+            ) }}
+            <div
+                id="editor-for-{{ editForm.coverLetter.content.signoff.vars.id }}"
+                class="editor-wysiwyg"
+            ></div>
 
+            {% if editForm._token is defined %}
                 {{ form_row(editForm._token) }}
-                {{ form_end(editForm, {'render_rest': false}) }}
-                <hr class="mb-3">
-                <div
-                    class="d-none d-sm-flex flex-row justify-content-center align-items-center px-0 mx-0"
-                >
-
-                    <button
-                        class="btn btn-primary rounded-0"
-                        form="{{ editForm.vars.id }}"
-                    >
-                        Save
-                    </button>
-                    <button
-                        class="btn btn-primary rounded-0 ms-2"
-                        form="{{ editForm.vars.id }}"
-                    >
-                        Preview
-                    </button>
-                    <button
-                        class="btn btn-primary rounded-0 ms-2"
-                        form="{{ editForm.vars.id }}"
-                    >
-                        PDF
-                    </button>
-                </div>
-            </div>
+            {% endif %}
+            {{ form_row(editForm.actionBtn) }}
+            {{ form_end(editForm, {'render_rest': false}) }}
+            <hr class="mb-3">
+            {% include 'control-panel/form-submit-navigation-horizontal-only.html.twig' with {'form': editForm, 'actions': editFormActions} only %}
 
         </div>
+
     </div>
+</div>
 
-    <nav
-        id="section--resume-edit-sidebar-nav"
-        class=" action-btn-nav sidebar center left position-fixed d-none d-sm-flex d-flex flex-column justify-content-start align-items-start"
-    >
-        <button
-            class="btn btn-primary bg-primary-hover rounded-0 mb-2 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            Save
-        </button>
-        <button
-            class="btn btn-primary rounded-0 mb-2 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            Preview
-        </button>
-        <button
-            class="btn btn-primary rounded-0 mb-2 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            PDF
-        </button>
-    </nav>
-
-    <nav
-        id="section--resume-edit-bottom-nav"
-        class="action-btn-nav bottom left d-sm-none position-fixed d-flex flex-row justify-content-between align-items-center bg-light px-2"
-    >
-        <button
-            class="btn btn-primary rounded-0 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            Save
-        </button>
-        <button
-            class="btn btn-primary rounded-0 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            Preview
-        </button>
-        <button
-            class="btn btn-primary rounded-0 position-relative"
-            form="{{ editForm.vars.id }}"
-        >
-            PDF
-        </button>
-    </nav>
-
+    {% include 'control-panel/form-submit-navigation-with-sidebar.html.twig' with {'form': editForm, 'actions': editFormActions} only %}
 {% endblock %}
