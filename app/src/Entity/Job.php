@@ -24,8 +24,8 @@ class Job extends AbstractEntity
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
-    #[ORM\Column(type: Types::STRING, enumType: JobStatus::class, options: ['default' => JobStatus::NEW->value])]
-    protected JobStatus $status = JobStatus::NEW;
+    #[ORM\Column(type: Types::STRING, enumType: JobStatus::class, options: ['default' => JobStatus::BACKLOG->value])]
+    protected JobStatus $status = JobStatus::BACKLOG;
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     protected bool $isUserAdded = false;

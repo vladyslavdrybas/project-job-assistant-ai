@@ -24,7 +24,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
     name: "cp_job",
     requirements: [
         'job' => Requirement::UID_RFC4122,
-        'filterType' => new EnumRequirement(JobStatus::class)
+        'status' => new EnumRequirement(JobStatus::class)
     ]
 )]
 class UserJobController extends AbstractControlPanelController
@@ -213,7 +213,7 @@ class UserJobController extends AbstractControlPanelController
         JobRepository $jobRepository,
         JobTransformer $transformer
     ): ViewResponseDto {
-        $entities = $jobRepository->findBy(['owner' => $this->getUser()],['createdAt' => 'DESC']);
+        $entities = $jobRepository->findListForJobBoard($this->getUser());
 
         $dtos = array_map(function(Job $job) use ($transformer) {
             return $transformer->reverseTransform($job);
@@ -225,6 +225,12 @@ class UserJobController extends AbstractControlPanelController
         dump($dtos);
 
         $statuses = JobStatus::values();
+        $statuses = array_filter(
+            $statuses,
+            fn(string $status) => JobStatus::ARCHIVED->value !== $status
+        );
+
+        dump($statuses);
 
         foreach($dtos as $jobDto) {
             $jobs[$jobDto->status->value][] = $jobDto;
@@ -233,7 +239,7 @@ class UserJobController extends AbstractControlPanelController
         return $this->response(
             [
                 'jobs' => $jobs,
-                'jobStatuses' => JobStatus::values(),
+                'jobStatuses' => $statuses,
                 'colWidth' => (int) ceil(12/count($statuses)),
             ]
             ,'control-panel/job/list-kanban.html.twig',
@@ -241,16 +247,16 @@ class UserJobController extends AbstractControlPanelController
     }
 
     #[Route(
-        path: 's/filter/{filterType}',
+        path: 's/filter/{status}',
         name: '_filter',
         methods: ['GET']
     )]
     public function filter(
-        string $filterType
+        string $status
     ): ViewResponseDto {
         return $this->response(
             [
-                'filterType' => $filterType,
+                'status' => $status,
             ]
             ,'control-panel/job/filter.html.twig',
         );

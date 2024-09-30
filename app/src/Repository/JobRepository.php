@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Constants\Job\JobStatus;
 use App\Entity\Job;
+use App\Entity\UserInterface;
 
 /**
  * @method Job|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,4 +14,16 @@ use App\Entity\Job;
  */
 class JobRepository extends AbstractRepository
 {
+    public function findListForJobBoard(UserInterface $owner): array
+    {
+        $query = $this->createQueryBuilder('t')
+            ->where('t.owner = :owner')
+            ->andWhere('t.status <> :notStatus')
+            ->setParameter('owner', $owner)
+            ->setParameter('notStatus', JobStatus::ARCHIVED)
+            ->orderBy('t.createdAt', 'DESC')
+        ;
+
+        return $query->getQuery()->getResult();
+    }
 }

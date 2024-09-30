@@ -15,7 +15,7 @@
                 "
         >
             <a
-                class="me-3"
+                class="me-3 text-primary"
                 href="{{ absolute_url(path('cp_job_add')) }}"
             >
                 <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
@@ -24,7 +24,8 @@
             <p class="card-text text-secondary">Add a job description you want apply to.</p>
         </div>
     </div>
-    <div class="container-fluid">
+
+    <div class="container-fluid pe-5">
         <div class="row justify-content-center">
             <div
                 class="
@@ -46,6 +47,26 @@
             </div>
 
         </div>
+
+        <div
+            class="
+                trash-column-fixed
+            "
+        >
+            <a
+                href="{{ absolute_url(path('cp_job_filter', {'status': 'archived'})) }}"
+                class="text-danger text-decoration-none"
+            >
+                <svg class="bi bi-small mb-1" style="width:2.1em;height:2.1em;"><use xlink:href="#trash"/></svg>
+            </a>
+        <div
+            id="section--job-list-column-archived-wrapper"
+            data-status="archived"
+            class="min-h-10"
+        >
+        </div>
+        </div>
+
     </div>
 {% endblock %}
 
@@ -58,6 +79,7 @@
         {% for status in jobStatuses %}
         document.getElementById("section--job-list-column-{{ status }}-wrapper"),
         {% endfor %}
+        document.getElementById("section--job-list-column-archived-wrapper"),
     ];
 
     const drake = dragula(jobStatusColumnIds);

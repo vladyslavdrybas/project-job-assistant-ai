@@ -1,4 +1,4 @@
-<div class="bg-light rounded-1">
+<div class="bg-light rounded-1 mt-2">
     <button
         class="
                 text-break
@@ -7,7 +7,7 @@
                 btn
                 btn-toggle
                 align-items-center
-                rounded
+                rounded-0
                 collapsed
                 w-100
             "
@@ -28,13 +28,13 @@
             list-group-flush
             collapse show
             pt-1
+            min-h-10
         "
-        style="min-height: 21em;height: 100%;"
         data-status="{{ status }}"
     >
         {% for job in jobs %}
             <div
-                class="draggable-item list-group-item p-1 mb-1 lh-sm border border-1"
+                class="draggable-item list-group-item p-1 mb-1 lh-sm border border-1 dragula-item"
                 data-job-id="{{ job.id }}"
             >
                 <div class="d-flex w-100 align-items-center justify-content-between">
@@ -46,7 +46,7 @@
                         href="{{ absolute_url(path('cp_job_show', {'job': job.id})) }}"
                         class="
                                 text-decoration-none
-                                text-info
+                                text-primary
                                 px-1
                             "
                     >

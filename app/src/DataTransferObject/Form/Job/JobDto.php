@@ -18,7 +18,7 @@ class JobDto implements IDataTransferObject
         public ?string $title = null,
         public ?string $content = null,
         public ?string $aboutPage = null,
-        public JobStatus $status = JobStatus::NEW,
+        public JobStatus $status = JobStatus::BACKLOG,
         public ?EmployerDto $employer = null,
         public ?LocationDto $location = null,
         public ?ContactPersonDto $contactPerson = null,

@@ -4,29 +4,22 @@
 {% block headerNavigation %}
     <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
+            <a class="nav-link active" href="">Dashboard</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link active" href="{{ absolute_url(path('cp_document_list' )) }}">Documents</a>
         </li>
         <li class="nav-item">
             <a class="nav-link active" href="{{ absolute_url(path('cp_job_list' )) }}">Jobs</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="">Applications</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="">Goals</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="">Hall of Fame</a>
+        </li>
     </ul>
 {% endblock %}
-{#<!-- Header Section -->#}
-{#<header id="header" class="header bg-light">#}
-{#    <nav class="navbar navbar-expand-md navbar-light">#}
-{#        <div class="container">#}
-
-{#            <a class="navbar-brand" href="{{ absolute_url(path('cp_user_show', {'user': app.user.username})) }}">Panel</a>#}
-
-{#            <div class="collapse navbar-collapse" id="headerNavbarCollapse">#}
-{#                <ul class="navbar-nav me-auto mb-2 mb-md-0">#}
-{#                    <li class="nav-item">#}
-{#                        <a class="nav-link active" href="{{ absolute_url(path('cp_document_list' )) }}">Documents</a>#}
-{#                    </li>#}
-{#                </ul>#}
-{#                {% include 'components/header/login-buttons.html.twig' %}#}
-{#            </div>#}
-
-{#        </div>#}
-{#    </nav>#}
-{#</header>#}

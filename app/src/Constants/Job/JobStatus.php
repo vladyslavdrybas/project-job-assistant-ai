@@ -9,7 +9,6 @@ enum JobStatus: string
 {
     use EnumToArray;
 
-    case NEW = 'new';
     case BACKLOG = 'backlog';
     case APPLIED = 'applied';
     case INTERVIEWING = 'interviewing';
