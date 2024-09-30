@@ -48,13 +48,14 @@ body {
 }
 
 .text-primary,
+.pointer-primary,
 .text-title-head
 {
     color: var(--palette-primary) !important;
 }
 
 .text-primary-hover,
-.text-primary:hover
+.pointer-primary:hover
 {
     color: var(--palette-primary-hover) !important;
 }
