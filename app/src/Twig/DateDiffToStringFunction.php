@@ -11,10 +11,6 @@ use Twig\TwigFunction;
 
 class DateDiffToStringFunction extends AbstractExtension
 {
-    public function __construct(
-        protected readonly string $projectDir
-    ) {}
-
     public function getFunctions(): array
     {
         return [
