@@ -13,7 +13,7 @@ meta:
     cp_document_list: Resumes & Cover Letters
     job_search: Job Search
     cp_job_show: Job Show
-    cp_job_list: Job List
+    cp_job_board: Jobs Board
     cp_job_edit: Job Edit
     cp_job_filter: Job Filter
     cp_resume_edit: Resume Edit

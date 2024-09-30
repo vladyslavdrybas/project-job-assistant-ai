@@ -206,10 +206,10 @@ class UserJobController extends AbstractControlPanelController
 
     #[Route(
         path: 's',
-        name: '_list',
+        name: '_board',
         methods: ['GET']
     )]
-    public function list(
+    public function board(
         JobRepository $jobRepository,
         JobTransformer $transformer
     ): ViewResponseDto {
