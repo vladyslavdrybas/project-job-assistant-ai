@@ -11,7 +11,7 @@
                 collapsed
             "
         data-bs-toggle="collapse"
-        data-bs-target="#section--job-list-column-{{ status }}"
+        data-bs-target="#section--job-list-column-{{ status }}-wrapper"
         aria-expanded="true"
     >
         {{ status|capitalize }}
@@ -20,38 +20,46 @@
     <hr class="m-0">
 
     <div
-        id="section--job-list-column-{{ status }}"
+        id="section--job-list-column-{{ status }}-wrapper"
         class="
             jobs-list
             list-group
             list-group-flush
             collapse show
+            bg-info
         "
+        style="min-height: 21em;height: 100%;"
+        data-status="{{ status }}"
     >
         {% for job in jobs %}
-            <a
-                href=""
-                class="list-group-item list-group-item-action active py-3 lh-sm"
-                aria-current="true"
+            <div
+                class="draggable-item list-group-item p-1 lh-sm"
+                data-job-id="{{ job.id }}"
             >
-                <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1">{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}</strong>
-                    {% if job.employer.title is defined %}
-                        <small>{{ job.employer.title }}</small>
-                    {% endif %}
-                </div>
-                <div class="col-10 mb-1 small">
-                    {% if job.employer.contacts.location.country is defined %}
-                        {{ job.employer.contacts.location.country }}
-                    {% endif %}
-                    {% if job.employer.contacts.location.region is defined %}
-                        {{ job.employer.contacts.location.region }}
-                    {% endif %}
-                    {% if job.employer.contacts.location.city is defined %}
-                        {{ job.employer.contacts.location.city }}
-                    {% endif %}
-                </div>
-            </a>
+                <a
+                    href=""
+                    class="text-decoration-none text-black"
+                    aria-current="true"
+                >
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                        <strong class="mb-1">{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}</strong>
+                        {% if job.employer.title is defined %}
+                            <small>{{ job.employer.title }}</small>
+                        {% endif %}
+                    </div>
+                    <div class="col-10 mb-1 small">
+                        {% if job.employer.contacts.location.country is defined %}
+                            {{ job.employer.contacts.location.country }}
+                        {% endif %}
+                        {% if job.employer.contacts.location.region is defined %}
+                            {{ job.employer.contacts.location.region }}
+                        {% endif %}
+                        {% if job.employer.contacts.location.city is defined %}
+                            {{ job.employer.contacts.location.city }}
+                        {% endif %}
+                    </div>
+                </a>
+            </div>
         {% endfor %}
     </div>
 </div>

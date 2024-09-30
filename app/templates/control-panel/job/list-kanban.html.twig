@@ -49,3 +49,34 @@
         </div>
     </div>
 {% endblock %}
+
+{% block scriptsbottom %}
+<script src="{{ absolute_url(asset('dragula.min.js', 'js')) }}"></script>
+
+<script type="application/javascript">
+
+    const jobStatusColumnIds = [
+        {% for status in jobStatuses %}
+        document.getElementById("section--job-list-column-{{ status }}-wrapper"),
+        {% endfor %}
+    ];
+
+    const drake = dragula(jobStatusColumnIds);
+
+    drake.on('drop', function (el, target, source, sibling) {
+        console.log([
+            el,
+            target,
+            source,
+            sibling,
+        ]);
+
+        const newStatus = $(target).attr('data-status');
+        const jobId = $(el).attr('data-job-id');
+        console.log(newStatus);
+        console.log(jobId);
+        // TODO add ajax to change status
+    });
+
+</script>
+{% endblock %}
