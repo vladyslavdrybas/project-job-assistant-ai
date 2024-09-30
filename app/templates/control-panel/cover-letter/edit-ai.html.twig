@@ -1,11 +1,9 @@
 {% extends 'control-panel/index.html.twig' %}
 
 {% block content %}
-    <div class="container pt-2 pt-lg-5 bg-light py-5">
+    <div class="container bg-light">
         <div class="row justify-content-center">
             <div class="col-md-10 col-lg-8" style="min-width: 300px;">
-                <h1>Cover Letter writing</h1>
-
                 {{ form_start(editForm,
                     {
                         'method': editForm.vars.method,

@@ -1,27 +1,23 @@
 {% extends 'control-panel/index.html.twig'%}
 
 {% block content %}
-
     <div class="container bg-light">
-
         <div
             class="
                 d-flex
                 flex-row
                 justify-content-start
-                align-items-center
-                p-2
-                mt-0
+                align-items-baseline
             "
         >
             <a
-                class="me-3 pointer-primary"
+                class="pointer-primary me-2"
                 href="{{ absolute_url(path('cp_job_add')) }}"
             >
                 <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
             </a>
-            <h5 class="card-title me-3">New Job</h5>
-            <p class="card-text text-secondary">Add a job description you want to apply to.</p>
+            <h5 class="text-black me-2">New Job</h5>
+            <p class="text-secondary">Add a job description you want to apply to.</p>
         </div>
     </div>
 

@@ -20,6 +20,7 @@ class SimpleCoverLetterFormType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'label' => 'Title your Cover Letter'
                 ]
             )->add('jobTitle',
                 TextType::class,

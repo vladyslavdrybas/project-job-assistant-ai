@@ -40,7 +40,7 @@ class DateDiffToStringFunction extends AbstractExtension
             $diff->y === 1 => 'a year ago',
             $weeks > 1 => $weeks . ' weeks ago',
             $weeks === 1 => 'a week ago',
-            $diff->d > 1 => $diff->y . ' days ago',
+            $diff->d > 1 => $diff->d . ' days ago',
             $diff->d === 1 => 'a day ago',
             $diff->h > 1 => $diff->h . ' hours ago',
             $diff->h === 1 => 'an hour ago',
