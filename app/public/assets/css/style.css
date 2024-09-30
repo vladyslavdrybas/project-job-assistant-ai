@@ -413,3 +413,39 @@ label.required:after {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
     filter: alpha(opacity=20);
 }
+
+.wysiwyg-h-10 {
+    min-height: 10em;
+}
+
+.wysiwyg-h-20 {
+    min-height: 20em;
+}
+
+.wysiwyg-h-40 {
+    min-height: 40em;
+}
+
+.wysiwyg-h-50 {
+    min-height: 50em;
+}
+
+.wysiwyg-h-60 {
+    min-height: 60em;
+}
+
+.wysiwyg-h-70 {
+    min-height: 70em;
+}
+
+.wysiwyg-h-80 {
+    min-height: 80em;
+}
+
+.wysiwyg-h-90 {
+    min-height: 90em;
+}
+
+.wysiwyg-h-100 {
+    min-height: 100em;
+}

@@ -56,16 +56,28 @@
                         <small>{{ job.employer.title }}</small>
                     {% endif %}
                 </div>
-                <div class="col-10 text-small">
+                <div class="text-small">
+                    <a
+                        href="/employer-show"
+                        class="
+                            text-decoration-none
+                            fw-bold
+                            text-secondary
+                        "
+                    >Employer</a>
+                </div>
+                <div class="text-small text-muted">
+                    <span class="list-kanban-item-subhead location">Location</span>{{ text_inline_divider }}
                     {% if job.employer.contacts.location.country is defined %}
-                        {{ job.employer.contacts.location.country }}
+                        {{ job.employer.contacts.location.country }}{{ text_inline_divider }}
                     {% endif %}
                     {% if job.employer.contacts.location.region is defined %}
-                        {{ job.employer.contacts.location.region }}
+                        {{ job.employer.contacts.location.region }}{{ text_inline_divider }}
                     {% endif %}
                     {% if job.employer.contacts.location.city is defined %}
-                        {{ job.employer.contacts.location.city }}
+                        {{ job.employer.contacts.location.city }}{{ text_inline_divider }}
                     {% endif %}
+                    <span class="published-at-date">{{ date_diff(job.createdAt) }}</span>
                 </div>
             </div>
         {% endfor %}

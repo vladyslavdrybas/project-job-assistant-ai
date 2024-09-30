@@ -6,8 +6,10 @@ namespace App\Form\CommandCenter\Job;
 use App\DataTransferObject\Form\Job\JobDto;
 use App\Form\CommandCenter\Resume\ContactPersonFormType;
 use App\Form\CommandCenter\Resume\EmployerFormType;
+use App\Form\CommandCenter\Resume\LocationFormType;
 use App\Form\TagsType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,6 +33,23 @@ class JobFormType extends AbstractType
                 [
                     'required' => false,
                     'help' => 'Link to the page where job description is.',
+                ]
+            )
+            ->add('formats',
+                JobFormatsFormType::class,
+                [
+                    'required' => false,
+                    'label' => 'Job formats',
+                    'attr' => [
+                        'class' => 'd-flex flex-row'
+                    ]
+                ]
+            )
+            ->add('location',
+                LocationFormType::class,
+                [
+                    'required' => false,
+                    'label' => 'Location details',
                 ]
             )
             ->add('employer',
@@ -62,6 +81,13 @@ class JobFormType extends AbstractType
                     'help' => 'Add full text of the job. Ideally, do not change content of the job description.',
                 ]
             )
+            ->add('actionBtn',
+                HiddenType::class,
+                [
+                    'mapped' => false,
+                    'empty_data' => 'save'
+                ]
+            )
         ;
     }
 
@@ -69,6 +95,7 @@ class JobFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => JobDto::class,
+            'allow_extra_fields' => true,
         ]);
     }
 }

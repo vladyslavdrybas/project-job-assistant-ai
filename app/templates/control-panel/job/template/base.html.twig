@@ -1,0 +1,91 @@
+<div>
+    {% if job.employer.title is defined %}
+        <h2>{{ job.employer.title }}</h2>
+    {% endif %}
+    <h1>{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}</h1>
+    <div>
+        <span>Location</span>{{ text_inline_divider }}
+        <span>published at</span>{{ text_inline_divider }}
+        <span class="badge text-bg-info">status</span>
+    </div>
+
+    {% if job.formats|length > 0 %}
+    <div>
+        <svg class="bi bi-small"><use xlink:href="#suitcase"/></svg>
+        {% for format in job.formats %}
+            {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
+            <span class="badge text-bg-success">{{ format }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if job.contactPerson %}
+    <div>
+        <span>Contact person:</span>
+        {{ job.contactPerson.firstName }}
+        {{ job.contactPerson.lastName }}
+        {% if job.contactPerson.email %}
+            {{ text_inline_divider }}
+            {{ job.contactPerson.email }}
+        {% endif %}
+        {% if job.contactPerson.phone %}
+            {{ text_inline_divider }}
+            {{ job.contactPerson.phone }}
+        {% endif %}
+    </div>
+    {% endif %}
+
+
+    {% if jobSkills|length > 0 %}
+    <hr>
+    <div>
+        <h3>Required skills:</h3>
+        {% for skill in jobSkills %}
+            {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
+            <span class="badge {% if skill.match %}text-bg-success{% else %}text-bg-secondary{% endif %}">{{ skill.name }}</span>
+        {% endfor %}
+        <p class="mt-1">
+            You have {{ jobSkillsMatched }} of {{ jobSkills|length }}
+        </p>
+    </div>
+    {% endif %}
+
+    {% if jobBenefits|length > 0 %}
+    <hr>
+    <div>
+        <h3>Job benefits:</h3>
+        {% for benefit in jobBenefits %}
+            {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
+            <span class="badge {% if benefit.match %}text-bg-success{% else %}text-bg-secondary{% endif %}">{{ benefit.name }}</span>
+        {% endfor %}
+        <p class="mt-1">
+            You want {{ jobSkillsMatched }} of {{ jobBenefits|length }}
+        </p>
+    </div>
+    {% endif %}
+
+    {% if documents|length > 0 %}
+        <hr>
+        <div>
+            <h3>Attached documents</h3>
+            {% for document in documents %}
+                <ul class="list-unstyled">
+                    <li>
+                        <span class="badge text-bg-info">{{ document.title }}</span>
+                        <a
+                            class="text-black text-decoration-none"
+                            href="{{ document.link }}"
+                        >{{ document.title }}</a>
+                    </li>
+                </ul>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <hr>
+    <h3>About job:</h3>
+    <div>
+        {{ job.content|markdown_to_html }}
+    </div>
+
+</div>

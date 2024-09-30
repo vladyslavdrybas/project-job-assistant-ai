@@ -381,6 +381,11 @@
         }
     })
 
+    $('.target-value-change').on('click', function () {
+        const me = $(this);
+        document.getElementById(me.attr('data-target')).value=me.attr('data-target-value');
+    })
+
     $(document).ready(function() {
         const Editor = toastui.Editor;
         const editors = $(this).find('.editor-wysiwyg');
@@ -388,7 +393,7 @@
             el: '',
             height: '21em',
             initialEditType: 'wysiwyg',
-            initialValue: '<b>hi-hi</b>',
+            initialValue: null,
             previewStyle: 'vertical',
             usageStatistics: false,
             language: 'en-US',

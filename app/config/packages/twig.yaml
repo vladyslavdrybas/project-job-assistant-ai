@@ -6,6 +6,8 @@ twig:
         google_tag_manager_id: ''
         google_tag_manager_is_active: false
         security_is_register_open: '%security_is_register_open%'
+        text_inline_divider: ' · '
+        date_format: !php/const DateTimeInterface::W3C
         
 when@local:
   twig:
@@ -18,8 +20,8 @@ when@dev:
 when@prod:
   twig:
     globals:
-      google_tag_manager_id: 'G-1N4CWG71KP'
-      google_tag_manager_is_active: true
+      google_tag_manager_id: ''
+      google_tag_manager_is_active: false
 
 when@test:
     twig:

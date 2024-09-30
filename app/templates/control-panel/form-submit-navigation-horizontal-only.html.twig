@@ -4,24 +4,48 @@
 >
     {% if 'save' in actions %}
     <button
-        class="btn btn-primary rounded-0"
+        class="btn btn-primary rounded-0 target-value-change"
         form="{{ form.vars.id }}"
+        {% if form.actionBtn is defined %}
+            data-target-value="save"
+            data-target="{{ form.actionBtn.vars.id }}"
+        {% endif %}
     >
         Save
     </button>
     {% endif %}
     {% if 'preview' in actions %}
     <button
-        class="btn btn-primary rounded-0 ms-2"
+        class="btn btn-primary rounded-0 ms-2 target-value-change"
         form="{{ form.vars.id }}"
+        {% if form.actionBtn is defined %}
+            data-target-value="preview"
+            data-target="{{ form.actionBtn.vars.id }}"
+        {% endif %}
     >
         Preview
     </button>
     {% endif %}
+    {% if 'view' in actions %}
+    <button
+        class="btn btn-primary rounded-0 ms-2 target-value-change"
+        form="{{ form.vars.id }}"
+        {% if form.actionBtn is defined %}
+            data-target-value="view"
+            data-target="{{ form.actionBtn.vars.id }}"
+        {% endif %}
+    >
+        View
+    </button>
+    {% endif %}
     {% if 'pdf' in actions %}
         <button
-            class="btn btn-primary rounded-0 ms-2"
+            class="btn btn-primary rounded-0 ms-2 target-value-change"
             form="{{ form.vars.id }}"
+            {% if form.actionBtn is defined %}
+                data-target-value="pdf"
+                data-target="{{ form.actionBtn.vars.id }}"
+            {% endif %}
         >
             PDF
         </button>

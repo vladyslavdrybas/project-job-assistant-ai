@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\ControlPanel;
 
 use App\Builder\JobBuilder;
-use App\Constants\JobStatus;
+use App\Constants\Job\JobStatus;
 use App\DataTransferObject\Form\Job\JobDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Job;
@@ -15,8 +15,8 @@ use App\Security\Voter\VoterPermissions;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Routing\Requirement\EnumRequirement;
+use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(
@@ -62,11 +62,66 @@ class UserJobController extends AbstractControlPanelController
         Response::HTTP_UNAUTHORIZED
     )]
     public function show(
-        Job $job
+        Job $job,
+        JobTransformer $transformer
     ): ViewResponseDto {
+
+        $dto = $transformer->reverseTransform($job);
+        dump($dto);
+
+        // TODO remove fake skills
+        if (!$dto->skills) {
+            $dto->skills = ['PHP', 'MySQL', 'Javascript', 'TypeScript', 'Symfony', 'Spryker'];
+        }
+
+        $skills = array_map(function(string $skill) {
+            return [
+                'name' => $skill,
+                'match' => rand(0,10) < 6,
+            ];
+        }, $dto->skills);
+
+        $skillsMatched = array_reduce(
+            $skills
+            ,function(int $carry, array $skill) {
+                return $carry + 1*$skill['match'];
+            }
+            ,0
+        );
+
+        // TODO remove faked documents. display attached documents.
+        $documents = [
+            [
+                'type' => 'resume',
+                'title' => 'Resume',
+                'link' => '/document/resume'
+            ],
+            [
+                'type' => 'cover letter',
+                'title' => 'Cover Letter',
+                'link' => '/document/cover-letter'
+            ]
+        ];
+
         return $this->response(
             [
-                'job' => $job,
+                'job' => $dto,
+                'jobSkills' => $skills,
+                'jobSkillsMatched' => $skillsMatched,
+                'jobBenefits' => [],
+                'documents' => $documents,
+                'navActions' => [
+                    'edit' => [
+                        'type' => 'link',
+                        'title' => 'Edit',
+                        'link' => $this->generateUrl('cp_job_edit', ['job' => $dto->id]),
+                    ],
+                    'pdf' => [
+                        'type' => 'link',
+                        'title' => 'PDF',
+                        'link' => $this->generateUrl('cp_job_edit', ['job' => $dto->id]),
+                    ],
+                ],
             ]
             ,'control-panel/job/show.html.twig',
         );
@@ -116,21 +171,34 @@ class UserJobController extends AbstractControlPanelController
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             dump('form submitted');
-            dump($editForm->getData());
             /** @var JobDto $dto */
             $dto = $editForm->getData();
+            dump($editForm->getData());
+            $actionBtn = $editForm->get('actionBtn')->getData();
+            dump($actionBtn);
+
             $dto->isUserAdded = true;
 
             $entity = $transformer->transform($dto);
 
             $this->entityManager->persist($entity);
             $this->entityManager->flush();
+
+            if ('view' === $actionBtn) {
+                return $this->response(
+                    [
+                        'job' => $job,
+                    ],
+                    'cp_job_show',
+                );
+            }
         }
 
         return $this->response(
             [
+                'job' => $dto,
                 'editForm' => $editForm,
-                'editFormActions' => ['save'],
+                'editFormActions' => ['save', 'view'],
             ]
             ,'control-panel/job/edit.html.twig',
         );
@@ -161,10 +229,6 @@ class UserJobController extends AbstractControlPanelController
         foreach($dtos as $jobDto) {
             $jobs[$jobDto->status->value][] = $jobDto;
         }
-
-        dump($statuses);
-        dump((int) ceil(12/count($statuses)));
-        dump($jobs);
 
         return $this->response(
             [

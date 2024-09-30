@@ -1,10 +1,8 @@
 {% extends 'control-panel/index.html.twig'%}
 
 {% block content %}
-    <div class="container-fluid container-lg pt-2 pt-lg-5 bg-light">
+    <div class="container-fluid container-lg bg-light">
         <div class="row justify-content-center">
-            <h1>{{ meta.title }}</h1>
-
             <div class="col-md-10 col-lg-8" style="min-width: 300px;">
                 {{ form_start(editForm,
                     {
@@ -20,6 +18,34 @@
                 {{ form_row(editForm.title) }}
 
                 {{ form_row(editForm.aboutPage) }}
+
+                <hr>
+                <h3>{{ editForm.location.vars.label }}</h3>
+                {{ form_row(editForm.formats, {'label': false}) }}
+
+                <div class="row mb-3">
+                    <div class="col-6">
+                        {{ form_row(editForm.location.country) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(editForm.location.city) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-6">
+                        {{ form_row(editForm.location.region) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(editForm.location.address) }}
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-6">
+                        {{ form_row(editForm.location.postalCode) }}
+                    </div>
+                </div>
 
                 <hr>
                 {% include 'control-panel/job/employer-short.html.twig' with {'form': editForm.employer} only %}
@@ -53,13 +79,14 @@
                     ) }}
                     <div
                         id="editor-for-{{ editForm.content.vars.id }}"
-                        class="editor-wysiwyg"
+                        class="editor-wysiwyg wysiwyg-h-80"
                     ></div>
                 </div>
 
                 {% if editForm._token is defined %}
                     {{ form_row(editForm._token) }}
                 {% endif %}
+                {{ form_row(editForm.actionBtn) }}
                 {{ form_end(editForm, {'render_rest': false}) }}
                 <hr class="mb-3">
                 {% include 'control-panel/form-submit-navigation-horizontal-only.html.twig' with {'form': editForm, 'actions': editFormActions} only %}
