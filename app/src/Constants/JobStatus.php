@@ -3,13 +3,16 @@ declare(strict_types=1);
 
 namespace App\Constants;
 
-// 'saved|applied|archived|rejected|interviewing|offered'
+use App\Traits\EnumToArray;
+
 enum JobStatus: string
 {
-    case SAVED = 'saved';
+    use EnumToArray;
+
+    case NEW = 'new';
+    case BACKLOG = 'backlog';
     case APPLIED = 'applied';
     case INTERVIEWING = 'interviewing';
     case OFFERED = 'offered';
-    case REJECTED = 'rejected';
     case ARCHIVED = 'archived';
 }

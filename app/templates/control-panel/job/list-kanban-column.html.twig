@@ -1,0 +1,57 @@
+<div>
+    <button
+        class="
+                text-break
+                p-1
+                m-0
+                btn
+                btn-toggle
+                align-items-center
+                rounded
+                collapsed
+            "
+        data-bs-toggle="collapse"
+        data-bs-target="#section--job-list-column-{{ status }}"
+        aria-expanded="true"
+    >
+        {{ status|capitalize }}
+    </button>
+
+    <hr class="m-0">
+
+    <div
+        id="section--job-list-column-{{ status }}"
+        class="
+            jobs-list
+            list-group
+            list-group-flush
+            collapse show
+        "
+    >
+        {% for job in jobs %}
+            <a
+                href=""
+                class="list-group-item list-group-item-action active py-3 lh-sm"
+                aria-current="true"
+            >
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                    <strong class="mb-1">{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}</strong>
+                    {% if job.employer.title is defined %}
+                        <small>{{ job.employer.title }}</small>
+                    {% endif %}
+                </div>
+                <div class="col-10 mb-1 small">
+                    {% if job.employer.contacts.location.country is defined %}
+                        {{ job.employer.contacts.location.country }}
+                    {% endif %}
+                    {% if job.employer.contacts.location.region is defined %}
+                        {{ job.employer.contacts.location.region }}
+                    {% endif %}
+                    {% if job.employer.contacts.location.city is defined %}
+                        {{ job.employer.contacts.location.city }}
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>

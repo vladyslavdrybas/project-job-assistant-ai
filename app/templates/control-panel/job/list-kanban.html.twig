@@ -1,0 +1,51 @@
+{% extends 'control-panel/index.html.twig'%}
+
+{% block content %}
+    <div class="container-fluid pt-2 pt-lg-5 bg-light">
+        <div class="row justify-content-center">
+
+            <h1>{{ meta.title }}</h1>
+
+            <div
+                class="
+                    d-flex
+                    flex-row
+                    justify-content-start
+                    align-items-center
+                    bg-white
+                    p-2
+                    mt-0
+                "
+            >
+                <a
+                    class="me-3"
+                    href="{{ absolute_url(path('cp_job_add')) }}"
+                >
+                    <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
+                </a>
+                <h5 class="card-title me-3">New Job</h5>
+                <p class="card-text text-secondary">Add a job description you want apply to.</p>
+            </div>
+
+            <div
+                class="
+                    row
+                    mt-3
+                "
+            >
+                {% for status in jobStatuses %}
+                    <div
+                        class="
+                            col-12
+                            col-md-{{ colWidth }}
+                        "
+                    >
+                        {% include 'control-panel/job/list-kanban-column.html.twig' with {'jobs': jobs[status], 'status': status} only %}
+                    </div>
+
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

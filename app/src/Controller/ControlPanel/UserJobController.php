@@ -142,15 +142,37 @@ class UserJobController extends AbstractControlPanelController
         methods: ['GET']
     )]
     public function list(
-        JobRepository $jobRepository
+        JobRepository $jobRepository,
+        JobTransformer $transformer
     ): ViewResponseDto {
-        $jobs = $jobRepository->findBy(['owner' => $this->getUser()]);
+        $entities = $jobRepository->findBy(['owner' => $this->getUser()]);
+
+        $dtos = array_map(function(Job $job) use ($transformer) {
+            return $transformer->reverseTransform($job);
+        }, $entities);
+
+        $jobs = JobStatus::values();
+        $jobs = array_flip($jobs);
+        $jobs = array_map(fn() => [], $jobs);
+        dump($dtos);
+
+        $statuses = JobStatus::values();
+
+        foreach($dtos as $jobDto) {
+            $jobs[$jobDto->status->value][] = $jobDto;
+        }
+
+        dump($statuses);
+        dump((int) ceil(12/count($statuses)));
+        dump($jobs);
 
         return $this->response(
             [
                 'jobs' => $jobs,
+                'jobStatuses' => JobStatus::values(),
+                'colWidth' => (int) ceil(12/count($statuses)),
             ]
-            ,'control-panel/job/list.html.twig',
+            ,'control-panel/job/list-kanban.html.twig',
         );
     }
 

@@ -24,6 +24,7 @@ class JobTransformer extends AbstractEntityTransformer
         $entity->setTitle($dto->title);
         $entity->setContent($dto->content);
         $entity->setIsUserAdded($dto->isUserAdded);
+        $entity->setStatus($dto->status);
 
         return $entity;
     }
@@ -41,6 +42,7 @@ class JobTransformer extends AbstractEntityTransformer
         $dto->id = $entity->getRawId();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+        $dto->status = $entity->getStatus();
 
         return $dto;
     }
