@@ -7,7 +7,8 @@ twig:
         google_tag_manager_is_active: false
         security_is_register_open: '%security_is_register_open%'
         text_inline_divider: ' · '
-        date_format: !php/const DateTimeInterface::W3C
+        date_time_format: !php/const DateTimeInterface::W3C
+        date_format: 'M, Y'
         
 when@local:
   twig:

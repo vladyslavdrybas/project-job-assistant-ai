@@ -1,0 +1,128 @@
+<div
+    class="col-12 col-md-6 p-2"
+>
+    <div class="card p-1 px-3 rounded-0 ">
+        <div>
+            <a
+                href="{{ absolute_url(path('cp_employment_edit', {'employment': employment.id})) }}"
+                class="text-decoration-none text-black fs-5"
+            >
+                <span>{% if employment.jobTitle %}{{ employment.jobTitle }}{% else %}Untitled{% endif %}</span>
+                <svg class="bi bi-small bi-fix pointer-primary"><use xlink:href="#edit"></use></svg>
+            </a>
+        </div>
+
+        <div class="text-secondary">
+            {% if employment.projectTitle %}
+                In <span>{{ employment.projectTitle }}</span> team
+            {% endif %}
+
+            {% if employment.employer.title is defined %}
+                at <span>{{ employment.employer.title }}</span>
+            {% endif %}
+        </div>
+
+        {% if employment.startDate %}
+            <div class="text-small text-secondary range-date d-flex flex-row flex-wrap justify-content-start align-items-center">
+                <svg class="bi bi-small"><use xlink:href="#clock"></use></svg>
+
+                <span class="px-1 inline-divider">{{ text_inline_divider }}</span>
+                <span class="start-date">{{ employment.startDate|date(date_format) }}</span>
+
+                {% if employment.endDate %}
+                    <span class="px-1 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="end-date">{{ employment.endDate|date(date_format) }}</span>
+                {% endif %}
+
+                <span class="px-1 inline-divider">{{ text_inline_divider }}</span>
+                <span class="end-date">{{ date_diff(employment.startDate, employment.endDate, false) }}</span>
+            </div>
+        {% endif %}
+
+        {% if employment.employer.contacts.location is defined %}
+            <div class="text-small text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
+                <svg class="bi bi-small"><use xlink:href="#location"/></svg>
+
+                {% if employment.employer.contacts.location.country %}
+                    <span class="ps-1 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-1">{{ employment.employer.contacts.location.country }}</span>
+                {% endif %}
+                {% if employment.employer.contacts.location.city %}
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-1">{{ employment.employer.contacts.location.city }}</span>
+                {% endif %}
+                {% if employment.employer.contacts.location.region %}
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-1">{{ employment.employer.contacts.location.region }}</span>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if employment.formats|length > 0 %}
+            <div class="text-small text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
+                <svg class="bi bi-small"><use xlink:href="#suitcase"/></svg>
+
+                {% for format in employment.formats %}
+                    <span class="px-1 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="badge text-bg-success">{{ format }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if employment.contactPerson is defined and employment.contactPerson %}
+            <div class="text-small text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
+                <svg class="bi bi-small me-1"><use xlink:href="#contact"/></svg>
+
+                {% if employment.contactPerson.firstName %}
+                    <div class="flex-nowrap">
+                        <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                        <span class="px-0 me-1 badge text-secondary">{{ employment.contactPerson.firstName }}</span>
+                    </div>
+                {% endif %}
+                {% if employment.contactPerson.lastName %}
+                    <div class="flex-nowrap">
+                        <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                        <span class="px-0 me-1 badge text-secondary">{{ employment.contactPerson.lastName }}</span>
+                    </div>
+                {% endif %}
+                {% if employment.contactPerson.contacts.email %}
+                    <div class="flex-nowrap">
+                        <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                        <span class="px-0 me-1 badge text-secondary">{{ employment.contactPerson.contacts.email }}</span>
+                    </div>
+                {% endif %}
+                {% if employment.contactPerson.contacts.phone %}
+                    <div class="flex-nowrap">
+                        <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                        <span class="px-0 me-1 badge text-secondary">{{ employment.contactPerson.contacts.phone }}</span>
+                    </div>
+                {% endif %}
+                {% if employment.contactPerson.contacts.link %}
+                    <div class="flex-nowrap">
+                        <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                        <a
+                            href="{{ employment.contactPerson.contacts.link }}"
+                            class="px-0 me-1 badge text-secondary d-inline"
+                            target="_blank"
+                        >{{ employment.contactPerson.contacts.link }}</a>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if employment.description %}
+            <p>
+                {{ employment.description|markdown_to_html }}
+            </p>
+        {% endif %}
+
+        {% if employment.skills|length > 0 %}
+            <div>
+                {% for skill in employment.skills %}
+                    {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
+                    <span class="badge text-bg-secondary">{{ skill }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
