@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\ControlPanel;
 
-use App\Constants\RouteRequirements;
 use App\DataTransferObject\ViewResponseDto;
 use App\Repository\CoverLetterRepository;
 use App\Repository\ResumeRepository;
@@ -11,10 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(
     "/cp/document",
-    name: "cp_document",
-    requirements: [
-        'resume' => RouteRequirements::UUID->value,
-    ]
+    name: "cp_document"
 )]
 class DocumentController extends AbstractControlPanelController
 {

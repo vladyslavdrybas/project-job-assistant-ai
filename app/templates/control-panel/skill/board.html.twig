@@ -1,0 +1,53 @@
+{% extends 'control-panel/index.html.twig'%}
+
+{% block content %}
+<div class="container bg-light py-2">
+    <div class="row justify-content-center">
+        {{ form_start(skillsForm,
+            {
+                'method': skillsForm.vars.method,
+                'action': absolute_url(path('cp_skill_edit')),
+                'attr': {
+                    'id': skillsForm.vars.id,
+                    'class': 'w-100'
+                }
+            }
+        ) }}
+            {{ form_errors(skillsForm) }}
+
+            <h3>{{ skillsForm.skills.vars.label }}</h3>
+            <span class="text-muted">{{ skillsForm.skills.vars.help }}</span>
+            {{ form_row(skillsForm.skills, {'label': false, 'help': false}) }}
+
+            {% if skillsForm._token is defined %}
+                {{ form_row(skillsForm._token) }}
+            {% endif %}
+{#                {{ form_row(skillsForm.actionBtn) }}#}
+        {{ form_end(skillsForm, {'render_rest': false}) }}
+
+
+        {% if employerSkills|length > 0 %}
+            <hr>
+            <div>
+                <h3>In-demand skills in jobs I applied to:</h3>
+                <p class="my-1">
+                    You have {{ skillsMatched }} of {{ employerSkills|length }}
+                </p>
+                {% for skill in employerSkills %}
+                    {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
+                    <span
+                        class="
+                            badge
+                            {% if skill.match %}text-bg-success{% else %}text-bg-secondary{% endif %}
+                        "
+                    >{{ skill.title }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% include 'control-panel/form-submit-navigation-horizontal-only.html.twig' with {'form': skillsForm, 'actions': skillsFormActions} only %}
+    </div>
+</div>
+
+    {% include 'control-panel/form-submit-navigation-with-sidebar.html.twig' with {'form': skillsForm, 'actions': skillsFormActions} only %}
+{% endblock %}
