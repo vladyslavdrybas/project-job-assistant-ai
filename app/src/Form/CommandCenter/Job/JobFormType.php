@@ -17,7 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class JobFormType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -41,7 +40,7 @@ class JobFormType extends AbstractType
                     'required' => false,
                     'label' => 'Job formats',
                     'attr' => [
-                        'class' => 'd-flex flex-row'
+                        'class' => 'd-flex flex-row flex-wrap justify-content-start align-items-baseline',
                     ]
                 ]
             )

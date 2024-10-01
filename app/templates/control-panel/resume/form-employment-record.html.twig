@@ -55,14 +55,17 @@
             <div id="accordion-item-content-{{ record.vars.id }}" class="accordion-collapse collapse" data-bs-parent="#section--accordion-wrapper-{{ history.vars.id }}">
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="row">
+                        {{ form_row(record.formats, {'label': false}) }}
+                    </div>
+                    <div class="col-12">
                         {{ form_row(record.jobTitle,
                             {
                                 'attr':
-                                    {
-                                        'data-content-target': '#' ~ record.vars.id ~ '-headline-job-title',
-                                        'class': 'input-on-change-content-target'
-                                    }
+                                {
+                                    'data-content-target': '#' ~ record.vars.id ~ '-headline-job-title',
+                                    'class': 'input-on-change-content-target'
+                                }
                             }
                         ) }}
                     </div>
@@ -75,6 +78,17 @@
                                     'data-content-target': '#' ~ record.vars.id ~ '-headline-employer-title',
                                     'class': 'input-on-change-content-target'
                                 }
+                            }
+                        ) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_row(record.projectTitle,
+                            {
+                                'attr':
+                                    {
+                                        'data-content-target': '#' ~ record.vars.id ~ '-headline-project-title',
+                                        'class': 'input-on-change-content-target'
+                                    }
                             }
                         ) }}
                     </div>
@@ -114,6 +128,7 @@
                     </div>
                 </div>
 
+                <label class="form-label">{{ record.description.vars.label }}</label>
                 {{ form_row(record.description,
                     {
                         'label': false,
@@ -127,6 +142,10 @@
                     id="editor-for-{{ record.description.vars.id }}"
                     class="editor-wysiwyg"
                 ></div>
+
+                <div class="row mt-3">
+                    {{ form_row(record.skills) }}
+                </div>
             </div>
         </div>
 

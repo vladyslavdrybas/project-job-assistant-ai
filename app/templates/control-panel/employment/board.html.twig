@@ -1,0 +1,29 @@
+{% extends 'control-panel/index.html.twig'%}
+
+{% block content %}
+<div class="container bg-light">
+    <div
+        class="
+            d-flex
+            flex-row
+            justify-content-start
+            align-items-baseline
+        "
+    >
+        <a
+            class="pointer-primary me-2"
+            href="{{ absolute_url(path('cp_employment_add')) }}"
+        >
+            <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
+        </a>
+        <h5 class="text-black me-2">Add Employment</h5>
+        <p class="text-secondary">Added employments help to optimise resume and cover letter writing. I will also make process faster and easier.!</p>
+    </div>
+</div>
+
+<div class="container py-2">
+    <div class="row justify-content-center">
+        employments board
+    </div>
+</div>
+{% endblock %}

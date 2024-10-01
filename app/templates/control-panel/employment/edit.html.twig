@@ -1,0 +1,124 @@
+{% extends 'control-panel/index.html.twig'%}
+
+{% block content %}
+<div class="container bg-light">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8" style="min-width: 300px;">
+            {{ form_start(employmentForm,
+                {
+                    'method': employmentForm.vars.method,
+                    'attr': {
+                    'id': employmentForm.vars.id,
+                    'class': 'w-100'
+                }
+                }
+            ) }}
+            {{ form_errors(employmentForm) }}
+            <div class="row">
+                <div class="col-12">
+                    {{ form_row(employmentForm.jobTitle,
+                        {
+                            'attr':
+                            {
+                                'data-content-target': '#' ~ employmentForm.vars.id ~ '-headline-job-title',
+                                'class': 'input-on-change-content-target'
+                            }
+                        }
+                    ) }}
+                </div>
+                <div class="col-12">
+                    {{ form_row(employmentForm.formats, {'label': false}) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(employmentForm.employer.title,
+                        {
+                            'attr':
+                            {
+                                'data-content-type': 'employertitle',
+                                'data-content-target': '#' ~ employmentForm.vars.id ~ '-headline-employer-title',
+                                'class': 'input-on-change-content-target'
+                            }
+                        }
+                    ) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(employmentForm.projectTitle,
+                        {
+                            'attr':
+                            {
+                                'data-content-target': '#' ~ employmentForm.vars.id ~ '-headline-project-title',
+                                'class': 'input-on-change-content-target'
+                            }
+                        }
+                    ) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(employmentForm.startDate,
+                        {
+                            'attr':
+                            {
+                                'data-content-type': 'startdate',
+                                'data-content-target': '#' ~ employmentForm.vars.id ~ '-headline-start-date',
+                                'class': 'input-on-change-content-target'
+                            }
+                        }
+                    ) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(employmentForm.endDate,
+                        {
+                            'attr':
+                            {
+                                'data-content-type': 'enddate',
+                                'data-content-target': '#' ~ employmentForm.vars.id ~ '-headline-end-date',
+                                'class': 'input-on-change-content-target'
+                            }
+                        }
+                    ) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(employmentForm.employer.contacts.location.country) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(employmentForm.employer.contacts.location.city) }}
+                </div>
+            </div>
+
+            <label class="form-label">{{ employmentForm.description.vars.label }}</label>
+            {{ form_row(employmentForm.description,
+                {
+                    'label': false,
+                    'attr': {
+                    'class': 'd-none'
+                }
+                }
+            ) }}
+
+            <div
+                id="editor-for-{{ employmentForm.description.vars.id }}"
+                class="editor-wysiwyg"
+            ></div>
+
+            <div class="row mt-3">
+                {{ form_row(employmentForm.skills) }}
+            </div>
+
+            {% if employmentForm._token is defined %}
+                {{ form_row(employmentForm._token) }}
+            {% endif %}
+            {% if employmentForm.actionBtn is defined %}
+                {{ form_row(employmentForm.actionBtn) }}
+            {% endif %}
+            {{ form_end(employmentForm, {'render_rest': false}) }}
+
+            {% include 'control-panel/form-submit-navigation-horizontal-only.html.twig' with {'form': employmentForm, 'actions': employmentFormActions} only %}
+        </div>
+    </div>
+</div>
+
+    {% include 'control-panel/form-submit-navigation-with-sidebar.html.twig' with {'form': employmentForm, 'actions': employmentFormActions} only %}
+{% endblock %}

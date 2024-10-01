@@ -1,7 +1,7 @@
 {% if actions is defined and actions|length > 0 %}
 <nav
     id="section--edit-sidebar-nav"
-    class=" action-btn-nav sidebar center left position-fixed d-none d-sm-flex d-flex flex-column justify-content-start align-items-start"
+    class="action-btn-nav sidebar center left position-fixed d-none d-md-flex d-flex flex-column justify-content-start align-items-start"
 >
     {% if 'save' in actions %}
     <button
@@ -55,7 +55,7 @@
 
 <nav
     id="section--edit-bottom-nav"
-    class="action-btn-nav bottom left d-sm-none position-fixed d-flex flex-row justify-content-between align-items-center bg-light px-2"
+    class="action-btn-nav bottom left d-none position-fixed d-flex flex-row justify-content-between align-items-center bg-light px-2"
 >
     {% if 'save' in actions %}
     <button

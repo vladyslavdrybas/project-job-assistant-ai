@@ -4,8 +4,11 @@ declare(strict_types=1);
 namespace App\Form\CommandCenter\Resume;
 
 use App\DataTransferObject\Form\EmploymentHistory\EmploymentRecordDto;
+use App\Form\CommandCenter\Job\JobFormatsFormType;
+use App\Form\TagsType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,6 +22,12 @@ class EmploymentRecordFormType extends AbstractType
 
         $builder
             ->add('jobTitle',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add('projectTitle',
                 TextType::class,
                 [
                     'required' => false,
@@ -42,14 +51,38 @@ class EmploymentRecordFormType extends AbstractType
                     'required' => false,
                 ]
             )
+            ->add('formats',
+                JobFormatsFormType::class,
+                [
+                    'required' => false,
+                    'label' => 'Job formats',
+                    'attr' => [
+                        'class' => 'd-flex flex-row flex-wrap justify-content-start align-items-baseline',
+                    ]
+                ]
+            )
+            ->add('skills',
+                TagsType::class,
+                [
+                    'label' => 'Skills I used'
+                ]
+            )
             ->add('description',
                 TextareaType::class,
                 [
                     'required' => false,
+                    'label' => 'Project Description',
                     'help' => 'Recruiter tip: write 200+ characters to increase interview chances.',
                     'attr' => [
                         'rows' => 10,
                     ],
+                ]
+            )
+            ->add('actionBtn',
+                HiddenType::class,
+                [
+                    'mapped' => false,
+                    'empty_data' => 'save'
                 ]
             )
         ;
