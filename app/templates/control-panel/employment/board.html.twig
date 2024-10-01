@@ -21,9 +21,11 @@
     </div>
 </div>
 
-<div class="container py-2">
+<div class="container py-2" style="padding: 0 0.25em;">
     <div class="row justify-content-center">
-        employments board
+        {% for employment in employments %}
+            {% include 'control-panel/employment/template/base.html.twig' with {'employment': employment} only %}
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

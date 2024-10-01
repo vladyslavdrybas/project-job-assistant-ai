@@ -9,6 +9,7 @@ use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Employment;
 use App\EntityTransformer\EmploymentTransformer;
 use App\Form\CommandCenter\Resume\EmploymentRecordFormType;
+use App\Repository\EmploymentRepository;
 use App\Security\Voter\VoterPermissions;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +25,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 )]
 class EmploymentController extends AbstractControlPanelController
 {
-
     #[Route(
         path: '/add',
         name: '_add',
@@ -46,8 +46,6 @@ class EmploymentController extends AbstractControlPanelController
         );
     }
 
-
-
     #[Route(
         path: '/{employment}/edit',
         name: '_edit',
@@ -65,12 +63,30 @@ class EmploymentController extends AbstractControlPanelController
         EmploymentTransformer $transformer
     ): ViewResponseDto {
         $employmentRecord = $transformer->reverseTransform($employment);
+        dump($employmentRecord);
         $employmentForm = $this->createForm(EmploymentRecordFormType::class, $employmentRecord);
         $employmentForm->handleRequest($request);
 
         if ($employmentForm->isSubmitted() && $employmentForm->isValid()) {
-            $data = $employmentForm->getData();
-            dump($data);
+            $dto = $employmentForm->getData();
+            dump($dto);
+
+            $actionBtn = $employmentForm->get('actionBtn')->getData();
+            dump($actionBtn);
+
+            $entity = $transformer->transform($dto);
+
+            dump($entity);
+
+            $this->entityManager->persist($entity);
+            $this->entityManager->flush();
+
+            if ('view' === $actionBtn) {
+                return $this->response(
+                    [],
+                    'cp_employment_board',
+                );
+            }
         }
 
         return $this->response(
@@ -88,15 +104,20 @@ class EmploymentController extends AbstractControlPanelController
         methods: ['GET', 'POST']
     )]
     public function list(
-        Request $request
+        EmploymentRepository $employmentRepository,
+        EmploymentTransformer $transformer
     ): ViewResponseDto {
+        $entities = $employmentRepository->findBy(['owner' => $this->getUser()], ['createdAt' => 'DESC']);
 
+        $employments = array_map(function (Employment $employment) use ($transformer) {
+            return $transformer->reverseTransform($employment);
+        }, $entities);
 
         return $this->response(
             [
+                'employments' => $employments,
             ],
             'control-panel/employment/board.html.twig'
         );
     }
-
 }

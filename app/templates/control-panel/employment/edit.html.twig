@@ -88,6 +88,36 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-12">
+                    {{ form_row(employmentForm.employer.aboutPage) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <label class="form-label">Contact Person</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(employmentForm.contactPerson.firstName) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(employmentForm.contactPerson.lastName) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    {{ form_row(employmentForm.contactPerson.contacts.email) }}
+                </div>
+                <div class="col-6">
+                    {{ form_row(employmentForm.contactPerson.contacts.link) }}
+                </div>
+            </div>
+
             <label class="form-label">{{ employmentForm.description.vars.label }}</label>
             {{ form_row(employmentForm.description,
                 {
@@ -100,7 +130,7 @@
 
             <div
                 id="editor-for-{{ employmentForm.description.vars.id }}"
-                class="editor-wysiwyg"
+                class="editor-wysiwyg min-h-40"
             ></div>
 
             <div class="row mt-3">

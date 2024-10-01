@@ -39,6 +39,12 @@ class EmploymentRecordFormType extends AbstractType
                     'required' => false,
                 ]
             )
+            ->add('contactPerson',
+                ContactPersonFormType::class,
+                [
+                    'required' => false,
+                ]
+            )
             ->add('startDate',
                 DateType::class,
                 [
@@ -64,7 +70,8 @@ class EmploymentRecordFormType extends AbstractType
             ->add('skills',
                 TagsType::class,
                 [
-                    'label' => 'Skills I used'
+                    'mapped' => true,
+                    'label' => 'Skills I used',
                 ]
             )
             ->add('description',

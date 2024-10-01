@@ -4,21 +4,28 @@ declare(strict_types=1);
 namespace App\Form\CommandCenter\Job;
 
 use App\Constants\Job\JobFormats;
+use App\DataTransformer\JobFormatsTransformer;
 use App\Form\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class JobFormatsFormType extends AbstractType
 {
+    public function __construct(
+        protected readonly JobFormatsTransformer $transformer
+    ) {}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $choices = JobFormats::values();
+        $builder->addModelTransformer($this->transformer);
 
-        foreach($choices as $format) {
-            $builder->add($format,
+        $choices = JobFormats::array();
+
+        foreach($choices as $name => $value) {
+            $builder->add(strtolower($name),
                 SwitchType::class,
                 [
-                    'label' => ucfirst($format),
+                    'label' => ucfirst($value),
                 ]
             );
         }
