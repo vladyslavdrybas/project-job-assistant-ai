@@ -38,47 +38,55 @@
                 data-job-id="{{ job.id }}"
             >
                 <div class="d-flex w-100 align-items-center justify-content-between">
-                    <strong class="mb-1 text-small">
-                        {% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}
-                    </strong>
+
+                    <div>
+                        <a
+                            href="{{ absolute_url(path('cp_job_show', {'job': job.id})) }}"
+                            class="text-decoration-none text-black fs-6"
+                        >
+                            <span>{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}</span>
+                            <svg class="bi bi-small bi-fix pointer-primary"><use xlink:href="#view"></use></svg>
+                        </a>
+                    </div>
 
                     <a
-                        href="{{ absolute_url(path('cp_job_show', {'job': job.id})) }}"
+                        href="{{ absolute_url(path('cp_job_edit', {'job': job.id})) }}"
                         class="
                                 text-decoration-none
                                 pointer-primary
                                 px-1
                             "
                     >
-                        <svg class="bi bi-small"><use xlink:href="#view"/></svg>
+                        <svg class="bi bi-small"><use xlink:href="#edit"/></svg>
                     </a>
+                </div>
+
+                <div class="mb-1 text-small text-secondary">
                     {% if job.employer.title is defined %}
-                        <small>{{ job.employer.title }}</small>
+                        at <span>{{ job.employer.title }}</span>
                     {% endif %}
                 </div>
-                <div class="text-small">
-                    <a
-                        href="/employer-show"
-                        class="
-                            text-decoration-none
-                            fw-bold
-                            text-secondary
-                        "
-                    >Employer</a>
-                </div>
-                <div class="text-small text-muted">
-                    <span class="list-kanban-item-subhead location">Location</span>{{ text_inline_divider }}
-                    {% if job.employer.contacts.location.country is defined %}
-                        {{ job.employer.contacts.location.country }}{{ text_inline_divider }}
-                    {% endif %}
-                    {% if job.employer.contacts.location.region is defined %}
-                        {{ job.employer.contacts.location.region }}{{ text_inline_divider }}
-                    {% endif %}
-                    {% if job.employer.contacts.location.city is defined %}
-                        {{ job.employer.contacts.location.city }}{{ text_inline_divider }}
-                    {% endif %}
-                    <span class="published-at-date">{{ date_diff(job.createdAt) }}</span>
-                </div>
+
+                {% if job.employer.contacts.location is defined %}
+                    <div class="text-small text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
+                        <svg class="bi bi-small"><use xlink:href="#location"/></svg>
+
+                        {% if job.employer.contacts.location.country %}
+                            <span class="ps-1 inline-divider">{{ text_inline_divider }}</span>
+                            <span class="px-1">{{ job.employer.contacts.location.country }}</span>
+                        {% endif %}
+                        {% if job.employer.contacts.location.city %}
+                            <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                            <span class="px-1">{{ job.employer.contacts.location.city }}</span>
+                        {% endif %}
+                        {% if job.employer.contacts.location.region %}
+                            <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                            <span class="px-1">{{ job.employer.contacts.location.region }}</span>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <span class="published-at-date">{{ date_diff(job.createdAt) }}</span>
             </div>
         {% endfor %}
     </div>

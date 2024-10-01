@@ -28,7 +28,7 @@ class DateDiffToStringFunction extends AbstractExtension
         }
 
         $diff = $from->diff($to);
-        $weeks = (int) ceil($diff->days/7);
+        $weeks = (int) floor($diff->days/7);
 
         return (match(true) {
             $diff->y > 1 => sprintf('%s years, %s months', $diff->y, $diff->m),
