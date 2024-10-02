@@ -1,6 +1,5 @@
 {% extends 'components/header/base.html.twig' %}
 
-
 {% block headerNavigation %}
     <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
@@ -15,15 +14,17 @@
         <li class="nav-item">
             <a class="nav-link active" href="">Applications</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="">Goals</a>
-        </li>
+{#        <li class="nav-item">#}
+{#            <!-- add my achievements and goals on employments. -->#}
+{#            <a class="nav-link active" href="">Goals</a>#}
+{#        </li>#}
         <li class="nav-item">
             <a class="nav-link active"  href="{{ absolute_url(path('cp_skill_board' )) }}">Skills</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="">Benefits</a>
-        </li>
+{#        <li class="nav-item">#}
+{#            <!-- benefits I wanna get from job: social, personal growth, money, some special achievements, higher position, etc. -->#}
+{#            <a class="nav-link active" href="">Benefits</a>#}
+{#        </li>#}
         <li class="nav-item">
             <a class="nav-link active" href="{{ absolute_url(path('cp_employment_board' )) }}">Employments</a>
         </li>
