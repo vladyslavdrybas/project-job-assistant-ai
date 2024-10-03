@@ -23,7 +23,9 @@ class TagToStringTransformer implements DataTransformerInterface
         }
 
         if (is_array($value)) {
-            return $this->purify(implode(static::DIVIDER, $value));
+            $value = array_map(fn(string $value): string => $this->purify($value), $value);
+
+            return implode(static::DIVIDER, $value);
         }
 
         return '';

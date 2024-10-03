@@ -11,6 +11,7 @@ use App\EntityTransformer\EmploymentTransformer;
 use App\Form\CommandCenter\Resume\EmploymentRecordFormType;
 use App\Repository\EmploymentRepository;
 use App\Security\Voter\VoterPermissions;
+use App\Services\Skills\Writer\UserSkillsWriter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -60,7 +61,8 @@ class EmploymentController extends AbstractControlPanelController
     public function edit(
         Request $request,
         Employment $employment,
-        EmploymentTransformer $transformer
+        EmploymentTransformer $transformer,
+        UserSkillsWriter $userSkillsWriter
     ): ViewResponseDto {
         $employmentRecord = $transformer->reverseTransform($employment);
         dump($employmentRecord);
@@ -75,6 +77,11 @@ class EmploymentController extends AbstractControlPanelController
             dump($actionBtn);
 
             $entity = $transformer->transform($dto);
+            $userSkillsWriter->write($entity->getOwner(), $entity->getSkills());
+
+            // attach employment formats
+            // add employer
+            // add contact person for employment
 
             dump($entity);
 

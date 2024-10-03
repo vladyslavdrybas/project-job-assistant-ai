@@ -9,10 +9,11 @@
         <span class="badge text-bg-info">status</span>
     </div>
 
-    {% if job.formats|length > 0 %}
+    {% set jobFormats = enum_values(job.formats, 'job_format') %}
+    {% if jobFormats|length > 0 %}
     <div>
         <svg class="bi bi-small"><use xlink:href="#suitcase"/></svg>
-        {% for format in job.formats %}
+        {% for format in jobFormats %}
             {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
             <span class="badge bg-badge-primary">{{ format }}</span>
         {% endfor %}

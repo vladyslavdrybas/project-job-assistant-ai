@@ -7,7 +7,8 @@ use App\Constants\RouteRequirements;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Skill;
 use App\Form\CommandCenter\Skill\MySkillsFormType;
-use App\Repository\SkillRepository;
+use App\Repository\EmploymentRepository;
+use App\Services\Skills\Writer\UserSkillsWriter;
 use App\Utility\FilterHashMap;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,23 +27,17 @@ class SkillController extends AbstractControlPanelController
         name: '_board',
         methods: ['GET']
     )]
-    public function list(): ViewResponseDto {
-        $employerSkills = [
-            'PHP',
-            'JAvaScriPT',
-            'Elastic Search',
-            'Machine Learning',
-            'Dancing',
-            'mac os',
-            'AI in games',
-            'dns configuration',
-            'RDMS',
-            'jsNext',
-            'json-ld',
-        ];
-        $employerSkills = array_map(function(string $skill) {
-            return $skill;
-        }, $employerSkills);
+    public function list(
+        EmploymentRepository $employmentRepository,
+    ): ViewResponseDto {
+        // TODO replace employment on JOBS
+        $myEmployments = $employmentRepository->findBy(['owner' => $this->getUser()]);
+
+        $employerSkills = [];
+        foreach ($myEmployments as $employment) {
+            $employerSkills = array_merge($employerSkills, $employment->getSkills() ?? []);
+        }
+        $employerSkills = array_unique($employerSkills);
 
         $mySkills = $this->getUser()->getSkills()->toArray();
         $mySkills = array_map(function(Skill $skill) {
@@ -97,7 +92,7 @@ class SkillController extends AbstractControlPanelController
     )]
     public function edit(
         Request $request,
-        SkillRepository $skillRepository
+        UserSkillsWriter $userSkillsWriter
     ): ViewResponseDto {
         $mySkills = [];
         $form = $this->createForm(MySkillsFormType::class, $mySkills);
@@ -105,25 +100,7 @@ class SkillController extends AbstractControlPanelController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $skillsToAdd = $form->get('skills')->getData();
-            $skillsToAdd = array_unique($skillsToAdd);
-
-            foreach ($skillsToAdd as $skillToAdd) {
-                dump($skillToAdd);
-                if (empty($skillToAdd)) {
-                    continue;
-                }
-
-                $skill = $skillRepository->findOneBy(['title' => $skillToAdd]);
-                if (!$skill instanceof Skill) {
-                    $skill = new Skill();
-                    $skill->setTitle($skillToAdd);
-                }
-                $this->getUser()->addSkill($skill);
-                $skillRepository->add($skill);
-            }
-            $skillRepository->add($this->getUser());
-            $skillRepository->save();
-
+            $userSkillsWriter->write($this->getUser(), $skillsToAdd);
         }
 
         return $this->response(
