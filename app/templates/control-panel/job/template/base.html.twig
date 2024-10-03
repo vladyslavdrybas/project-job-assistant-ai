@@ -14,7 +14,7 @@
         <svg class="bi bi-small"><use xlink:href="#suitcase"/></svg>
         {% for format in job.formats %}
             {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
-            <span class="badge text-bg-success">{{ format }}</span>
+            <span class="badge bg-badge-primary">{{ format }}</span>
         {% endfor %}
     </div>
     {% endif %}
