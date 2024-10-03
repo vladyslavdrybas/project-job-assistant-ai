@@ -88,6 +88,13 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
         }
     }
 
+    public function removeSkill(Skill $skill): void
+    {
+        if ($this->skills->contains($skill)) {
+            $this->skills->removeElement($skill);
+        }
+    }
+
     public function setSkills(Collection $skills): void
     {
         foreach ($skills as $skill) {

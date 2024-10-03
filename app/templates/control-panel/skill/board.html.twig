@@ -24,15 +24,6 @@
 
             <div class="row">
                 <div class="col-10">
-                    {{ form_start(skillsForm,
-                        {
-                            'method': skillsForm.vars.method,
-                            'action': absolute_url(path('cp_skill_edit')),
-                            'attr': {
-                            'id': skillsForm.vars.id,
-                        }
-                        }
-                    ) }}
                     {{ form_errors(skillsForm) }}
 
                     {{ form_row(skillsForm.skills, {'label': false, 'help': false}) }}
@@ -49,18 +40,21 @@
                 </div>
             </div>
 
+            <!-- MY SKILLS -->
             <div class="row">
                 <div class="col-12">
                     {% for skill in mySkills %}
-                        <span class="badge bg-transparent text-black m-1 fs-6">
-                            <span>{{ skill }}</span>
+                        <span class="badge bg-transparent text-black m-1 fs-6"
+                              data-skill-key="{{ skill.key }}"
+                              data-action-url="{{ absolute_url(path('api_skill_remove', {'skill': skill.id})) }}"
+                        >
+                            <span>{{ skill.title }}</span>
                             <a
                                 role="button"
-                                class="text-decoration-none pointer-primary ms-1 opacity-50"
+                                class="text-decoration-none pointer-primary ms-1 opacity-50 btn-remove-skill"
                             >
                                 <svg class="bi bi-small"><use xlink:href="#remove"/></svg>
                             </a>
-
                         </span>
                     {% endfor %}
                 </div>
@@ -71,19 +65,19 @@
         <div class="col-12 col-md-6 p-2">
             <div class="bg-light p-3">
             {% if employerSkills|length > 0 %}
-                <div>
+                <div class="skills-wrapper">
                     <p class="my-1">
                         {{ skillsMatched }} of {{ employerSkills|length }} in-demand skills in jobs I applied to:
                     </p>
+                    <!-- Employment SKills -->
                     {% for skill in employerSkills %}
                         <span
                             class="
                                 badge m-1 fs-6
                                 {% if skill.match %}bg-badge-primary{% else %}bg-transparent text-black{% endif %}
                             "
-                        >
-                            {{ skill.title }}
-                        </span>
+                            data-skill-key="{{ skill.key }}"
+                        >{{ skill.title }}</span>
                     {% endfor %}
                 </div>
             {% endif %}

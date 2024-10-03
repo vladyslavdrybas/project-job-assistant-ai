@@ -40,28 +40,37 @@ class SkillController extends AbstractControlPanelController
             'jsNext',
             'json-ld',
         ];
+        $employerSkills = array_map(function(string $skill) {
+            return $skill;
+        }, $employerSkills);
+
         $mySkills = $this->getUser()->getSkills()->toArray();
-        dump($mySkills);
-        $mySkills = array_map(fn(Skill $skill) => $skill->getTitle(), $mySkills);
+        $mySkills = array_map(function(Skill $skill) {
+            return [
+                'id' => $skill->getId(),
+                'title' => $skill->getTitle(),
+            ];
+        }, $mySkills);
 
         $matchHashTable = new FilterHashMap();
-        foreach ($employerSkills as $skill) {
+        foreach ($employerSkills as $key => $skill) {
             $matchHashTable->put($skill, false);
         }
-
-        foreach ($mySkills as $skill) {
-            $matchHashTable->put($skill, $matchHashTable->has($skill));
+        if ($matchHashTable->count() > 0) {
+            foreach ($mySkills as $key => $skill) {
+                $matchHashTable->put($skill['title'], $matchHashTable->has($skill['title']));
+                $mySkills[$key]['key'] = $matchHashTable->hashCode($skill['title']);
+            }
         }
 
         $form = $this->createForm(MySkillsFormType::class, []);
-
-        dump($matchHashTable);
 
         $employerSkills = array_map(
             function(string $skill) use ($matchHashTable) {
                 return [
                     'title' => $skill,
                     'match' => $matchHashTable->get($skill),
+                    'key' => $matchHashTable->hashCode($skill),
                 ];
             },
             $employerSkills
@@ -79,11 +88,6 @@ class SkillController extends AbstractControlPanelController
             ],
             'control-panel/skill/board.html.twig'
         );
-    }
-
-    protected function getSkillKey(string $skillTitle): string
-    {
-        return hash('md2', strtolower($skillTitle));
     }
 
     #[Route(

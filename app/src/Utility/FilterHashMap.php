@@ -7,6 +7,11 @@ class FilterHashMap
 {
     protected array $map = [];
 
+    public function count(): int
+    {
+        return count($this->map);
+    }
+
     public function countPositive(): int
     {
         return count(array_filter($this->map, fn(bool $isMatch) => $isMatch));
@@ -35,7 +40,7 @@ class FilterHashMap
         return isset($this->map[$hashCode]);
     }
 
-    protected function hashCode(string $key): string|int
+    public function hashCode(string $key): string|int
     {
         return hash('md2', strtolower($key));
     }

@@ -227,7 +227,6 @@
         console.log(formId);
         console.log(loader);
         console.log(me);
-
         $.ajax({
             type: form.prop('method'),
             url: form.prop('action'),
@@ -383,7 +382,9 @@
 
     $('.target-value-change').on('click', function () {
         const me = $(this);
-        document.getElementById(me.attr('data-target')).value=me.attr('data-target-value');
+        const target = me.attr('data-target');
+        const value = me.attr('data-target-value');
+        target && value && (document.getElementById(target).value=value);
     })
 
     $(document).ready(function() {
@@ -418,6 +419,32 @@
                 target.text(editor.getMarkdown());
             });
         });
+
+        $('.btn-remove-skill').click(function() {
+            const parent = $(this).parent();
+            const actionUrl = parent.attr('data-action-url');
+            const skillKey = parent.attr('data-skill-key');
+
+            $.ajax({
+                type: 'GET',
+                url: actionUrl,
+                processData: false,
+                contentType: false,
+                cache: false,
+            })
+                .done(function(response) {
+                    console.log(response);
+                    $('.skills-wrapper').find('.badge[data-skill-key="' + skillKey + '"]')
+                        .removeClass('bg-badge-primary')
+                        .addClass('bg-transparent text-black')
+                    ;
+                    parent.remove();
+                })
+                .fail(function(response) {
+                    toastServerError(response)
+                })
+            ;
+        })
     });
 </script>
 
