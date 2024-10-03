@@ -46,13 +46,13 @@ class Resume extends AbstractEntity
     protected ?string $lastname = null;
 
     /**
-     * Many Resumes have Many JobSkills.
-     * @var Collection<int, JobSkill>
+     * Many Resumes have Many Skills.
+     * @var Collection<int, Skill>
      */
-    #[ORM\JoinTable(name: 'resume_job_skill')]
+    #[ORM\JoinTable(name: 'resume_skill')]
     #[ORM\JoinColumn(name: 'resume_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'job_skill_id', referencedColumnName: 'id')]
-    #[ORM\ManyToMany(targetEntity: JobSkill::class)]
+    #[ORM\InverseJoinColumn(name: 'skill_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Skill::class)]
     protected Collection $skills;
 
     public function __construct()
