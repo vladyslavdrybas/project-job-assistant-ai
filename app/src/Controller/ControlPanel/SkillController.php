@@ -29,17 +29,22 @@ class SkillController extends AbstractControlPanelController
                 'id' => 'skill-id',
                 'title' => 'PHP',
                 'match' => true,
-            ]
+            ],
+            [
+                'id' => 'skill-id',
+                'title' => 'Machine learning',
+                'match' => false,
+            ],
         ];
 
         $mySkills = ['PHP'];
 
-        $form = $this->createForm(MySkillsFormType::class, $mySkills);
+        $form = $this->createForm(MySkillsFormType::class, []);
 
         return $this->response(
             [
                 'skillsForm' => $form,
-                'skillsFormActions' => ['save'],
+                'skillsFormActions' => ['add'],
                 'mySkills' => $mySkills,
                 'employerSkills' => $employerSkills,
                 'skillsMatched' => 15,
@@ -56,13 +61,12 @@ class SkillController extends AbstractControlPanelController
     public function edit(
         Request $request,
     ): ViewResponseDto {
-        $mySkills = ['PHP'];
+        $mySkills = [];
         $form = $this->createForm(MySkillsFormType::class, $mySkills);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             dump($form->getData());
-            // TODO detach skills
             // TODO attach skills
         }
 

@@ -18,7 +18,8 @@ class MySkillsFormType extends AbstractType
                 TagsType::class,
                 [
                     'label' => 'My Skills',
-                    'data' => $data
+                    'data' => $data,
+                    'help' => 'Separator: comma or enter button.'
                 ]
             )
         ;

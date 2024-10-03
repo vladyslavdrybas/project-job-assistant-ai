@@ -47,6 +47,14 @@ body {
     background-color: var(--background-color) !important;
 }
 
+.bg-badge-primary {
+    background-color: var(--gradient-end) !important;
+}
+
+.bg-badge-success {
+    background-color: var(--gradient-start) !important;
+}
+
 .text-primary,
 .pointer-primary,
 .text-title-head
@@ -201,6 +209,15 @@ textarea:focus,
     box-shadow: none;
     outline: none;
     border: none;
+}
+
+.use-bootstrap-tag button {
+    background: transparent;
+    color: var(--palette-primary);
+}
+
+.use-bootstrap-tag button:hover {
+    background: var(--gradient-end);
 }
 
 .data-table input,

@@ -64,7 +64,7 @@
 
                 {% for format in employment.formats %}
                     <span class="px-1 inline-divider">{{ text_inline_divider }}</span>
-                    <span class="badge text-bg-success">{{ format }}</span>
+                    <span class="badge bg-badge-success">{{ format }}</span>
                 {% endfor %}
             </div>
         {% endif %}
@@ -120,7 +120,7 @@
             <div>
                 {% for skill in employment.skills %}
                     {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
-                    <span class="badge text-bg-secondary">{{ skill }}</span>
+                    <span class="badge bg-badge-primary">{{ skill }}</span>
                 {% endfor %}
             </div>
         {% endif %}
