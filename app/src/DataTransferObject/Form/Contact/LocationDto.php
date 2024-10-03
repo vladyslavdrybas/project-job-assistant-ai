@@ -9,6 +9,7 @@ use App\Entity\Type\IDataTransferObjectType;
 class LocationDto implements IDataTransferObject, IDataTransferObjectType
 {
     public function __construct(
+        public ?string $id = null,
         public ?string $country = null,
         public ?string $city = null,
         public ?string $postalCode = null,
@@ -21,6 +22,7 @@ class LocationDto implements IDataTransferObject, IDataTransferObjectType
     public function __serialize(): array
     {
         return [
+            'id' => $this->id,
             'country' => $this->country,
             'city' => $this->city,
             'postal_code' => $this->postalCode,
@@ -33,6 +35,7 @@ class LocationDto implements IDataTransferObject, IDataTransferObjectType
 
     public function __unserialize(array $data): void
     {
+        $this->id = $data['id'] ?? null;
         $this->country = $data['country'] ?? null;
         $this->city = $data['city'] ?? null;
         $this->postalCode = $data['postal_code'] ?? null;
@@ -50,6 +53,7 @@ class LocationDto implements IDataTransferObject, IDataTransferObjectType
     public static function fromArray(array $data): IDataTransferObjectType|LocationDto
     {
         return new self(
+            id: $data['id'] ?? null,
             country: $data['country'] ?? null,
             city: $data['city'] ?? null,
             postalCode: $data['postal_code'] ?? null,

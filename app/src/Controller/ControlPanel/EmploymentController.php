@@ -8,6 +8,7 @@ use App\Constants\RouteRequirements;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Employment;
 use App\EntityTransformer\EmploymentTransformer;
+use App\EntityTransformer\UserEmployerTransformer;
 use App\Form\CommandCenter\Resume\EmploymentRecordFormType;
 use App\Repository\EmploymentRepository;
 use App\Security\Voter\VoterPermissions;
@@ -61,29 +62,29 @@ class EmploymentController extends AbstractControlPanelController
     public function edit(
         Request $request,
         Employment $employment,
-        EmploymentTransformer $transformer,
+        EmploymentTransformer $employmentTransformer,
+        UserEmployerTransformer $userEmployerTransformer,
         UserSkillsWriter $userSkillsWriter
     ): ViewResponseDto {
-        $employmentRecord = $transformer->reverseTransform($employment);
-        dump($employmentRecord);
+        $employmentRecord = $employmentTransformer->reverseTransform($employment);
         $employmentForm = $this->createForm(EmploymentRecordFormType::class, $employmentRecord);
         $employmentForm->handleRequest($request);
 
         if ($employmentForm->isSubmitted() && $employmentForm->isValid()) {
             $dto = $employmentForm->getData();
-            dump($dto);
 
             $actionBtn = $employmentForm->get('actionBtn')->getData();
-            dump($actionBtn);
 
-            $entity = $transformer->transform($dto);
+            $entity = $employmentTransformer->transform($dto);
             $userSkillsWriter->write($entity->getOwner(), $entity->getSkills());
+            if (null !== $dto->employer) {
+                $dto->employer->owner = $entity->getOwner();
+                $employer = $userEmployerTransformer->transform($dto->employer);
 
-            // attach employment formats
-            // add employer
+                $this->entityManager->persist($employer);
+            }
+
             // add contact person for employment
-
-            dump($entity);
 
             $this->entityManager->persist($entity);
             $this->entityManager->flush();

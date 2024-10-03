@@ -6,13 +6,20 @@ namespace App\DataTransferObject\Form\EmploymentHistory;
 use App\DataTransferObject\Form\Contact\ContactsDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\Type\IDataTransferObjectType;
+use App\Entity\UserInterface;
+use DateTimeInterface;
 
 class EmployerDto implements IDataTransferObject, IDataTransferObjectType
 {
     public function __construct(
         public ?string $title = null,
         public ?string $aboutPage = null,
-        public ?ContactsDto $contacts = null
+        public ?ContactsDto $contacts = null,
+
+        public ?string $id = null,
+        public ?UserInterface $owner = null,
+        public ?DateTimeInterface $createdAt = null,
+        public ?DateTimeInterface $updatedAt = null
     ) {}
 
     public function __serialize(): array
