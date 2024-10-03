@@ -92,7 +92,7 @@ class SkillController extends AbstractControlPanelController
 
     #[Route(
         's',
-        name: '_edit',
+        name: '_add',
         methods: ['POST']
     )]
     public function edit(
