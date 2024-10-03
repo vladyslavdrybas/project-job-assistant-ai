@@ -11,13 +11,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TagsType extends AbstractType
 {
+    public const REPLACE_TEMPLATE = '[^-\s\.\w:_#+&]+';
+
     public function __construct(
         protected readonly TagToStringTransformer $tagToStringTransformer
     ) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addModelTransformer($this->tagToStringTransformer);
+        $builder->addModelTransformer($this->tagToStringTransformer->setReplaceTemplate(static::REPLACE_TEMPLATE));
     }
 
     public function configureOptions(OptionsResolver $resolver): void

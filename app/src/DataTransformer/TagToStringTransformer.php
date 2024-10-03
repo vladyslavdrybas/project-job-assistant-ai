@@ -9,6 +9,8 @@ use Symfony\Component\Form\DataTransformerInterface;
 class TagToStringTransformer implements DataTransformerInterface
 {
     public const DIVIDER = ',';
+    public const REPLACE_TEMPLATE = '[^-\s\.\w:_#+&]+';
+    protected string $replaceTemplate = self::REPLACE_TEMPLATE;
 
     public function transform(mixed $value): string
     {
@@ -33,14 +35,21 @@ class TagToStringTransformer implements DataTransformerInterface
             return [];
         }
 
-        $value = $this->purify($value);
         $value = array_unique(explode(static::DIVIDER, $value));
+        $value = array_map(fn(string $value): string => $this->purify($value), $value);
 
         return $value;
     }
 
     protected function purify(string $value): string
     {
-        return preg_replace('/[^-_\w' . static::DIVIDER . '& ]+/', ' ', $value);
+        return preg_replace('/' . $this->replaceTemplate . '/mui', '', trim($value));
+    }
+
+    public function setReplaceTemplate(string $template): self
+    {
+        $this->replaceTemplate = $template;
+
+        return $this;
     }
 }

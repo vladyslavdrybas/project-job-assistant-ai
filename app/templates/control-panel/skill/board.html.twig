@@ -52,11 +52,11 @@
             <div class="row">
                 <div class="col-12">
                     {% for skill in mySkills %}
-                        <span class="badge bg-badge-success">
+                        <span class="badge bg-transparent text-black m-1 fs-6">
                             <span>{{ skill }}</span>
                             <a
                                 role="button"
-                                class="text-decoration-none text-white ms-1"
+                                class="text-decoration-none pointer-primary ms-1 opacity-50"
                             >
                                 <svg class="bi bi-small"><use xlink:href="#remove"/></svg>
                             </a>
@@ -78,8 +78,8 @@
                     {% for skill in employerSkills %}
                         <span
                             class="
-                                badge
-                                {% if skill.match %}bg-badge-success{% else %}bg-badge-primary{% endif %}
+                                badge m-1 fs-6
+                                {% if skill.match %}bg-badge-primary{% else %}bg-transparent text-black{% endif %}
                             "
                         >
                             {{ skill.title }}

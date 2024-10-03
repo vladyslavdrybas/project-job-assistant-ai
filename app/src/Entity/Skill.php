@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity(fields: ['title'], message: 'Skill exists.')]
 class Skill extends AbstractEntity
 {
-    #[ORM\Column(type: Types::STRING, unique: true, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 500, unique: true, nullable: false)]
     protected string $title;
 
     public function getTitle(): string

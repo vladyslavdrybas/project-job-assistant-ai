@@ -5,7 +5,10 @@ namespace App\Controller\ControlPanel;
 
 use App\Constants\RouteRequirements;
 use App\DataTransferObject\ViewResponseDto;
+use App\Entity\Skill;
 use App\Form\CommandCenter\Skill\MySkillsFormType;
+use App\Repository\SkillRepository;
+use App\Utility\FilterHashMap;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -25,21 +28,46 @@ class SkillController extends AbstractControlPanelController
     )]
     public function list(): ViewResponseDto {
         $employerSkills = [
-            [
-                'id' => 'skill-id',
-                'title' => 'PHP',
-                'match' => true,
-            ],
-            [
-                'id' => 'skill-id',
-                'title' => 'Machine learning',
-                'match' => false,
-            ],
+            'PHP',
+            'JAvaScriPT',
+            'Elastic Search',
+            'Machine Learning',
+            'Dancing',
+            'mac os',
+            'AI in games',
+            'dns configuration',
+            'RDMS',
+            'jsNext',
+            'json-ld',
         ];
+        $mySkills = $this->getUser()->getSkills()->toArray();
+        dump($mySkills);
+        $mySkills = array_map(fn(Skill $skill) => $skill->getTitle(), $mySkills);
 
-        $mySkills = ['PHP'];
+        $matchHashTable = new FilterHashMap();
+        foreach ($employerSkills as $skill) {
+            $matchHashTable->put($skill, false);
+        }
+
+        foreach ($mySkills as $skill) {
+            $matchHashTable->put($skill, $matchHashTable->has($skill));
+        }
 
         $form = $this->createForm(MySkillsFormType::class, []);
+
+        dump($matchHashTable);
+
+        $employerSkills = array_map(
+            function(string $skill) use ($matchHashTable) {
+                return [
+                    'title' => $skill,
+                    'match' => $matchHashTable->get($skill),
+                ];
+            },
+            $employerSkills
+        );
+
+        $skillsMatched = $matchHashTable->countPositive();
 
         return $this->response(
             [
@@ -47,10 +75,15 @@ class SkillController extends AbstractControlPanelController
                 'skillsFormActions' => ['add'],
                 'mySkills' => $mySkills,
                 'employerSkills' => $employerSkills,
-                'skillsMatched' => 15,
+                'skillsMatched' => $skillsMatched,
             ],
             'control-panel/skill/board.html.twig'
         );
+    }
+
+    protected function getSkillKey(string $skillTitle): string
+    {
+        return hash('md2', strtolower($skillTitle));
     }
 
     #[Route(
@@ -60,14 +93,33 @@ class SkillController extends AbstractControlPanelController
     )]
     public function edit(
         Request $request,
+        SkillRepository $skillRepository
     ): ViewResponseDto {
         $mySkills = [];
         $form = $this->createForm(MySkillsFormType::class, $mySkills);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($form->getData());
-            // TODO attach skills
+            $skillsToAdd = $form->get('skills')->getData();
+            $skillsToAdd = array_unique($skillsToAdd);
+
+            foreach ($skillsToAdd as $skillToAdd) {
+                dump($skillToAdd);
+                if (empty($skillToAdd)) {
+                    continue;
+                }
+
+                $skill = $skillRepository->findOneBy(['title' => $skillToAdd]);
+                if (!$skill instanceof Skill) {
+                    $skill = new Skill();
+                    $skill->setTitle($skillToAdd);
+                }
+                $this->getUser()->addSkill($skill);
+                $skillRepository->add($skill);
+            }
+            $skillRepository->add($this->getUser());
+            $skillRepository->save();
+
         }
 
         return $this->response(

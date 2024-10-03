@@ -146,9 +146,18 @@ class Resume extends AbstractEntity
         return $this->skills;
     }
 
+    public function addSkill(Skill $skill): void
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills->add($skill);
+        }
+    }
+
     public function setSkills(Collection $skills): void
     {
-        $this->skills = $skills;
+        foreach ($skills as $skill) {
+            $this->addSkill($skill);
+        }
     }
 
     public function getProfessionalSummary(): ?string

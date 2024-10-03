@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -57,6 +59,41 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
 
     #[ORM\Column(name: "is_deleted", type: Types::BOOLEAN, options: ["default" => false])]
     protected bool $isDeleted = false;
+
+    /**
+     * Many Users have Many Skills.
+     * @var Collection<int, Skill>
+     */
+    #[ORM\JoinTable(name: 'user_skill')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'skill_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Skill::class)]
+    protected Collection $skills;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->skills = new ArrayCollection();
+    }
+
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): void
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills->add($skill);
+        }
+    }
+
+    public function setSkills(Collection $skills): void
+    {
+        foreach ($skills as $skill) {
+            $this->addSkill($skill);
+        }
+    }
 
     public function isEqualTo(SecurityUserInterface $user): bool
     {
