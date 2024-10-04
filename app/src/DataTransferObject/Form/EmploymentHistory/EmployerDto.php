@@ -33,6 +33,10 @@ class EmployerDto implements IDataTransferObject, IDataTransferObjectType
 
     public function __unserialize(array $data): void
     {
+        $this->id = $data['id'] ?? null;
+        $this->owner = $data['owner'] ?? null;
+        $this->createdAt = $data['createdAt'] ?? null;
+        $this->updatedAt = $data['updatedAt'] ?? null;
         $this->title = $data['title'] ?? null;
         $this->aboutPage = $data['about_page'] ?? null;
         $this->contacts = ContactsDto::fromArray($data['contacts'] ?? []);
@@ -48,7 +52,11 @@ class EmployerDto implements IDataTransferObject, IDataTransferObjectType
         return new self(
             title: $data['title'] ?? null,
             aboutPage: $data['about_page'] ?? null,
-            contacts: ContactsDto::fromArray($data['contacts'] ?? [])
+            contacts: ContactsDto::fromArray($data['contacts'] ?? []),
+            id: $data['id'] ?? null,
+            owner: $data['owner'] ?? null,
+            createdAt: $data['createdAt'] ?? null,
+            updatedAt: $data['updatedAt'] ?? null
         );
     }
 }

@@ -5,9 +5,11 @@ namespace App\Controller\ControlPanel;
 
 use App\Builder\EmploymentBuilder;
 use App\Constants\RouteRequirements;
+use App\DataTransferObject\Form\EmploymentHistory\EmploymentRecordDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Employment;
 use App\EntityTransformer\EmploymentTransformer;
+use App\EntityTransformer\UserEmployerContactPersonTransformer;
 use App\EntityTransformer\UserEmployerTransformer;
 use App\Form\CommandCenter\Resume\EmploymentRecordFormType;
 use App\Repository\EmploymentRepository;
@@ -64,6 +66,7 @@ class EmploymentController extends AbstractControlPanelController
         Employment $employment,
         EmploymentTransformer $employmentTransformer,
         UserEmployerTransformer $userEmployerTransformer,
+        UserEmployerContactPersonTransformer $userEmployerContactPersonTransformer,
         UserSkillsWriter $userSkillsWriter
     ): ViewResponseDto {
         $employmentRecord = $employmentTransformer->reverseTransform($employment);
@@ -71,17 +74,28 @@ class EmploymentController extends AbstractControlPanelController
         $employmentForm->handleRequest($request);
 
         if ($employmentForm->isSubmitted() && $employmentForm->isValid()) {
+            /** @var EmploymentRecordDto $dto */
             $dto = $employmentForm->getData();
 
             $actionBtn = $employmentForm->get('actionBtn')->getData();
 
             $entity = $employmentTransformer->transform($dto);
             $userSkillsWriter->write($entity->getOwner(), $entity->getSkills());
+
+            $employer = null;
             if (null !== $dto->employer) {
                 $dto->employer->owner = $entity->getOwner();
                 $employer = $userEmployerTransformer->transform($dto->employer);
 
                 $this->entityManager->persist($employer);
+            }
+
+            if (null !== $dto->contactPerson) {
+                $dto->contactPerson->owner = $entity->getOwner();
+                $contactPerson = $userEmployerContactPersonTransformer->transform($dto->contactPerson);
+                $contactPerson->setEmployer($employer);
+
+                $this->entityManager->persist($contactPerson);
             }
 
             // add contact person for employment
