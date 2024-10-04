@@ -8,6 +8,7 @@ use App\DataTransferObject\Form\Contact\ContactsDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\EntityInterface;
 use App\Entity\UserEmployerContactPerson;
+use App\Repository\UserEmployerContactPersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UserEmployerContactPersonTransformer extends AbstractEntityTransformer
@@ -19,6 +20,7 @@ class UserEmployerContactPersonTransformer extends AbstractEntityTransformer
         protected EntityManagerInterface $entityManager,
         protected LocationTransformer $locationTransformer,
         protected UserEmployerTransformer $userEmployerTransformer,
+        protected UserEmployerContactPersonRepository $userEmployerContactPersonRepository
     ) {
         parent::__construct($entityManager);
     }
@@ -31,16 +33,9 @@ class UserEmployerContactPersonTransformer extends AbstractEntityTransformer
         /** @var UserEmployerContactPerson $entity */
         $class = static::ENTITY_CLASS;
         if (null !== $dto->id) {
-            $entity = $this->entityManager->getRepository($class)
-                ->find($dto->id)
-            ;
+            $entity = $this->userEmployerContactPersonRepository->find($dto->id);
         } else if (null !== $dto->contacts->email && null !== $dto->owner) {
-            $entity = $this->entityManager->getRepository($class)
-                ->findOneBy([
-                    'owner' => $dto->owner,
-                    'email' => $dto->contacts->email,
-                ])
-            ;
+            $entity = $this->userEmployerContactPersonRepository->findOneByDto($dto);
         }
 
         if (null === $entity) {

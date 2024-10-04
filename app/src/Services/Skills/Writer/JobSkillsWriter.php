@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace App\Services\Skills\Writer;
 
+use App\Entity\Job;
 use App\Entity\Skill;
-use App\Entity\UserInterface;
 use App\Repository\SkillRepository;
 
-class UserSkillsWriter
+class JobSkillsWriter
 {
     public function __construct(
         protected readonly SkillRepository $skillRepository
     ) {}
 
-    public function write(UserInterface $user, array $skills): void
+    public function write(Job $job, array $skills): void
     {
         $skillsToAdd = array_unique($skills);
 
@@ -28,10 +28,10 @@ class UserSkillsWriter
                 $skill->setTitle($skillToAdd);
                 $this->skillRepository->add($skill);
             }
-            $user->addFilterSkill($skill);
+            $job->addFilterSkill($skill);
         }
 
-        $this->skillRepository->add($user);
+        $this->skillRepository->add($job);
         $this->skillRepository->save();
     }
 }

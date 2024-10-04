@@ -22,7 +22,7 @@ class SkillController extends AbstractApiController
         Skill $skill
     ): ViewResponseDto {
         $user = $this->getUser();
-        $user->removeSkill($skill);
+        $user->removeFilterSkill($skill);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

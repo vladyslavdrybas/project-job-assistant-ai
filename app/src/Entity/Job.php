@@ -4,22 +4,31 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Constants\Job\JobStatus;
+use App\DataTransferObject\Form\Contact\ContactPersonDto;
+use App\DataTransferObject\Form\EmploymentHistory\EmployerDto;
+use App\Entity\Type\JsonDataTransferObjectType;
 use App\Repository\JobRepository;
+use App\Traits\Entity\EntityWithOwner;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: JobRepository::class, readOnly: false)]
 #[ORM\Table(name: "job")]
 class Job extends AbstractEntity
 {
-    #[Assert\NotBlank(message: 'Must have owner.')]
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id')]
-    protected ?User $owner = null;
+    use EntityWithOwner;
+
+    #[ORM\ManyToOne(targetEntity: Location::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'location_id', referencedColumnName: 'id')]
+    protected ?Location $location = null;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
     protected ?string $title = null;
+
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    protected ?string $aboutPage = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
@@ -29,6 +38,120 @@ class Job extends AbstractEntity
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     protected bool $isUserAdded = false;
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    protected ?array $formats = [];
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    protected ?array $skills = [];
+
+    #[ORM\Column(type: JsonDataTransferObjectType::NAME, nullable: true)]
+    protected ?EmployerDto $employer = null;
+
+    #[ORM\Column(type: JsonDataTransferObjectType::NAME, nullable: true)]
+    protected ?ContactPersonDto $contactPerson = null;
+
+    /**
+     * Many Jobs have Many Skills.
+     * @var Collection<int, Skill>
+     */
+    #[ORM\JoinTable(name: 'job_skill')]
+    #[ORM\JoinColumn(name: 'job_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'skill_id', referencedColumnName: 'id')]
+    #[ORM\ManyToMany(targetEntity: Skill::class)]
+    protected Collection $filterSkills;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->filterSkills = new ArrayCollection();
+    }
+
+    public function getLocation(): ?Location
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?Location $location): void
+    {
+        $this->location = $location;
+    }
+
+    public function getAboutPage(): ?string
+    {
+        return $this->aboutPage;
+    }
+
+    public function setAboutPage(?string $aboutPage): void
+    {
+        $this->aboutPage = $aboutPage;
+    }
+
+    public function getFormats(): ?array
+    {
+        return $this->formats;
+    }
+
+    public function setFormats(?array $formats): void
+    {
+        $this->formats = $formats;
+    }
+
+    public function getSkills(): ?array
+    {
+        return $this->skills;
+    }
+
+    public function setSkills(?array $skills): void
+    {
+        $this->skills = $skills;
+    }
+
+    public function getEmployer(): ?EmployerDto
+    {
+        return $this->employer;
+    }
+
+    public function setEmployer(?EmployerDto $employer): void
+    {
+        $this->employer = $employer;
+    }
+
+    public function getContactPerson(): ?ContactPersonDto
+    {
+        return $this->contactPerson;
+    }
+
+    public function setContactPerson(?ContactPersonDto $contactPerson): void
+    {
+        $this->contactPerson = $contactPerson;
+    }
+
+    public function getFilterSkills(): Collection
+    {
+        return $this->filterSkills;
+    }
+
+    public function addFilterSkill(Skill $skill): void
+    {
+        if (!$this->filterSkills->contains($skill)) {
+            $this->filterSkills->add($skill);
+        }
+    }
+
+    public function removeFilterSkill(Skill $skill): void
+    {
+        if ($this->filterSkills->contains($skill)) {
+            $this->filterSkills->removeElement($skill);
+        }
+    }
+
+    public function setFilterSkills(Collection $skills): void
+    {
+        foreach ($skills as $skill) {
+            $this->addFilterSkill($skill);
+        }
+    }
 
     public function getOwner(): ?User
     {

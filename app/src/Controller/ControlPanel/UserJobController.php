@@ -12,6 +12,7 @@ use App\EntityTransformer\JobTransformer;
 use App\Form\CommandCenter\Job\JobFormType;
 use App\Repository\JobRepository;
 use App\Security\Voter\VoterPermissions;
+use App\Services\Skills\Writer\JobSkillsWriter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -161,7 +162,8 @@ class UserJobController extends AbstractControlPanelController
     public function edit(
         Request $request,
         Job $job,
-        JobTransformer $transformer
+        JobTransformer $transformer,
+        JobSkillsWriter $jobSkillsWriter
     ): ViewResponseDto {
         $dto = $transformer->reverseTransform($job);
         dump($dto);
@@ -180,6 +182,7 @@ class UserJobController extends AbstractControlPanelController
             $dto->isUserAdded = true;
 
             $entity = $transformer->transform($dto);
+            $jobSkillsWriter->write($entity, $entity->getSkills());
 
             $this->entityManager->persist($entity);
             $this->entityManager->flush();

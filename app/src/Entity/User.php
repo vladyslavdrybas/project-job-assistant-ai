@@ -68,37 +68,37 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'skill_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Skill::class)]
-    protected Collection $skills;
+    protected Collection $filterSkills;
 
     public function __construct()
     {
         parent::__construct();
-        $this->skills = new ArrayCollection();
+        $this->filterSkills = new ArrayCollection();
     }
 
-    public function getSkills(): Collection
+    public function getFilterSkills(): Collection
     {
-        return $this->skills;
+        return $this->filterSkills;
     }
 
-    public function addSkill(Skill $skill): void
+    public function addFilterSkill(Skill $skill): void
     {
-        if (!$this->skills->contains($skill)) {
-            $this->skills->add($skill);
+        if (!$this->filterSkills->contains($skill)) {
+            $this->filterSkills->add($skill);
         }
     }
 
-    public function removeSkill(Skill $skill): void
+    public function removeFilterSkill(Skill $skill): void
     {
-        if ($this->skills->contains($skill)) {
-            $this->skills->removeElement($skill);
+        if ($this->filterSkills->contains($skill)) {
+            $this->filterSkills->removeElement($skill);
         }
     }
 
-    public function setSkills(Collection $skills): void
+    public function setFilterSkills(Collection $skills): void
     {
         foreach ($skills as $skill) {
-            $this->addSkill($skill);
+            $this->addFilterSkill($skill);
         }
     }
 

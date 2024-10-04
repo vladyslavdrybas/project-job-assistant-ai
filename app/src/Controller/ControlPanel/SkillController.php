@@ -39,7 +39,7 @@ class SkillController extends AbstractControlPanelController
         }
         $employerSkills = array_unique($employerSkills);
 
-        $mySkills = $this->getUser()->getSkills()->toArray();
+        $mySkills = $this->getUser()->getFilterSkills()->toArray();
         $mySkills = array_map(function(Skill $skill) {
             return [
                 'id' => $skill->getId(),
