@@ -22,6 +22,7 @@ class JobDto implements IDataTransferObject
         public ?EmployerDto $employer = null,
         public ?LocationDto $location = null,
         public ?ContactPersonDto $contactPerson = null,
+        public ?SalaryDto $salary = null,
 
         /** @var array<string> $formats*/
         public ?array $formats = [],

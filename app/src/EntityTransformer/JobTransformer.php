@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\EntityTransformer;
 
 use App\DataTransferObject\Form\Job\JobDto;
+use App\DataTransferObject\Form\Job\SalaryDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\EntityInterface;
 use App\Entity\Job;
@@ -47,6 +48,9 @@ class JobTransformer extends AbstractEntityTransformer
         $entity->setSkills($dto->skills);
         $entity->setEmployer($dto->employer);
         $entity->setContactPerson($dto->contactPerson);
+        $entity->setSalaryMin($dto->salary->min);
+        $entity->setSalaryMax($dto->salary->max);
+        $entity->setSalaryPeriod($dto->salary->period);
 
         return $entity;
     }
@@ -77,6 +81,11 @@ class JobTransformer extends AbstractEntityTransformer
         $dto->skills = $entity->getSkills();
         $dto->employer = $entity->getEmployer();
         $dto->contactPerson = $entity->getContactPerson();
+        $dto->salary = new SalaryDto(
+            $entity->getSalaryMin(),
+            $entity->getSalaryMax(),
+            $entity->getSalaryPeriod()
+        );
 
         return $dto;
     }

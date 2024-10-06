@@ -5,7 +5,7 @@ namespace App\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
-class JobFormatsTransformer implements DataTransformerInterface
+class SwitchEnumFormTransformer implements DataTransformerInterface
 {
     public function transform(mixed $value): array
     {

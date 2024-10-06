@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Constants\Job\JobSalaryPeriod;
 use App\Constants\Job\JobStatus;
 use App\DataTransferObject\Form\Contact\ContactPersonDto;
 use App\DataTransferObject\Form\EmploymentHistory\EmployerDto;
@@ -51,6 +52,15 @@ class Job extends AbstractEntity
     #[ORM\Column(type: JsonDataTransferObjectType::NAME, nullable: true)]
     protected ?ContactPersonDto $contactPerson = null;
 
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    protected ?int $salaryMin = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    protected ?int $salaryMax = null;
+
+    #[ORM\Column(type: Types::STRING, nullable: true, enumType: JobSalaryPeriod::class)]
+    protected ?JobSalaryPeriod $salaryPeriod = null;
+
     /**
      * Many Jobs have Many Skills.
      * @var Collection<int, Skill>
@@ -65,6 +75,36 @@ class Job extends AbstractEntity
     {
         parent::__construct();
         $this->filterSkills = new ArrayCollection();
+    }
+
+    public function getSalaryMin(): ?int
+    {
+        return $this->salaryMin;
+    }
+
+    public function setSalaryMin(?int $salaryMin): void
+    {
+        $this->salaryMin = $salaryMin;
+    }
+
+    public function getSalaryMax(): ?int
+    {
+        return $this->salaryMax;
+    }
+
+    public function setSalaryMax(?int $salaryMax): void
+    {
+        $this->salaryMax = $salaryMax;
+    }
+
+    public function getSalaryPeriod(): ?JobSalaryPeriod
+    {
+        return $this->salaryPeriod;
+    }
+
+    public function setSalaryPeriod(?JobSalaryPeriod $salaryPeriod): void
+    {
+        $this->salaryPeriod = $salaryPeriod;
     }
 
     public function getLocation(): ?Location

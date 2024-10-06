@@ -23,6 +23,7 @@ class JobFormType extends AbstractType
             ->add('title',
                 TextType::class,
                 [
+                    'label' => 'Job Title',
                     'required' => true,
                     'help' => 'Usually it is job position name.',
                 ]
@@ -70,6 +71,13 @@ class JobFormType extends AbstractType
                 [
                     'mapped' => true,
                     'label' => 'Required skills as you understand.'
+                ]
+            )
+            ->add('salary',
+                JobSalaryFormType::class,
+                [
+                    'required' => false,
+                    'label' => 'Salary',
                 ]
             )
             ->add('content',

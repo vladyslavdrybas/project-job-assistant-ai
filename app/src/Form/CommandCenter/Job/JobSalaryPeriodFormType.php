@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace App\Form\CommandCenter\Job;
 
 use App\Constants\Job\JobFormats;
+use App\Constants\Job\JobSalaryPeriod;
 use App\DataTransformer\SwitchEnumFormTransformer;
 use App\Form\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class JobFormatsFormType extends AbstractType
+class JobSalaryPeriodFormType extends AbstractType
 {
     public function __construct(
         protected readonly SwitchEnumFormTransformer $transformer
@@ -19,7 +20,7 @@ class JobFormatsFormType extends AbstractType
     {
         $builder->addModelTransformer($this->transformer);
 
-        $choices = JobFormats::array();
+        $choices = JobSalaryPeriod::array();
 
         foreach($choices as $name => $value) {
             $builder->add(strtolower($name),

@@ -64,6 +64,30 @@
                     ) }}
                 </div>
 
+
+                <div>
+                    <hr>
+                    <h3>{{ editForm.salary.vars.label }}</h3>
+                    <span class="text-muted">{{ editForm.salary.vars.help }}</span>
+
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            {{ form_row(editForm.salary.min) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_row(editForm.salary.max) }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            {{ form_row(editForm.salary.period, {'label': false}) }}
+                        </div>
+                    </div>
+
+
+                </div>
+
                 <div>
                     <hr>
                     <h3>{{ editForm.content.vars.label }}</h3>
