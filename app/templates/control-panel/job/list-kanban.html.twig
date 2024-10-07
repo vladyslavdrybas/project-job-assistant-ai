@@ -89,11 +89,26 @@
         ]);
 
         const newStatus = $(target).attr('data-status');
-        const jobId = $(el).attr('data-job-id');
-        console.log(newStatus);
-        console.log(jobId);
+        const jobStatus = $(el).attr('data-job-status');
 
-        // TODO add ajax to change status
+        if (newStatus === jobStatus) {
+            console.log('status the same. no actions.');
+            return;
+        }
+
+        const actionUrl = $(el).attr('data-job-change-status-url').replace(jobStatus, newStatus);
+
+        $.ajax({
+            type: 'GET',
+            url: actionUrl,
+            processData: false,
+            contentType: false,
+            cache: false,
+        })
+            .fail(function(response) {
+                toastServerError(response)
+            })
+        ;
     });
 
 </script>
