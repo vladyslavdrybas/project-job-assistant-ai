@@ -14,15 +14,23 @@ use App\Entity\UserInterface;
  */
 class JobRepository extends AbstractRepository
 {
-    public function findListForJobBoard(UserInterface $owner): array
+    public function findListForJobBoard(UserInterface $owner, ?JobStatus $status = null): array
     {
         $query = $this->createQueryBuilder('t')
             ->where('t.owner = :owner')
-            ->andWhere('t.status <> :notStatus')
             ->setParameter('owner', $owner)
-            ->setParameter('notStatus', JobStatus::ARCHIVED)
             ->orderBy('t.createdAt', 'DESC')
         ;
+
+        if ($status) {
+            $query->andWhere('t.status = :status')
+                ->setParameter('status', $status)
+            ;
+        } else {
+            $query->andWhere('t.status <> :notStatus')
+                ->setParameter('notStatus', JobStatus::ARCHIVED)
+            ;
+        }
 
         return $query->getQuery()->getResult();
     }

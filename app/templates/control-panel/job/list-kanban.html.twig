@@ -56,7 +56,7 @@
                 <svg class="bi bi-small mb-1" style="width:2.1em;height:2.1em;"><use xlink:href="#trash"/></svg>
             </a>
         <div
-            id="section--job-list-column-archived-wrapper"
+            id="section--job-list-column-trash-wrapper"
             data-status="archived"
             class="min-h-10"
         >
@@ -75,24 +75,16 @@
         {% for status in jobStatuses %}
         document.getElementById("section--job-list-column-{{ status }}-wrapper"),
         {% endfor %}
-        document.getElementById("section--job-list-column-archived-wrapper"),
+        document.getElementById("section--job-list-column-trash-wrapper"),
     ];
 
     const drakeJobs = dragula(jobStatusColumnIds);
 
     drakeJobs.on('out', function (el, target, source, sibling) {
-        console.log([
-            el,
-            target,
-            source,
-            sibling,
-        ]);
-
         const newStatus = $(target).attr('data-status');
         const jobStatus = $(el).attr('data-job-status');
 
         if (newStatus === jobStatus) {
-            console.log('status the same. no actions.');
             return;
         }
 

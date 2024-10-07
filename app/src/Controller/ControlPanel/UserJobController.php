@@ -212,7 +212,6 @@ class UserJobController extends AbstractControlPanelController
         $jobs = JobStatus::values();
         $jobs = array_flip($jobs);
         $jobs = array_map(fn() => [], $jobs);
-        dump($dtos);
 
         $statuses = JobStatus::values();
         $statuses = array_filter(
@@ -242,13 +241,39 @@ class UserJobController extends AbstractControlPanelController
         methods: ['GET']
     )]
     public function filter(
+        JobRepository $jobRepository,
+        JobTransformer $transformer,
         string $status
     ): ViewResponseDto {
+        $status = JobStatus::from($status);
+        $entities = $jobRepository->findListForJobBoard($this->getUser(), $status);
+
+        $dtos = array_map(function(Job $job) use ($transformer) {
+            return $transformer->reverseTransform($job);
+        }, $entities);
+
+        $jobs = [
+            JobStatus::BACKLOG->value => [],
+            $status->value => [],
+        ];
+
+        $statuses = [
+            JobStatus::BACKLOG->value,
+            $status->value,
+        ];
+
+        foreach($dtos as $jobDto) {
+            $jobs[$jobDto->status->value][] = $jobDto;
+        }
+
         return $this->response(
             [
                 'status' => $status,
+                'jobs' => $jobs,
+                'jobStatuses' => $statuses,
+                'colWidth' => (int) ceil(12/count($statuses)),
             ]
-            ,'control-panel/job/filter.html.twig',
+            ,'control-panel/job/list-kanban.html.twig',
         );
     }
 }
