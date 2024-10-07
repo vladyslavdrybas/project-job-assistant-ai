@@ -1,54 +1,121 @@
-<div>
-    {% if job.employer.title is defined %}
-        <h2>{{ job.employer.title }}</h2>
+<div class="w-100">
+    <h1 class="fs-2">{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}</h1>
+
+    {% if job.employer %}
+        <div class="mb-3">
+        {% if job.employer.title is defined %}
+            <h2 class="fs-5">{{ job.employer.title }}
+                {% if job.aboutPage %}
+                    <a
+                        href="{{ job.aboutPage }}"
+                        class="text-decoration-none text-black fs-6"
+                    >
+                        <svg class="bi bi-small bi-fix pointer-primary"><use xlink:href="#view"></use></svg>
+                    </a>
+                {% endif %}
+            </h2>
+        {% endif %}
+        </div>
     {% endif %}
-    <h1>{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}</h1>
-    <div>
-        <span>Location</span>{{ text_inline_divider }}
-        <span>published at</span>{{ text_inline_divider }}
-        <span class="badge text-bg-info">status</span>
-    </div>
+
+
+    {% if job.location is defined %}
+        <div class="text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
+            <svg class="bi bi-small me-1"><use xlink:href="#location"/></svg>
+
+            {% if job.location.country %}
+                <div class="flex-nowrap">
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-0 me-1 badge text-secondary">{{ job.location.country }}</span>
+                </div>
+            {% endif %}
+            {% if job.location.city %}
+                <div class="flex-nowrap">
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-0 me-1 badge text-secondary">{{ job.location.city }}</span>
+                </div>
+            {% endif %}
+            {% if job.location.region %}
+                <div class="flex-nowrap">
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-0 me-1 badge text-secondary">{{ job.location.region }}</span>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
 
     {% set jobFormats = enum_values(job.formats, 'job_format') %}
     {% if jobFormats|length > 0 %}
-    <div>
-        <svg class="bi bi-small"><use xlink:href="#suitcase"/></svg>
-        {% for format in jobFormats %}
-            {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
-            <span class="badge bg-badge-primary">{{ format }}</span>
-        {% endfor %}
-    </div>
+        <div class="text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
+            <svg class="bi bi-small me-1"><use xlink:href="#suitcase"/></svg>
+            {% for format in jobFormats %}
+                <div class="flex-nowrap">
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-0 me-1 badge text-secondary">{{ format }}</span>
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
 
-    {% if job.contactPerson %}
-    <div>
-        <span>Contact person:</span>
-        {{ job.contactPerson.firstName }}
-        {{ job.contactPerson.lastName }}
-        {% if job.contactPerson.email %}
-            {{ text_inline_divider }}
-            {{ job.contactPerson.email }}
-        {% endif %}
-        {% if job.contactPerson.phone %}
-            {{ text_inline_divider }}
-            {{ job.contactPerson.phone }}
-        {% endif %}
-    </div>
-    {% endif %}
+    {% if job.contactPerson is defined and job.contactPerson %}
+        <div class="text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
+            <svg class="bi bi-small me-1"><use xlink:href="#contact"/></svg>
 
+            {% if job.contactPerson.firstName %}
+                <div class="flex-nowrap">
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-0 me-1 badge text-secondary">{{ job.contactPerson.firstName }}</span>
+                </div>
+            {% endif %}
+            {% if job.contactPerson.lastName %}
+                <div class="flex-nowrap">
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-0 me-1 badge text-secondary">{{ job.contactPerson.lastName }}</span>
+                </div>
+            {% endif %}
+            {% if job.contactPerson.contacts.email %}
+                <div class="flex-nowrap">
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-0 me-1 badge text-secondary">{{ job.contactPerson.contacts.email }}</span>
+                </div>
+            {% endif %}
+            {% if job.contactPerson.contacts.phone %}
+                <div class="flex-nowrap">
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="px-0 me-1 badge text-secondary">{{ job.contactPerson.contacts.phone }}</span>
+                </div>
+            {% endif %}
+            {% if job.contactPerson.contacts.link %}
+                <div class="flex-nowrap">
+                    <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                    <a
+                        href="{{ job.contactPerson.contacts.link }}"
+                        class="px-0 me-1 badge text-secondary d-inline"
+                        target="_blank"
+                    >{{ job.contactPerson.contacts.link }}</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
 
     {% if jobSkills|length > 0 %}
-    <hr>
-    <div>
-        <h3>Required skills:</h3>
-        {% for skill in jobSkills %}
-            {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
-            <span class="badge {% if skill.match %}text-bg-success{% else %}text-bg-secondary{% endif %}">{{ skill.name }}</span>
-        {% endfor %}
-        <p class="mt-1">
-            You have {{ jobSkillsMatched }} of {{ jobSkills|length }}
-        </p>
-    </div>
+        {% if jobSkills|length > 0 %}
+            <hr>
+            <div class="">
+                <p class="my-1">
+                    You have {{ jobSkillsMatched }} of {{ jobSkills|length }} in-demand skills:
+                </p>
+                <!-- Job SKills -->
+                {% for skill in jobSkills %}
+                    <span
+                        class="
+                                badge m-1
+                                {% if skill.match %}bg-badge-primary{% else %}bg-transparent text-black{% endif %}
+                            "
+                    >{{ skill.title }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
     {% endif %}
 
     {% if jobBenefits|length > 0 %}
@@ -65,14 +132,14 @@
     </div>
     {% endif %}
 
-    {% if documents|length > 0 %}
+    {% if applications|length > 0 %}
         <hr>
         <div>
             <h3>Attached documents</h3>
-            {% for document in documents %}
+            {% for document in applications %}
                 <ul class="list-unstyled">
                     <li>
-                        <span class="badge text-bg-info">{{ document.title }}</span>
+                        <span class="badge bg-badge-primary">{{ document.title }}</span>
                         <a
                             class="text-black text-decoration-none"
                             href="{{ document.link }}"

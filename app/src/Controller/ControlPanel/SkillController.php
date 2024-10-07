@@ -10,6 +10,7 @@ use App\Form\CommandCenter\Skill\MySkillsFormType;
 use App\Repository\EmploymentRepository;
 use App\Services\Skills\Writer\UserSkillsWriter;
 use App\Utility\FilterHashMap;
+use App\Utility\MatchUserSkills;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -40,38 +41,13 @@ class SkillController extends AbstractControlPanelController
         $employerSkills = array_unique($employerSkills);
 
         $mySkills = $this->getUser()->getFilterSkills()->toArray();
-        $mySkills = array_map(function(Skill $skill) {
-            return [
-                'id' => $skill->getId(),
-                'title' => $skill->getTitle(),
-            ];
-        }, $mySkills);
-
-        $matchHashTable = new FilterHashMap();
-        foreach ($employerSkills as $key => $skill) {
-            $matchHashTable->put($skill, false);
-        }
-        if ($matchHashTable->count() > 0) {
-            foreach ($mySkills as $key => $skill) {
-                $matchHashTable->put($skill['title'], $matchHashTable->has($skill['title']));
-                $mySkills[$key]['key'] = $matchHashTable->hashCode($skill['title']);
-            }
-        }
+        [
+            'mySkills' => $mySkills,
+            'otherSkills' => $employerSkills,
+            'skillsMatched' => $skillsMatched,
+        ] = (new MatchUserSkills())($mySkills, $employerSkills);
 
         $form = $this->createForm(MySkillsFormType::class, []);
-
-        $employerSkills = array_map(
-            function(string $skill) use ($matchHashTable) {
-                return [
-                    'title' => $skill,
-                    'match' => $matchHashTable->get($skill),
-                    'key' => $matchHashTable->hashCode($skill),
-                ];
-            },
-            $employerSkills
-        );
-
-        $skillsMatched = $matchHashTable->countPositive();
 
         return $this->response(
             [

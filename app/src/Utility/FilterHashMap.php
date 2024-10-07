@@ -7,6 +7,11 @@ class FilterHashMap
 {
     protected array $map = [];
 
+    public function toArray(): array
+    {
+        return $this->map;
+    }
+
     public function count(): int
     {
         return count($this->map);
@@ -15,6 +20,11 @@ class FilterHashMap
     public function countPositive(): int
     {
         return count(array_filter($this->map, fn(bool $isMatch) => $isMatch));
+    }
+
+    public function getPositiveOnly(): array
+    {
+        return array_filter($this->map, fn(bool $isMatch) => $isMatch);
     }
 
     public function countNegative(): int

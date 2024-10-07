@@ -13,6 +13,7 @@ use App\Form\CommandCenter\Job\JobFormType;
 use App\Repository\JobRepository;
 use App\Security\Voter\VoterPermissions;
 use App\Services\Skills\Writer\JobSkillsWriter;
+use App\Utility\MatchUserSkills;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -68,30 +69,15 @@ class UserJobController extends AbstractControlPanelController
     ): ViewResponseDto {
 
         $dto = $transformer->reverseTransform($job);
-        dump($dto);
 
-        // TODO remove fake skills
-        if (!$dto->skills) {
-            $dto->skills = ['PHP', 'MySQL', 'Javascript', 'TypeScript', 'Symfony', 'Spryker'];
-        }
+        $mySkills = $this->getUser()->getFilterSkills()->toArray();
+        [
+            'otherSkills' => $jobSkills,
+            'skillsMatched' => $skillsMatched,
+        ] = (new MatchUserSkills())($mySkills, $dto->skills);
 
-        $skills = array_map(function(string $skill) {
-            return [
-                'name' => $skill,
-                'match' => rand(0,10) < 6,
-            ];
-        }, $dto->skills);
-
-        $skillsMatched = array_reduce(
-            $skills
-            ,function(int $carry, array $skill) {
-                return $carry + 1*$skill['match'];
-            }
-            ,0
-        );
-
-        // TODO remove faked documents. display attached documents.
-        $documents = [
+        // TODO remove faked applications. display attached applications.
+        $applications = [
             [
                 'type' => 'resume',
                 'title' => 'Resume',
@@ -104,13 +90,14 @@ class UserJobController extends AbstractControlPanelController
             ]
         ];
 
+
         return $this->response(
             [
                 'job' => $dto,
-                'jobSkills' => $skills,
+                'jobSkills' => $jobSkills,
                 'jobSkillsMatched' => $skillsMatched,
                 'jobBenefits' => [],
-                'documents' => $documents,
+                'applications' => $applications,
                 'navActions' => [
                     'edit' => [
                         'type' => 'link',
