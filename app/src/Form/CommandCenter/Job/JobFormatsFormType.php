@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Form\CommandCenter\Job;
 
 use App\Constants\Job\JobFormats;
-use App\DataTransformer\SwitchEnumFormTransformer;
+use App\DataTransformer\SwitchEnumMultiselectFormTransformer;
 use App\Form\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 class JobFormatsFormType extends AbstractType
 {
     public function __construct(
-        protected readonly SwitchEnumFormTransformer $transformer
+        protected readonly SwitchEnumMultiselectFormTransformer $transformer
     ) {}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

@@ -5,32 +5,36 @@ namespace App\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
-class SwitchEnumFormTransformer implements DataTransformerInterface
+class SwitchEnumMultiselectFormTransformer implements DataTransformerInterface
 {
     public function transform(mixed $value): array
     {
-        if (!is_string($value)) {
+        if (!is_array($value)) {
             return [];
         }
 
         $data = [];
-        $data[strtolower($value)] = true;
+
+        foreach ($value as $format) {
+            $data[strtolower($format)] = true;
+        }
 
         return $data;
     }
 
-    public function reverseTransform(mixed $value): ?string
+    public function reverseTransform(mixed $value): array
     {
         if (!is_array($value)) {
-            return null;
+            return [];
         }
 
+        $data = [];
         foreach ($value as $format => $isEnable) {
             if ($isEnable) {
-                return strtoupper($format);
+                $data[] = strtoupper($format);
             }
         }
 
-        return null;
+        return $data;
     }
 }

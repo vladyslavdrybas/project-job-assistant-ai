@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\EntityTransformer;
 
+use App\Constants\Job\JobSalaryPeriod;
 use App\DataTransferObject\Form\Job\JobDto;
 use App\DataTransferObject\Form\Job\SalaryDto;
 use App\DataTransferObject\IDataTransferObject;
@@ -50,7 +51,8 @@ class JobTransformer extends AbstractEntityTransformer
         $entity->setContactPerson($dto->contactPerson);
         $entity->setSalaryMin($dto->salary->min);
         $entity->setSalaryMax($dto->salary->max);
-        $entity->setSalaryPeriod($dto->salary->period);
+
+        $entity->setSalaryPeriod(JobSalaryPeriod::fromName($dto->salary->period));
 
         return $entity;
     }
@@ -84,7 +86,7 @@ class JobTransformer extends AbstractEntityTransformer
         $dto->salary = new SalaryDto(
             $entity->getSalaryMin(),
             $entity->getSalaryMax(),
-            $entity->getSalaryPeriod()
+            $entity->getSalaryPeriod()?->name
         );
 
         return $dto;

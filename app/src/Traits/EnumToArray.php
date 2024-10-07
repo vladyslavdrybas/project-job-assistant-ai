@@ -22,6 +22,22 @@ trait EnumToArray
 
     public static function nameToValue(string $name): mixed
     {
-        return array_flip(self::array())[$name] ?? null;
+        return self::array()[$name] ?? null;
+    }
+
+    public static function hasKey(string $name): bool
+    {
+        return self::array()[$name] !== null;
+    }
+
+    public static function fromName(string $name): ?static
+    {
+        foreach (self::cases() as $case) {
+            if ($case->name === $name) {
+                return $case;
+            }
+        }
+
+        return null;
     }
 }

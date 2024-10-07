@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace App\DataTransferObject\Form\Job;
 
-use App\Constants\Job\JobSalaryPeriod;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class SalaryDto
 {
     public function __construct(
-        public ?string $min = null,
-        public ?string $max = null,
-        public ?JobSalaryPeriod $period = null,
+        #[Assert\GreaterThanOrEqual(0)]
+        public ?int $min = null,
+        #[Assert\GreaterThanOrEqual(0)]
+        public ?int $max = null,
+        public ?string $period = null,
     ) {}
 }

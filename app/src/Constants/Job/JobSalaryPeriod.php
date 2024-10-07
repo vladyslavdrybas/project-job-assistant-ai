@@ -13,4 +13,5 @@ enum JobSalaryPeriod: string
     case MONTH = 'month';
     case DAY = 'day';
     case HOUR = 'hour';
+
 }
