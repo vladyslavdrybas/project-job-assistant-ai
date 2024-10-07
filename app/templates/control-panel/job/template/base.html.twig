@@ -18,8 +18,7 @@
         </div>
     {% endif %}
 
-
-    {% if job.location is defined %}
+    {% if (job.location ?? null) is not null %}
         <div class="text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
             <svg class="bi bi-small me-1"><use xlink:href="#location"/></svg>
 
@@ -44,7 +43,7 @@
         </div>
     {% endif %}
 
-    {% set jobFormats = enum_values(job.formats, 'job_format') %}
+    {% set jobFormats = enum_values(job.formats ?? [], 'job_format') %}
     {% if jobFormats|length > 0 %}
         <div class="text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
             <svg class="bi bi-small me-1"><use xlink:href="#suitcase"/></svg>
@@ -118,7 +117,7 @@
         {% endif %}
     {% endif %}
 
-    {% if jobBenefits|length > 0 %}
+    {% if (jobBenefits ?? null) is not null and jobBenefits|length > 0 %}
     <hr>
     <div>
         <h3>Job benefits:</h3>
@@ -150,10 +149,11 @@
         </div>
     {% endif %}
 
+    {% if (job.content ?? null) is not null %}
     <hr>
     <h3>About job:</h3>
     <div>
         {{ job.content|markdown_to_html }}
     </div>
-
+    {% endif %}
 </div>

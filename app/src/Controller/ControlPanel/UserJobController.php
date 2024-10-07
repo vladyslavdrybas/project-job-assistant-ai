@@ -74,7 +74,7 @@ class UserJobController extends AbstractControlPanelController
         [
             'otherSkills' => $jobSkills,
             'skillsMatched' => $skillsMatched,
-        ] = (new MatchUserSkills())($mySkills, $dto->skills);
+        ] = (new MatchUserSkills())($mySkills, $dto->skills ?? []);
 
         // TODO remove faked applications. display attached applications.
         $applications = [

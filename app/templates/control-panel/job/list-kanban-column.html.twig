@@ -67,22 +67,41 @@
                     {% endif %}
                 </div>
 
-                {% if job.employer.contacts.location is defined %}
-                    <div class="text-small text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
-                        <svg class="bi bi-small"><use xlink:href="#location"/></svg>
+                {% if (job.location ?? null) is not null %}
+                    <div class="text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
+                        <svg class="bi bi-small me-1"><use xlink:href="#location"/></svg>
 
-                        {% if job.employer.contacts.location.country %}
-                            <span class="ps-1 inline-divider">{{ text_inline_divider }}</span>
-                            <span class="px-1">{{ job.employer.contacts.location.country }}</span>
+                        {% if job.location.country %}
+                            <div class="flex-nowrap">
+                                <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                                <span class="px-0 me-1 badge text-secondary">{{ job.location.country }}</span>
+                            </div>
                         {% endif %}
-                        {% if job.employer.contacts.location.city %}
-                            <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
-                            <span class="px-1">{{ job.employer.contacts.location.city }}</span>
+                        {% if job.location.city %}
+                            <div class="flex-nowrap">
+                                <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                                <span class="px-0 me-1 badge text-secondary">{{ job.location.city }}</span>
+                            </div>
                         {% endif %}
-                        {% if job.employer.contacts.location.region %}
-                            <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
-                            <span class="px-1">{{ job.employer.contacts.location.region }}</span>
+                        {% if job.location.region %}
+                            <div class="flex-nowrap">
+                                <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                                <span class="px-0 me-1 badge text-secondary">{{ job.location.region }}</span>
+                            </div>
                         {% endif %}
+                    </div>
+                {% endif %}
+
+                {% set jobFormats = enum_values(job.formats ?? [], 'job_format') %}
+                {% if jobFormats|length > 0 %}
+                    <div class="text-secondary d-flex flex-row justify-content-start align-items-center flex-wrap">
+                        <svg class="bi bi-small me-1"><use xlink:href="#suitcase"/></svg>
+                        {% for format in jobFormats %}
+                            <div class="flex-nowrap">
+                                <span class="px-0 inline-divider">{{ text_inline_divider }}</span>
+                                <span class="px-0 me-1 badge text-secondary">{{ format }}</span>
+                            </div>
+                        {% endfor %}
                     </div>
                 {% endif %}
 
