@@ -53,7 +53,7 @@ class ResumeFormType extends AbstractType
                     'required' => false,
                 ]
             )
-            ->add('contactPerson',
+            ->add('personalDetails',
                 ContactPersonFormType::class,
                 [
                     'required' => false,

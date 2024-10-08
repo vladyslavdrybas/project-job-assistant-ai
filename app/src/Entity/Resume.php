@@ -45,6 +45,12 @@ class Resume extends AbstractEntity
     #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
     protected ?string $lastname = null;
 
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    protected ?array $formats = [];
+
+    #[ORM\Column(type: Types::JSON, nullable: true)]
+    protected ?array $skills = [];
+
     /**
      * Many Resumes have Many Skills.
      * @var Collection<int, Skill>
@@ -53,12 +59,38 @@ class Resume extends AbstractEntity
     #[ORM\JoinColumn(name: 'resume_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'skill_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Skill::class)]
-    protected Collection $skills;
+    protected Collection $filterSkills;
 
     public function __construct()
     {
         parent::__construct();
-        $this->skills = new ArrayCollection();
+        $this->filterSkills = new ArrayCollection();
+    }
+
+    public function getFilterSkills(): Collection
+    {
+        return $this->filterSkills;
+    }
+
+    public function addFilterSkill(Skill $skill): void
+    {
+        if (!$this->filterSkills->contains($skill)) {
+            $this->filterSkills->add($skill);
+        }
+    }
+
+    public function removeFilterSkill(Skill $skill): void
+    {
+        if ($this->filterSkills->contains($skill)) {
+            $this->filterSkills->removeElement($skill);
+        }
+    }
+
+    public function setFilterSkills(Collection $skills): void
+    {
+        foreach ($skills as $skill) {
+            $this->addFilterSkill($skill);
+        }
     }
 
     public function getOwner(): ?User
@@ -141,25 +173,6 @@ class Resume extends AbstractEntity
         $this->lastname = $lastname;
     }
 
-    public function getSkills(): Collection
-    {
-        return $this->skills;
-    }
-
-    public function addSkill(Skill $skill): void
-    {
-        if (!$this->skills->contains($skill)) {
-            $this->skills->add($skill);
-        }
-    }
-
-    public function setSkills(Collection $skills): void
-    {
-        foreach ($skills as $skill) {
-            $this->addSkill($skill);
-        }
-    }
-
     public function getProfessionalSummary(): ?string
     {
         return $this->professionalSummary;
@@ -168,5 +181,25 @@ class Resume extends AbstractEntity
     public function setProfessionalSummary(?string $professionalSummary): void
     {
         $this->professionalSummary = $professionalSummary;
+    }
+
+    public function getFormats(): ?array
+    {
+        return $this->formats;
+    }
+
+    public function setFormats(?array $formats): void
+    {
+        $this->formats = $formats;
+    }
+
+    public function getSkills(): ?array
+    {
+        return $this->skills;
+    }
+
+    public function setSkills(?array $skills): void
+    {
+        $this->skills = $skills;
     }
 }

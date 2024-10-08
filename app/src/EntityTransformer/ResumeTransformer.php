@@ -11,29 +11,29 @@ use App\DataTransferObject\Form\ResumeDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\EntityInterface;
 use App\Entity\Resume;
-use InvalidArgumentException;
 
 class ResumeTransformer extends AbstractEntityTransformer
 {
-    public function supports(mixed $data): bool
-    {
-        return $data instanceof Resume || $data instanceof ResumeDto;
-    }
+    protected const ENTITY_CLASS = Resume::class;
+    protected const DTO_CLASS = ResumeDto::class;
 
     public function transform(ResumeDto|IDataTransferObject $dto): EntityInterface|Resume
     {
-        if (!$this->supports($dto)) return throw new InvalidArgumentException('Expect ' . ResumeDto::class);
+        $this->validateDto($dto);
 
         $resume = new Resume();
 
         $resume->setOwner($dto->owner);
+        $resume->setTitle($dto->title);
+        $resume->setJobTitle($dto->jobTitle);
+        $resume->setProfessionalSummary($dto->professionalSummary);
 
         return $resume;
     }
 
     public function reverseTransform(Resume|EntityInterface $entity): IDataTransferObject|ResumeDto
     {
-        if (!$this->supports($entity)) return throw new InvalidArgumentException('Expect ' . Resume::class);
+        $this->validateEntity($entity);
 
         $dto = new ResumeDto();
 

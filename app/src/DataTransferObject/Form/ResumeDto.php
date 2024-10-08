@@ -52,7 +52,7 @@ class ResumeDto implements IDataTransferObject
         public ?MediaCreatorFormDto $photo = null,
         public bool $includePhoto = true,
         public ?string $jobTitle = null,
-        public ?ContactPersonDto $contactPerson = null,
+        public ?ContactPersonDto $personalDetails = null,
         public ?string $professionalSummary = null,
 
         /** @var array<EmploymentRecordDto> $employmentHistory*/
@@ -72,6 +72,7 @@ class ResumeDto implements IDataTransferObject
 
         /** @var array<LinkDto> $links*/
         public array $links = [],
+
         public ?string $id = null,
         public ?DateTimeInterface $createdAt = null,
         public ?DateTimeInterface $updatedAt = null

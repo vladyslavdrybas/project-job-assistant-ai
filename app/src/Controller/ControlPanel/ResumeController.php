@@ -5,10 +5,12 @@ namespace App\Controller\ControlPanel;
 
 use App\Builder\ResumeBuilder;
 use App\Constants\RouteRequirements;
+use App\DataTransferObject\Form\ResumeDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Resume;
 use App\EntityTransformer\ResumeTransformer;
 use App\Form\CommandCenter\Resume\ResumeFormType;
+use App\Services\Skills\Writer\ResumeSkillsWriter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -83,10 +85,9 @@ class ResumeController extends AbstractControlPanelController
     public function edit(
         Resume $resume,
         ResumeTransformer $transformer,
+        ResumeSkillsWriter $resumeSkillsWriter,
         Request $request
     ): ViewResponseDto {
-        dump($resume);
-
         $dto = $transformer->reverseTransform($resume);
         dump($dto);
 
@@ -94,12 +95,11 @@ class ResumeController extends AbstractControlPanelController
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            // TODO handle form changes
-            dump($editForm->getData());
+            /** @var ResumeDto $dto */
+            $dto = $editForm->getData();
+            $this->saveFromDto($dto, $transformer, $resumeSkillsWriter);
 
             $actionBtn = $editForm->get('actionBtn')->getData();
-            dump($actionBtn);
-
             if ('view' === $actionBtn) {
                 return $this->response(
                     [
@@ -117,5 +117,17 @@ class ResumeController extends AbstractControlPanelController
             ],
             'control-panel/resume/edit.html.twig'
         );
+    }
+
+    protected function saveFromDto(
+        ResumeDto $dto,
+        ResumeTransformer $transformer,
+        ResumeSkillsWriter $resumeSkillsWriter
+    ): void {
+        $entity = $transformer->transform($dto);
+        $resumeSkillsWriter->write($entity, $dto->skills);
+
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
     }
 }
