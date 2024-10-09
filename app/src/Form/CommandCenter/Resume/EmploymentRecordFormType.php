@@ -71,7 +71,7 @@ class EmploymentRecordFormType extends AbstractType
                 TagsType::class,
                 [
                     'mapped' => true,
-                    'label' => 'Skills I used',
+                    'label' => 'Skills applied',
                 ]
             )
             ->add('description',

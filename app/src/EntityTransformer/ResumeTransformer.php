@@ -21,14 +21,16 @@ class ResumeTransformer extends AbstractEntityTransformer
     {
         $this->validateDto($dto);
 
-        $resume = new Resume();
+        $entity = new Resume();
 
-        $resume->setOwner($dto->owner);
-        $resume->setTitle($dto->title);
-        $resume->setJobTitle($dto->jobTitle);
-        $resume->setProfessionalSummary($dto->professionalSummary);
+        $entity->setOwner($dto->owner);
+        $entity->setTitle($dto->title);
+        $entity->setJobTitle($dto->jobTitle);
+        $entity->setProfessionalSummary($dto->professionalSummary);
+        $entity->setPersonalDetails($dto->personalDetails);
+        $entity->setEmail($dto->personalDetails->contacts->email);
 
-        return $resume;
+        return $entity;
     }
 
     public function reverseTransform(Resume|EntityInterface $entity): IDataTransferObject|ResumeDto
@@ -44,6 +46,7 @@ class ResumeTransformer extends AbstractEntityTransformer
         $dto->title = $entity->getTitle();
         $dto->jobTitle = $entity->getJobTitle();
         $dto->professionalSummary = $entity->getProfessionalSummary();
+        $dto->personalDetails = $entity->getPersonalDetails();
 
         $employmentHistory = [];
         for ($i = 0; $i < 22; $i++) {

@@ -76,5 +76,5 @@ class ResumeDto implements IDataTransferObject
         public ?string $id = null,
         public ?DateTimeInterface $createdAt = null,
         public ?DateTimeInterface $updatedAt = null
-    ){}
+    ) {}
 }

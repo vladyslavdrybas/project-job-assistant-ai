@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\DataTransferObject\Form\Contact\ContactPersonDto;
+use App\Entity\Type\JsonDataTransferObjectType;
 use App\Repository\ResumeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -30,6 +32,9 @@ class Resume extends AbstractEntity
     #[ORM\Column(type: Types::STRING, nullable: true )]
     protected ?string $title = null;
 
+    #[ORM\Column(type: JsonDataTransferObjectType::NAME, nullable: true)]
+    protected ?ContactPersonDto $personalDetails = null;
+
     #[ORM\Column(type: Types::STRING, nullable: true )]
     protected ?string $professionalSummary = null;
 
@@ -38,12 +43,6 @@ class Resume extends AbstractEntity
 
     #[ORM\Column(type: Types::STRING, length: 250, nullable: true )]
     protected ?string $email = null;
-
-    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
-    protected ?string $firstname = null;
-
-    #[ORM\Column(type: Types::STRING, length: 100, nullable: true)]
-    protected ?string $lastname = null;
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     protected ?array $formats = [];
@@ -153,26 +152,6 @@ class Resume extends AbstractEntity
         $this->email = $email;
     }
 
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname(?string $firstname): void
-    {
-        $this->firstname = $firstname;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(?string $lastname): void
-    {
-        $this->lastname = $lastname;
-    }
-
     public function getProfessionalSummary(): ?string
     {
         return $this->professionalSummary;
@@ -201,5 +180,15 @@ class Resume extends AbstractEntity
     public function setSkills(?array $skills): void
     {
         $this->skills = $skills;
+    }
+
+    public function getPersonalDetails(): ?ContactPersonDto
+    {
+        return $this->personalDetails;
+    }
+
+    public function setPersonalDetails(?ContactPersonDto $personalDetails): void
+    {
+        $this->personalDetails = $personalDetails;
     }
 }
