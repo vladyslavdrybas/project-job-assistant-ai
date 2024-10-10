@@ -5,7 +5,10 @@ namespace App\EntityTransformer;
 
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\EntityInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ObjectRepository;
 use InvalidArgumentException;
 
 abstract class AbstractEntityTransformer implements EntityTransformerInterface
@@ -37,9 +40,9 @@ abstract class AbstractEntityTransformer implements EntityTransformerInterface
 
     protected function findEntityOrCreate(IDataTransferObject $dto): EntityInterface
     {
-        $class = static::ENTITY_CLASS;
-
         if (!isset($dto->id)) {
+            $class = static::ENTITY_CLASS;
+
             return new $class;
         }
 
@@ -47,10 +50,17 @@ abstract class AbstractEntityTransformer implements EntityTransformerInterface
             throw new InvalidArgumentException('Expect repository for ' . static::ENTITY_CLASS);
         }
 
-        $entity = $this->entityManager->getRepository($class)->findOneBy([
+        $entity = $this->getRepository()->findOneBy([
             'id' => $dto->id
         ]);
 
         return $entity ?? new $class;
+    }
+
+    protected function getRepository(): ObjectRepository
+    {
+        $class = static::ENTITY_CLASS;
+
+        return $this->entityManager->getRepository($class);
     }
 }

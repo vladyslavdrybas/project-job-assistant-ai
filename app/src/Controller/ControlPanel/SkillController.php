@@ -5,11 +5,9 @@ namespace App\Controller\ControlPanel;
 
 use App\Constants\RouteRequirements;
 use App\DataTransferObject\ViewResponseDto;
-use App\Entity\Skill;
 use App\Form\CommandCenter\Skill\MySkillsFormType;
 use App\Repository\EmploymentRepository;
 use App\Services\Skills\Writer\UserSkillsWriter;
-use App\Utility\FilterHashMap;
 use App\Utility\MatchUserSkills;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
