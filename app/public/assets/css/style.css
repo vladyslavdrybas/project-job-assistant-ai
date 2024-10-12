@@ -198,6 +198,7 @@ input:focus,
 select:focus,
 textarea:focus,
 .form-control:focus,
+.form-select:focus,
 .use-bootstrap-tag.focus {
     border-color: var(--palette-input-outline);
     box-shadow: 0 0 0 .08rem var(--palette-input-outline);

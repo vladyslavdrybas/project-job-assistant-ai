@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="container bg-light">
     <div
         class="
@@ -14,7 +15,74 @@
             align-items-baseline
         "
     >
-        interview question
+        <a
+            class="pointer-primary ms-1 me-2"
+            href="{{ absolute_url(path('cp_interview_question_add')) }}"
+        >
+            <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
+        </a>
+        <h5 class="text-black me-2">New Interview Question</h5>
+        <p class="text-secondary">Add a question you had or possibly will have on your interview.</p>
+    </div>
+</div>
+
+<div class="container">
+    <div
+        class="
+            row
+            py-3
+        "
+    >
+        <div
+            class="col-12 col-md-3 bg-light"
+            id="questions-tab"
+            role="tablist"
+            aria-orientation="vertical"
+        >
+            {% for question in questions %}
+                <a
+                    class="text-decoration-none text-black"
+                    href="#question-content-{{ question.id }}"
+                >
+                    <div
+                        class="d-flex flex-row justify-content-between align-items-start border-bottom px-2 py-3 {% if loop.index == 1 %}active{% endif %}"
+                        id="question-nav-{{ question.id }}"
+                        data-bs-toggle="pill"
+                        data-bs-target="#question-content-{{ question.id }}"
+                        type="button"
+                        role="tab"
+                        aria-controls="question-content-{{ question.id }}"
+                        aria-selected="true">
+                        <span>{{ loop.index }}.</span>
+                        <span class="px-2 text-wrap">{{ question.title }}</span>
+                        {% if (question.content.answer ?? null) is not null and question.content.answer != '' %}
+                            <span title="you have answer">
+                                <svg class="bi bi-small"><use xlink:href="#checked"/></svg>
+                            </span>
+                        {% else %}
+                            <span></span>
+                        {% endif %}
+                    </div>
+
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="col-12 col-md-9 tab-content ps-2 pe-0" id="questions-tab-tabContent">
+            {% for question in questions %}
+                <div
+                    class="bg-light p-2 tab-pane fade show {% if loop.index == 1 %}active{% endif %}"
+                    id="question-content-{{ question.id }}"
+                    role="tabpanel"
+                    aria-labelledby="question-content-{{ question.id }}-tab"
+                    tabindex="{{ loop.index }}"
+                >
+                    {{ question.title }}
+                    <br>
+                    {{ question.content.answer }}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -5,9 +5,7 @@ namespace App\EntityTransformer;
 
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\EntityInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectRepository;
 use InvalidArgumentException;
 
@@ -40,9 +38,9 @@ abstract class AbstractEntityTransformer implements EntityTransformerInterface
 
     protected function findEntityOrCreate(IDataTransferObject $dto): EntityInterface
     {
-        if (!isset($dto->id)) {
-            $class = static::ENTITY_CLASS;
+        $class = static::ENTITY_CLASS;
 
+        if (!isset($dto->id)) {
             return new $class;
         }
 
