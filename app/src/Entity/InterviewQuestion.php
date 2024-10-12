@@ -15,6 +15,9 @@ class InterviewQuestion extends AbstractEntity
 {
     use EntityWithOwner;
 
+    #[ORM\Column(type: Types::STRING, length: 32, nullable: true)]
+    protected string $hash;
+
     #[ORM\Column(type: Types::STRING, length: 1024, nullable: true)]
     protected ?string $title = null;
 
@@ -38,6 +41,16 @@ class InterviewQuestion extends AbstractEntity
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     protected bool $isPublic = false;
+
+    public function getHash(): string
+    {
+        return $this->hash;
+    }
+
+    public function setHash(string $hash): void
+    {
+        $this->hash = $hash;
+    }
 
     public function getTitle(): ?string
     {
@@ -101,7 +114,7 @@ class InterviewQuestion extends AbstractEntity
 
     public function isDefault(): bool
     {
-        return $this->isDefault;
+        return $this->isDefault && $this->isPublic && $this->owner === null;
     }
 
     public function setIsDefault(bool $isDefault): void
@@ -117,5 +130,10 @@ class InterviewQuestion extends AbstractEntity
     public function setIsPublic(bool $isPublic): void
     {
         $this->isPublic = $isPublic;
+    }
+
+    public function canClone(UserInterface $owner): bool
+    {
+        return $this->isDefault() || ($this->isPublic() && $owner !== $this->owner);
     }
 }

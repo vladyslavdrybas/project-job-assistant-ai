@@ -32,57 +32,61 @@
             row
             py-3
         "
+        data-masonry='{"percentPosition": true, "itemSelector": ".col", "columnWidth": ".col", "horizontalOrder": true }'
     >
-        <div
-            class="col-12 col-md-3 bg-light"
-            id="questions-tab"
-            role="tablist"
-            aria-orientation="vertical"
-        >
-            {% for question in questions %}
-                <a
-                    class="text-decoration-none text-black"
-                    href="#question-content-{{ question.id }}"
+        {% for question in questions %}
+        <div class="col col-12 col-md-4 col-lg-3 py-2">
+                <div
+                    class="bg-light p-2"
+                    id="question-{{ question.id }}"
                 >
-                    <div
-                        class="d-flex flex-row justify-content-between align-items-start border-bottom px-2 py-3 {% if loop.index == 1 %}active{% endif %}"
-                        id="question-nav-{{ question.id }}"
-                        data-bs-toggle="pill"
-                        data-bs-target="#question-content-{{ question.id }}"
-                        type="button"
-                        role="tab"
-                        aria-controls="question-content-{{ question.id }}"
-                        aria-selected="true">
-                        <span>{{ loop.index }}.</span>
-                        <span class="px-2 text-wrap">{{ question.title }}</span>
-                        {% if (question.content.answer ?? null) is not null and question.content.answer != '' %}
-                            <span title="you have answer">
-                                <svg class="bi bi-small"><use xlink:href="#checked"/></svg>
-                            </span>
-                        {% else %}
-                            <span></span>
+                    <div>
+                        <span class="badge text-muted fs-6">
+                            {{ loop.index }}.
+                        </span>
+
+                        <span class="fs-5">
+                            {{ question.title }}
+                        </span>
+
+                        {% if (question.answer ?? null) is not null and question.answer != '' %}
+                            <svg class="bi bi-small"><use xlink:href="#checked"/></svg>
                         {% endif %}
+
                     </div>
 
-                </a>
-            {% endfor %}
-        </div>
 
-        <div class="col-12 col-md-9 tab-content ps-2 pe-0" id="questions-tab-tabContent">
-            {% for question in questions %}
-                <div
-                    class="bg-light p-2 tab-pane fade show {% if loop.index == 1 %}active{% endif %}"
-                    id="question-content-{{ question.id }}"
-                    role="tabpanel"
-                    aria-labelledby="question-content-{{ question.id }}-tab"
-                    tabindex="{{ loop.index }}"
-                >
-                    {{ question.title }}
-                    <br>
-                    {{ question.content.answer }}
+
+                    <div
+                        class="d-flex flex-row justify-content-between align-items-center border-top"
+                    >
+                        <a
+                            href="{{ absolute_url(path('cp_interview_question_show', {'interviewQuestion': question.id})) }}"
+                            class="text-decoration-none text-black fs-6"
+                        >
+                            <svg class="bi bi-small bi-fix pointer-primary"><use xlink:href="#view"></use></svg>
+                        </a>
+
+                        <span class="badge text-muted">
+                            {{ question.category }}
+                        </span>
+
+                        <a
+                            href="{{ absolute_url(path('cp_interview_question_edit', {'interviewQuestion': question.id})) }}"
+                            class="text-decoration-none text-black fs-6"
+                        >
+                            <svg class="bi bi-small bi-fix pointer-primary"><use xlink:href="#edit"></use></svg>
+                        </a>
+
+                    </div>
                 </div>
-            {% endfor %}
         </div>
+        {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block scriptsbottom %}
+    {{ parent() }}
+    <script src="{{ absolute_url(asset('masonry.pkgd.min.js?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'js')) }}"></script>
 {% endblock %}

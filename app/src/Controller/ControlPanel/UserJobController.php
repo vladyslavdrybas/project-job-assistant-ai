@@ -179,7 +179,7 @@ class UserJobController extends AbstractControlPanelController
                     [
                         'job' => $job,
                     ],
-                    'cp_job_show',
+                    'cp_job_show'
                 );
             }
         }

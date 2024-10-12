@@ -15,6 +15,18 @@
         Save
     </button>
     {% endif %}
+    {% if 'saveandnew' in actions %}
+    <button
+        class="btn btn-primary rounded-0 mb-2 position-relative target-value-change"
+        form="{{ form.vars.id }}"
+        {% if form.actionBtn is defined %}
+            data-target-value="saveandnew"
+            data-target="{{ form.actionBtn.vars.id }}"
+        {% endif %}
+    >
+        Save&New
+    </button>
+    {% endif %}
     {% if 'preview' in actions %}
     <button
         class="btn btn-primary rounded-0 mb-2 position-relative target-value-change"
@@ -67,6 +79,18 @@
         {% endif %}
     >
         Save
+    </button>
+    {% endif %}
+    {% if 'saveandnew' in actions %}
+    <button
+        class="btn btn-primary rounded-0 position-relative target-value-change"
+        form="{{ form.vars.id }}"
+        {% if form.actionBtn is defined %}
+            data-target-value="saveandnew"
+            data-target="{{ form.actionBtn.vars.id }}"
+        {% endif %}
+    >
+        Save&New
     </button>
     {% endif %}
     {% if 'preview' in actions %}

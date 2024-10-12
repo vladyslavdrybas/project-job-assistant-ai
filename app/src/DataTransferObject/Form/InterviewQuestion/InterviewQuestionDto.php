@@ -11,6 +11,7 @@ class InterviewQuestionDto implements IDataTransferObject
 {
     public function __construct(
         public ?string $title = null,
+        public ?string $hash = null,
         public ?string $description = null,
         public ?string $category = null,
         public ?string $tips = null,

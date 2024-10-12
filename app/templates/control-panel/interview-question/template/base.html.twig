@@ -1,0 +1,34 @@
+<div>
+    <span class="badge text-muted ps-0">{{ interviewQuestion.category }}</span>
+    <h1 class="fs-5 my-3 w-100 text-start">
+        {{ interviewQuestion.title }}
+    </h1>
+
+    <div>
+        <span class="badge text-muted border-start rounded-0 border-secondary mb-1 w-100 text-start">Description</span>
+
+        {{ interviewQuestion.description|markdown_to_html }}
+    </div>
+
+    <div>
+        <span class="badge text-muted border-start rounded-0 border-secondary mb-1 w-100 text-start">Tips</span>
+
+        {{ interviewQuestion.tips|markdown_to_html }}
+    </div>
+
+    <div>
+        <span class="badge text-muted border-start rounded-0 border-secondary mb-1 w-100 text-start">Answer Framework</span>
+
+        {{ interviewQuestion.answerFramework|markdown_to_html }}
+    </div>
+
+    <div>
+        <span class="fs-5 badge text-muted mb-1 w-100 text-center">Answer</span>
+
+        {% if (interviewQuestion.answer ?? null) is not null %}
+            {{ interviewQuestion.answer|markdown_to_html }}
+        {% else %}
+            <span class="fw-bold">...</span>
+        {% endif %}
+    </div>
+</div>
