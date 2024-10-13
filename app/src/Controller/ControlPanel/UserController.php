@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Entity\UserGoogle;
 use App\Entity\UserLinkedIn;
 use App\Exceptions\AccessDenied;
+use App\Form\CommandCenter\Profile\UserBiographyEditFormType;
 use App\Form\CommandCenter\Profile\UserEditForm;
 use App\Form\CommandCenter\Profile\UserPasswordChangeForm;
 use App\Repository\UserRepository;
@@ -182,6 +183,48 @@ class UserController extends AbstractControlPanelController
         }
 
         return $this->redirectToRoute('cp_user_show', ['user' => $user->getUsername()]);
+    }
+
+    #[Route(
+        '/biography',
+        name: '_biography',
+        methods: ['GET', 'POST']
+    )]
+    public function editBiography(
+        Request $request,
+    ): ViewResponseDto {
+        $user = $this->getUser();
+        $form = $this->createForm(UserBiographyEditFormType::class, [
+            'biography' => $user->getBiography(),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $actionBtn = $form->get('actionBtn')->getData();
+
+            $user->setBiography($data['biography']);
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            if ('view' === $actionBtn) {
+                return $this->response(
+                    [
+                        'user' => $user->getUsername(),
+                    ],
+                    'cp_user_show'
+                );
+            }
+        }
+
+        return $this->response(
+            [
+                'form' => $form,
+                'formActions' => ['save', 'view'],
+            ],
+            'control-panel/user/biography-edit.html.twig'
+        );
     }
 
     protected function sendValidationEmail(User $user, EmailVerifier $emailVerifier): void

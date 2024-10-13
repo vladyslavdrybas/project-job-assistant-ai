@@ -9,6 +9,8 @@ use Symfony\Component\Security\Core\User\UserInterface as SecurityUserInterface;
 
 interface UserInterface extends SecurityUserInterface, EquatableInterface, EntityInterface
 {
+    public const VALIDATE_BIOGRAPHY_MAX_LENGTH = 36000;
+
     public const ROLE_USER = 'ROLE_USER';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
 

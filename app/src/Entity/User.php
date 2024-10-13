@@ -60,6 +60,9 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     #[ORM\Column(name: "is_deleted", type: Types::BOOLEAN, options: ["default" => false])]
     protected bool $isDeleted = false;
 
+    #[ORM\Column(type: Types::STRING, length: UserInterface::VALIDATE_BIOGRAPHY_MAX_LENGTH, nullable: true)]
+    protected ?string $biography = null;
+
     /**
      * Many Users have Many Skills.
      * @var Collection<int, Skill>
@@ -269,5 +272,15 @@ class User extends AbstractEntity implements UserInterface, PasswordAuthenticate
     public function setLastname(?string $lastname): void
     {
         $this->lastname = $lastname;
+    }
+
+    public function getBiography(): ?string
+    {
+        return $this->biography;
+    }
+
+    public function setBiography(?string $biography): void
+    {
+        $this->biography = $biography;
     }
 }

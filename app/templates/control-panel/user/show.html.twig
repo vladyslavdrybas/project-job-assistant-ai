@@ -60,9 +60,17 @@
                         {% endif %}
 
                         <a
+                            href="{{ absolute_url(path('cp_user_biography', {'user': user.username})) }}"
+                            type="button"
+                            class="btn btn-primary rounded-0 ms-1"
+                        >
+                            Biography
+                        </a>
+
+                        <a
                             href="{{ absolute_url(path('cp_user_edit', {'user': user.username})) }}"
                             type="button"
-                            class="btn btn-primary rounded-0"
+                            class="btn btn-primary rounded-0 ms-1"
                         >
                             <svg class="bi bi-small"><use xlink:href="#edit"/></svg>
                         </a>
