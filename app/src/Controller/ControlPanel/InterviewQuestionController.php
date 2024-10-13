@@ -105,8 +105,6 @@ class InterviewQuestionController extends AbstractControlPanelController
         InterviewQuestionTransformer $transformer
     ): ViewResponseDto {
         $dto = $transformer->reverseTransform($interviewQuestion);
-        dump($dto);
-
         $form = $this->createForm(InterviewQuestionFormType::class, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -153,13 +151,15 @@ class InterviewQuestionController extends AbstractControlPanelController
                     [],
                     'cp_interview_question_add'
                 );
+            } else if ('ai' === $actionBtn) {
+                dump('ai tool run');
             }
         }
 
         return $this->response(
             [
                 'form' => $form,
-                'formActions' => ['save', 'view', 'saveandnew']
+                'formActions' => ['save', 'view', 'saveandnew', 'ai']
             ],
             'control-panel/interview-question/edit.html.twig'
         );

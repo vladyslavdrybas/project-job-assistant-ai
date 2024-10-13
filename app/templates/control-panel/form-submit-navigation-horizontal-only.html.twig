@@ -14,6 +14,19 @@
         Save
     </button>
     {% endif %}
+    {% if 'ai' in actions %}
+    <button
+        class="btn btn-primary bg-primary-hover border-1 border-primary-hover rounded-0 ms-2 target-value-change"
+        form="{{ form.vars.id }}"
+        {% if form.actionBtn is defined %}
+            data-target-value="ai"
+            data-target="{{ form.actionBtn.vars.id }}"
+        {% endif %}
+    >
+        AI creator
+        <svg class="bi bi-small"><use xlink:href="#magic"></use></svg>
+    </button>
+    {% endif %}
     {% if 'saveandnew' in actions %}
     <button
         class="btn btn-primary rounded-0 ms-2 target-value-change"

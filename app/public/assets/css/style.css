@@ -21,6 +21,14 @@
     background-color: var(--palette-primary-hover);
 }
 
+.border-primary-hover {
+    border-color: var(--palette-primary-hover);
+}
+
+.border-primary-hover:hover {
+    border-color: var(--palette-primary);
+}
+
 .btn-primary {
     --bs-btn-color: #fff;
     --bs-btn-bg: var(--palette-primary);
