@@ -442,12 +442,20 @@ label.required:after {
     filter: alpha(opacity=20);
 }
 
+.min-h-5 {
+    min-height: 5em;
+}
+
 .min-h-10 {
     min-height: 10em;
 }
 
 .min-h-20 {
     min-height: 20em;
+}
+
+.min-h-30 {
+    min-height: 30em;
 }
 
 .min-h-40 {

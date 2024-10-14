@@ -62,9 +62,6 @@ class InterviewQuestionController extends AbstractControlPanelController
             }
         }
 
-
-        dump($questions);
-
         return $this->response(
             [
                 'questions' => $questions,
@@ -105,25 +102,26 @@ class InterviewQuestionController extends AbstractControlPanelController
         InterviewQuestionTransformer $transformer
     ): ViewResponseDto {
         $dto = $transformer->reverseTransform($interviewQuestion);
+        $canClone = $interviewQuestion->canClone($this->getUser());
+        // clone default to user's personal
+        if ($canClone) {
+            $dto->id = null;
+            $dto->owner = $this->getUser();
+            $dto->updatedAt = null;
+            $dto->createdAt = new DateTime();
+            $dto->isPublic = false;
+            $dto->isDefault = false;
+        }
+
         $form = $this->createForm(InterviewQuestionFormType::class, $dto);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var InterviewQuestionDto $dto */
             $dto = $form->getData();
             $actionBtn = $form->get('actionBtn')->getData();
-            $canClone = $interviewQuestion->canClone($this->getUser());
 
             $dto->category = InterviewQuestionCategory::fromName($dto->category)->value;
 
-            // clone default to user's personal
-            if ($canClone) {
-                $dto->id = null;
-                $dto->owner = $this->getUser();
-                $dto->updatedAt = null;
-                $dto->createdAt = new DateTime();
-                $dto->isPublic = false;
-                $dto->isDefault = false;
-            }
             $entity = $transformer->transform($dto);
 
             $this->entityManager->persist($entity);
@@ -151,8 +149,6 @@ class InterviewQuestionController extends AbstractControlPanelController
                     [],
                     'cp_interview_question_add'
                 );
-            } else if ('ai' === $actionBtn) {
-                dump('ai tool run');
             }
         }
 

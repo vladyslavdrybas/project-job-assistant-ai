@@ -14,7 +14,14 @@ framework:
       
     # Note that the session will be started ONLY if you read or write from it.
     session: true
-
+    
+    http_client:      
+      scoped_clients:
+        openAiV1Client:
+          base_uri: 'https://api.openai.com/v1/'
+      default_options:
+        max_redirects: 5
+        
     #esi: true
     #fragments: true
     

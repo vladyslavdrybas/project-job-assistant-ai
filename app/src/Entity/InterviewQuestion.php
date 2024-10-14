@@ -16,7 +16,7 @@ class InterviewQuestion extends AbstractEntity
     use EntityWithOwner;
 
     #[ORM\Column(type: Types::STRING, length: 32, nullable: true)]
-    protected string $hash;
+    protected ?string $hash = null;
 
     #[ORM\Column(type: Types::STRING, length: 1024, nullable: true)]
     protected ?string $title = null;
@@ -33,7 +33,7 @@ class InterviewQuestion extends AbstractEntity
     #[ORM\Column(type: Types::STRING, length: 4096, nullable: true)]
     protected ?string $answerFramework = null;
 
-    #[ORM\Column(type: Types::STRING, length: 2048, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 8192, nullable: true)]
     protected ?string $answer = null;
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
@@ -42,12 +42,12 @@ class InterviewQuestion extends AbstractEntity
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     protected bool $isPublic = false;
 
-    public function getHash(): string
+    public function getHash(): ?string
     {
         return $this->hash;
     }
 
-    public function setHash(string $hash): void
+    public function setHash(?string $hash): void
     {
         $this->hash = $hash;
     }

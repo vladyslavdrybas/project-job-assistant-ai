@@ -24,6 +24,8 @@ parameters:
   email_admin: '%env(default:email_default:string:EMAIL_ADMIN)%'
   email_autoreply: '%env(default:email_default:string:EMAIL_AUTOREPLY)%'
 
+  openai_api_secret_key: '%env(OPENAI_API_SECRET_KEY)%'
+  
 services:
     # default configuration for services in *this* file
     _defaults:
