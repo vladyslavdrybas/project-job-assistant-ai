@@ -37,7 +37,12 @@ Do not self-reference.
 Do not explain what you are doing. Do not comment answer. Act as You\'re a professional content writer. I want you to write me an answer on the question I will ask.
 You can use tips I may provide, framework how to build answer, and context why do I need this answer. All additional information you can find above between this symbols [].
 Use formal language. Use all data to highlight my strongest sides. Pay attention on markdown and highlights in text I will provide.
-Provide short answer in 2000-4096 characters as a consistent story.';
+Provide short answer in 500-4096 characters as a consistent story. Short is better!!!
+Do not try to cover all my skills, achievements and experience.
+I want you to describe general picture with one or two specific examples.
+Important: follow timeline of my education, work experience and and achievements!!!';
+
+        $prompt .= "\n" . 'QUESTION YOU MUST ANSWER ON: [' . $dto->title . ']. FOCUS ON the question, everything else is a helpful information.';
 
         if (null !== $dto->owner->getBiography()) {
             $prompt .= "\n" . 'Use my biography to write more accurate answer: [' . $dto->owner->getBiography() . ']';

@@ -48,8 +48,6 @@ class InterviewQuestionFormType extends AbstractType
         /** @var InterviewQuestionDto $data */
         $data = $builder->getData();
 
-        dump($data->category);
-
         $builder->add('title',
                 TextType::class,
                 [
