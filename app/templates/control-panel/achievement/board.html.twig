@@ -1,10 +1,11 @@
 {% extends 'control-panel/index.html.twig'%}
 
-{% block headstylesheets %}
-    <link rel="stylesheet" href="{{ absolute_url(asset('bs-brain-timeline-7.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">
-{% endblock %}
+{#{% block headstylesheets %}#}
+{#    <link rel="stylesheet" href="{{ absolute_url(asset('bs-brain-timeline-7.css?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'css')) }}">#}
+{#{% endblock %}#}
 
 {% block content %}
+
 <div class="container bg-light">
     <div
         class="
@@ -14,7 +15,79 @@
             align-items-baseline
         "
     >
-        achievements
+        <a
+            class="pointer-primary ms-1 me-2"
+            href="{{ absolute_url(path('cp_achievement_add')) }}"
+        >
+            <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
+        </a>
+        <h5 class="text-black me-2">New Achievement</h5>
+        <p class="text-secondary">Add achievements you have. It will help to build your resume. Just start and see how awesome you are.</p>
     </div>
 </div>
+
+<div class="container">
+    <div
+        class="
+            row
+            py-3
+        "
+        data-masonry='{"percentPosition": true, "itemSelector": ".col", "columnWidth": ".col", "horizontalOrder": true }'
+    >
+        {% for achievement in achievements %}
+        <div class="col col-12 col-md-4 col-lg-3 py-2">
+            <div
+                class="bg-light p-2"
+                id="question-{{ achievement.id }}"
+            >
+                {% if achievement.title %}
+                <div>
+                    <span class="fs-5">
+                        {{ achievement.title }}
+                    </span>
+                </div>
+                {% else %}
+                    Untitled
+                {% endif %}
+
+                {% if achievement.description %}
+                <div class="border-top py-1">
+                    <span class="">
+                        {{ achievement.description }}
+                    </span>
+                </div>
+                {% endif %}
+
+                <div
+                    class="d-flex flex-row justify-content-between align-items-center border-top"
+                >
+                    <a
+                        href="{{ absolute_url(path('cp_achievement_show', {'achievement': achievement.id})) }}"
+                        class="text-decoration-none text-black fs-6"
+                    >
+                        <svg class="bi bi-small bi-fix pointer-primary"><use xlink:href="#view"></use></svg>
+                    </a>
+
+                    <span class="text-muted">
+                        {{ achievement.doneAt|date('M,Y') }}
+                    </span>
+
+                    <a
+                        href="{{ absolute_url(path('cp_achievement_edit', {'achievement': achievement.id})) }}"
+                        class="text-decoration-none text-black fs-6"
+                    >
+                        <svg class="bi bi-small bi-fix pointer-primary"><use xlink:href="#edit"></use></svg>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scriptsbottom %}
+    {{ parent() }}
+    <script src="{{ absolute_url(asset('masonry.pkgd.min.js?t=' ~ 'now'|date('Y-m-d-H-i-s'), 'js')) }}"></script>
 {% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'control-panel/index.html.twig' %}
+
+{% block content %}
+<div class="container bg-light">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8" style="min-width: 300px;">
+            {{ form_start(form,
+                {
+                    'method': form.vars.method,
+                    'attr': {
+                    'id': form.vars.id,
+                    'class': 'w-100'
+                }
+                }
+            ) }}
+
+            {{ form_errors(form) }}
+
+            {{ form_row(form.title) }}
+
+            <div>
+                <h3>{{ form.description.vars.label }}</h3>
+                <span class="text-muted">{{ form.description.vars.help }}</span>
+                {{ form_row(form.description,
+                    {
+                        'label': false,
+                        'help' : false,
+                        'attr': {
+                            'class': 'min-h-10'
+                        }
+                    }
+            ) }}
+            </div>
+
+            <div>
+                <h3>{{ form.skills.vars.label }}</h3>
+                <span class="text-muted">{{ form.skills.vars.help }}</span>
+                {{ form_row(form.skills,
+                    {
+                        'label': false,
+                        'help' : false,
+                    }
+                ) }}
+            </div>
+
+            <div class="row">
+                <div class="clo-12 col-sm-6">
+                    {{ form_row(form.doneAt) }}
+                </div>
+                <div class="clo-12 col-sm-6">
+                    {{ form_row(form.employment) }}
+                </div>
+            </div>
+
+            {% if form._token is defined %}
+                {{ form_row(form._token) }}
+            {% endif %}
+            {{ form_row(form.actionBtn) }}
+            {{ form_end(form, {'render_rest': false}) }}
+            <hr class="mb-3">
+            {% include 'control-panel/form-submit-navigation-horizontal-only.html.twig' with {'form': form, 'actions': formActions} only %}
+        </div>
+
+    </div>
+</div>
+
+    {% include 'control-panel/form-submit-navigation-with-sidebar.html.twig' with {'form': form, 'actions': formActions} only %}
+{% endblock %}

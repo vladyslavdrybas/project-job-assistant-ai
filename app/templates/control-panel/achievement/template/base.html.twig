@@ -1,0 +1,86 @@
+<div>
+    <h1 class="fs-5 my-3 w-100 text-start mb-3">
+        {{ achievement.title }}
+    </h1>
+
+    {% if achievement.employment %}
+    <div class="mb-3">
+        <span class="badge text-muted border-start rounded-0 border-secondary mb-1 w-100 text-start">Employment</span>
+
+        <div class="">
+            <svg class="bi bi-small text-secondary"><use xlink:href="#suitcase"></use></svg>
+
+            {% if achievement.employment.employerTitle is defined %}
+                <span class="pe-1 ">
+                <span class="ps-0 inline-divider text-secondary">{{ text_inline_divider }}</span>
+                at <span>{{ achievement.employment.employerTitle }}</span>
+                    </span>
+            {% endif %}
+
+            {% if achievement.employment.projectTitle %}
+                <span class="pe-1 ">
+                <span class="ps-0 inline-divider text-secondary">{{ text_inline_divider }}</span>
+                In <span>{{ achievement.employment.projectTitle }}</span> team
+                </span>
+            {% endif %}
+
+            {% if achievement.employment.jobTitle is defined %}
+                <span class="pe-1 ">
+                <span class="ps-0 inline-divider text-secondary">{{ text_inline_divider }}</span>
+                as <span>{{ achievement.employment.jobTitle }}</span>
+                </span>
+            {% endif %}
+        </div>
+
+        {% if achievement.employment.startDate %}
+            <div class="text-small range-date d-flex flex-row flex-wrap justify-content-start align-items-center">
+                <svg class="bi bi-small text-secondary "><use xlink:href="#clock"></use></svg>
+
+                <span class="px-1 inline-divider">{{ text_inline_divider }}</span>
+                <span class="start-date">{{ achievement.employment.startDate|date(date_format) }}</span>
+
+                {% if achievement.employment.endDate %}
+                    <span class="px-1 inline-divider">{{ text_inline_divider }}</span>
+                    <span class="end-date">{{ achievement.employment.endDate|date(date_format) }}</span>
+                {% endif %}
+
+                <span class="px-1 inline-divider">{{ text_inline_divider }}</span>
+                <span class="end-date">{{ date_diff(achievement.employment.startDate, achievement.employment.endDate, false) }}</span>
+            </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="mb-3">
+        <span class="badge text-muted border-start rounded-0 border-secondary mb-1 w-100 text-start">Done At</span>
+
+        {% if achievement.doneAt %}
+            <div class="text-small range-date d-flex flex-row flex-wrap justify-content-start align-items-center">
+                <svg class="bi bi-small text-secondary"><use xlink:href="#clock"></use></svg>
+
+                <span class="px-1 inline-divider">{{ text_inline_divider }}</span>
+                <span class="start-date">{{ achievement.doneAt|date(date_format) }}</span>
+
+                <span class="px-1 inline-divider">{{ text_inline_divider }}</span>
+                <span class="end-date">{{ date_diff(achievement.doneAt, null, true) }}</span>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class=" mb-3">
+        <span class="badge text-muted border-start rounded-0 border-secondary mb-1 w-100 text-start">Description</span>
+
+        {{ achievement.description }}
+    </div>
+
+    {% if achievement.skills|length > 0 %}
+        <div>
+            <span class="badge text-muted border-start rounded-0 border-secondary mb-1 w-100 text-start">Skills</span>
+
+            {% for skill in achievement.skills %}
+                {% if loop.index != 1 %}{{ text_inline_divider }}{% endif %}
+                <span class="badge bg-badge-primary">{{ skill }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

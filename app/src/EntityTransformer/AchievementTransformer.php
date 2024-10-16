@@ -4,23 +4,17 @@ declare(strict_types=1);
 namespace App\EntityTransformer;
 
 use App\DataTransferObject\Form\Achievement\AchievementDto;
+use App\DataTransferObject\Form\Achievement\AchievementEmploymentDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\Achievement;
+use App\Entity\Employment;
 use App\Entity\EntityInterface;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 
 class AchievementTransformer extends AbstractEntityTransformer
 {
     protected const ENTITY_CLASS = Achievement::class;
     protected const DTO_CLASS = AchievementDto::class;
-
-    public function __construct(
-        protected EntityManagerInterface $entityManager,
-        protected EmploymentTransformer $employmentTransformer
-    ) {
-        parent::__construct($entityManager);
-    }
 
     public function transform(AchievementDto|IDataTransferObject $dto): EntityInterface|Achievement
     {
@@ -29,9 +23,10 @@ class AchievementTransformer extends AbstractEntityTransformer
         /** @var Achievement $entity */
         $entity = $this->findEntityOrCreate($dto);
 
-        $employment = $dto->employment;
-        if (null !== $employment) {
-            $employment = $this->employmentTransformer->transform($employment);
+        $employment = null;
+        if (null !== ($dto->employment->employmentId ?? null)) {
+            $employment = $this->entityManager
+                ->find(Employment::class, $dto->employment->employmentId);
         }
 
         $entity->setUpdatedAt(new DateTime());
@@ -40,6 +35,7 @@ class AchievementTransformer extends AbstractEntityTransformer
         $entity->setDescription($dto->description);
         $entity->setDoneAt($dto->doneAt);
         $entity->setDescription($dto->description);
+        $entity->setTitle($dto->title);
         $entity->setSkills($dto->skills);
         $entity->setEmployment($employment);
 
@@ -58,8 +54,15 @@ class AchievementTransformer extends AbstractEntityTransformer
         $dto->updatedAt = $entity->getUpdatedAt();
 
         $employment = $entity->getEmployment();
-        if (null !== $dto->employment) {
-            $employment = $this->employmentTransformer->reverseTransform($employment);
+        if (null !== $employment) {
+            $employment = new AchievementEmploymentDto(
+                $employment->getJobTitle(),
+                $employment->getProjectTitle(),
+                $employment->getEmployer()?->title ?? null,
+                $employment->getStartDate(),
+                $employment->getEndDate(),
+                $employment->getRawId(),
+            );
         }
 
         $dto->title = $entity->getTitle();

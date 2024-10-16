@@ -27,6 +27,10 @@ class DateDiffToStringFunction extends AbstractExtension
             $to = new DateTime('now');
         }
 
+        if ($from > $to) {
+            return '';
+        }
+
         $diff = $from->diff($to);
         $weeks = (int) floor($diff->days/7);
 

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\DataTransferObject\Form\Achievement;
 
-use App\DataTransferObject\Form\EmploymentHistory\EmploymentRecordDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\UserInterface;
 use DateTimeImmutable;
@@ -15,7 +14,7 @@ class AchievementDto implements IDataTransferObject
         public ?string $title = null,
         public ?string $description = null,
         public ?DateTimeImmutable $doneAt = null,
-        public ?EmploymentRecordDto $employment = null,
+        public ?AchievementEmploymentDto $employment = null,
 
         /** @var array<string> $skills*/
         public ?array $skills = [],

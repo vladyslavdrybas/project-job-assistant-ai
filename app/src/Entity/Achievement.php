@@ -13,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: "achievement")]
 class Achievement extends AbstractEntity
 {
+    public const CONSTRAINT_DESCRIPTION_MAX_LENGTH = 2048;
+
     use EntityWithOwner;
 
     #[ORM\ManyToOne(targetEntity: Employment::class)]
@@ -20,10 +22,10 @@ class Achievement extends AbstractEntity
     protected ?Employment $employment = null;
 
     #[ORM\Column(name: "title", type: Types::STRING, length: 255, nullable: true)]
-    protected string $title;
+    protected ?string $title = null;
 
-    #[ORM\Column(name: "description", type: Types::STRING, length: 1200, nullable: true)]
-    protected string $description;
+    #[ORM\Column(name: "description", type: Types::STRING, length: self::CONSTRAINT_DESCRIPTION_MAX_LENGTH, nullable: true)]
+    protected ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     protected ?DateTimeImmutable $doneAt = null;
@@ -51,22 +53,22 @@ class Achievement extends AbstractEntity
         $this->employment = $employment;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
