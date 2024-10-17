@@ -1,7 +1,44 @@
 {% extends 'control-panel/index.html.twig'%}
 
 {% block content %}
-<div class="container-fluid container-lg bg-light">
+<div class="container bg-light">
+    <div
+        class="
+            d-flex
+            flex-row
+            justify-content-start
+            align-items-baseline
+        "
+    >
+        <a
+            class="pointer-primary me-2"
+            href="{{ absolute_url(path('cp_job_attach_resume', {'job': job.id})) }}"
+        >
+            <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
+        </a>
+        <h5 class="text-black me-2">Attach Resume</h5>
+        <p class="text-secondary">Add the resume you will apply to get this job.</p>
+    </div>
+    <div
+        class="
+            d-flex
+            flex-row
+            justify-content-start
+            align-items-baseline
+        "
+    >
+        <a
+            class="pointer-primary me-2"
+            href="{{ absolute_url(path('cp_job_attach_cover_letter', {'job': job.id})) }}"
+        >
+            <svg class="bi bi-small" style="width:2.1em;height:2.1em;"><use xlink:href="#add"/></svg>
+        </a>
+        <h5 class="text-black me-2">Attach Cover letter</h5>
+        <p class="text-secondary">Add the cover letter you will apply to get this job.</p>
+    </div>
+</div>
+
+<div class="container-fluid container-lg bg-light mt-3">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8" style="min-width: 300px;">
             {% include 'control-panel/job/template/base.html.twig' %}

@@ -8,6 +8,7 @@ use App\Constants\Job\JobStatus;
 use App\DataTransferObject\Form\Job\JobDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\Job;
+use App\Entity\Resume;
 use App\EntityTransformer\JobTransformer;
 use App\Form\CommandCenter\Job\JobFormType;
 use App\Repository\JobRepository;
@@ -111,26 +112,6 @@ class UserJobController extends AbstractControlPanelController
                     ],
                 ],
             ]
-            ,'control-panel/job/show.html.twig',
-        );
-    }
-
-    #[Route(
-        path: '/{job}/tailor/resume/{resume}',
-        name: '_tailor_resume',
-        methods: ['GET']
-    )]
-    #[IsGranted(
-        VoterPermissions::VIEW->value,
-        'job',
-        'Access denied',
-        Response::HTTP_UNAUTHORIZED
-    )]
-    public function tailorResume(
-        Job $job
-    ): ViewResponseDto {
-        return $this->response(
-            []
             ,'control-panel/job/show.html.twig',
         );
     }
@@ -274,6 +255,46 @@ class UserJobController extends AbstractControlPanelController
                 'colWidth' => (int) ceil(12/count($statuses)),
             ]
             ,'control-panel/job/list-kanban.html.twig',
+        );
+    }
+
+    #[Route(
+        path: '/{job}/attach/resume',
+        name: '_attach_resume',
+        methods: ['GET']
+    )]
+    #[IsGranted(
+        VoterPermissions::VIEW->value,
+        'job',
+        'Access denied',
+        Response::HTTP_UNAUTHORIZED
+    )]
+    public function attachResume(
+        Job $job
+    ): ViewResponseDto {
+        return $this->response(
+            []
+            ,'control-panel/job/attach/resume.html.twig',
+        );
+    }
+
+    #[Route(
+        path: '/{job}/attach/cover-letter',
+        name: '_attach_cover_letter',
+        methods: ['GET']
+    )]
+    #[IsGranted(
+        VoterPermissions::VIEW->value,
+        'job',
+        'Access denied',
+        Response::HTTP_UNAUTHORIZED
+    )]
+    public function attachCoverLetter(
+        Job $job
+    ): ViewResponseDto {
+        return $this->response(
+            []
+            ,'control-panel/job/attach/cover-letter.html.twig',
         );
     }
 }
