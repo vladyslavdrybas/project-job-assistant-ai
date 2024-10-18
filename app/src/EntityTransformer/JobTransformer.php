@@ -4,13 +4,16 @@ declare(strict_types=1);
 namespace App\EntityTransformer;
 
 use App\Constants\Job\JobSalaryPeriod;
+use App\DataTransferObject\DocumentLinkDto;
 use App\DataTransferObject\Form\Job\JobDto;
 use App\DataTransferObject\Form\Job\SalaryDto;
 use App\DataTransferObject\IDataTransferObject;
 use App\Entity\EntityInterface;
 use App\Entity\Job;
+use App\Entity\Resume;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class JobTransformer extends AbstractEntityTransformer
 {
@@ -19,7 +22,8 @@ class JobTransformer extends AbstractEntityTransformer
 
     public function __construct(
         protected EntityManagerInterface $entityManager,
-        protected LocationTransformer $locationTransformer
+        protected LocationTransformer $locationTransformer,
+        protected UrlGeneratorInterface $urlGenerator,
     ) {
         parent::__construct($entityManager);
     }
@@ -53,6 +57,20 @@ class JobTransformer extends AbstractEntityTransformer
         $entity->setSalaryMax($dto->salary->max);
 
         $entity->setSalaryPeriod(JobSalaryPeriod::fromName($dto->salary->period));
+
+        if ($dto->resume instanceof DocumentLinkDto && null !== $dto->resume->id) {
+            $resume = $this->entityManager->getRepository(Resume::class)->find($dto->resume->id);
+            if (null !== $resume) {
+                $entity->setResume($resume);
+            }
+        }
+
+        if ($dto->coverLetter instanceof DocumentLinkDto && null !== $dto->coverLetter->id) {
+            $coverLetter = $this->entityManager->getRepository(Resume::class)->find($dto->coverLetter->id);
+            if (null !== $coverLetter) {
+                $entity->setResume($coverLetter);
+            }
+        }
 
         return $entity;
     }
@@ -88,6 +106,28 @@ class JobTransformer extends AbstractEntityTransformer
             $entity->getSalaryMax(),
             $entity->getSalaryPeriod()?->name
         );
+
+        $resume = $entity->getResume();
+        if (null !== $resume) {
+            $dto->resume = new DocumentLinkDto(
+                $resume->getTitle(),
+                $this->urlGenerator->generate('cp_resume_show', ['resume' => $resume->getRawId()], UrlGeneratorInterface::ABSOLUTE_URL),
+                $resume->getRawId(),
+                $resume->getCreatedAt(),
+                $resume->getUpdatedAt()
+            );
+        }
+
+        $coverLetter = $entity->getCoverLetter();
+        if (null !== $coverLetter) {
+            $dto->coverLetter = new DocumentLinkDto(
+                $coverLetter->getTitle(),
+                $this->urlGenerator->generate('cp_cover_letter_show', ['coverLetter' => $coverLetter->getRawId()], UrlGeneratorInterface::ABSOLUTE_URL),
+                $coverLetter->getRawId(),
+                $coverLetter->getCreatedAt(),
+                $coverLetter->getUpdatedAt()
+            );
+        }
 
         return $dto;
     }

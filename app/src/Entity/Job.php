@@ -61,6 +61,14 @@ class Job extends AbstractEntity
     #[ORM\Column(type: Types::STRING, nullable: true, enumType: JobSalaryPeriod::class)]
     protected ?JobSalaryPeriod $salaryPeriod = null;
 
+    #[ORM\ManyToOne(targetEntity: Resume::class)]
+    #[ORM\JoinColumn(name: 'resume_id', referencedColumnName: 'id')]
+    protected ?Resume $resume = null;
+
+    #[ORM\ManyToOne(targetEntity: CoverLetter::class)]
+    #[ORM\JoinColumn(name: 'cover_letter_id', referencedColumnName: 'id')]
+    protected ?CoverLetter $coverLetter = null;
+
     /**
      * Many Jobs have Many Skills.
      * @var Collection<int, Skill>
@@ -241,5 +249,25 @@ class Job extends AbstractEntity
     public function setStatus(JobStatus $status): void
     {
         $this->status = $status;
+    }
+
+    public function getResume(): ?Resume
+    {
+        return $this->resume;
+    }
+
+    public function setResume(?Resume $resume): void
+    {
+        $this->resume = $resume;
+    }
+
+    public function getCoverLetter(): ?CoverLetter
+    {
+        return $this->coverLetter;
+    }
+
+    public function setCoverLetter(?CoverLetter $coverLetter): void
+    {
+        $this->coverLetter = $coverLetter;
     }
 }

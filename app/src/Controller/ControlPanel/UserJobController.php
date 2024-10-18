@@ -77,28 +77,12 @@ class UserJobController extends AbstractControlPanelController
             'skillsMatched' => $skillsMatched,
         ] = (new MatchUserSkills())($mySkills, $dto->skills ?? []);
 
-        // TODO remove faked applications. display attached applications.
-        $applications = [
-            [
-                'type' => 'resume',
-                'title' => 'Resume',
-                'link' => '/document/resume'
-            ],
-            [
-                'type' => 'cover letter',
-                'title' => 'Cover Letter',
-                'link' => '/document/cover-letter'
-            ]
-        ];
-
-
         return $this->response(
             [
                 'job' => $dto,
                 'jobSkills' => $jobSkills,
                 'jobSkillsMatched' => $skillsMatched,
                 'jobBenefits' => [],
-                'applications' => $applications,
                 'navActions' => [
                     'edit' => [
                         'type' => 'link',

@@ -131,23 +131,45 @@
     </div>
     {% endif %}
 
-    {% if applications|length > 0 %}
-        <hr>
-        <div>
-            <h3>Attached documents</h3>
-            {% for document in applications %}
-                <ul class="list-unstyled">
-                    <li>
-                        <span class="badge bg-badge-primary">{{ document.title }}</span>
-                        <a
-                            class="text-black text-decoration-none"
-                            href="{{ document.link }}"
-                        >{{ document.title }}</a>
-                    </li>
-                </ul>
-            {% endfor %}
-        </div>
-    {% endif %}
+    <hr>
+    <div>
+        <ul class="list-unstyled">
+            <li class="mb-3">
+                <a
+                    class="text-black text-decoration-none"
+                    href="{{ absolute_url(path('cp_job_attach_resume', {'job': job.id})) }}"
+                >
+                    <svg class="bi bi-small me-1"><use xlink:href="#upload"/></svg>
+                </a>
+                <span class="badge bg-badge-primary">Resume</span>
+
+
+                {% if job.resume %}
+                    <a
+                        class="text-black text-decoration-none"
+                        href="{{ job.resume.link }}"
+                    >{{ job.resume.title }}</a>
+                {% endif %}
+            </li>
+
+            <li>
+                <a
+                    class="text-black text-decoration-none"
+                    href="{{ absolute_url(path('cp_job_attach_cover_letter', {'job': job.id})) }}"
+                >
+                    <svg class="bi bi-small me-1"><use xlink:href="#upload"/></svg>
+                </a>
+                <span class="badge bg-badge-primary">Cover letter</span>
+
+                {% if job.resume %}
+                    <a
+                        class="text-black text-decoration-none"
+                        href="{{ job.coverLetter.link }}"
+                    >{{ job.coverLetter.title }}</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
 
     {% if (job.content ?? null) is not null %}
     <hr>

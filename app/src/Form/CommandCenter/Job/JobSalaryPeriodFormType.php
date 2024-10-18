@@ -22,7 +22,8 @@ class JobSalaryPeriodFormType extends AbstractType
         $builder->addModelTransformer($this->modelTransformer);
 
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
-            foreach($event->getData() as $key => $value) {
+            $data = $event->getData() ?? [];
+            foreach($data as $key => $value) {
                 if (filter_var($value, FILTER_VALIDATE_BOOLEAN)) {
                     $event->setData([$key => $value]);
                 }

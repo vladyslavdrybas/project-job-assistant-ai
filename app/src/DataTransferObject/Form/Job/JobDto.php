@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\DataTransferObject\Form\Job;
 
 use App\Constants\Job\JobStatus;
+use App\DataTransferObject\DocumentLinkDto;
 use App\DataTransferObject\Form\Contact\ContactPersonDto;
 use App\DataTransferObject\Form\Contact\LocationDto;
 use App\DataTransferObject\Form\EmploymentHistory\EmployerDto;
@@ -28,6 +29,9 @@ class JobDto implements IDataTransferObject
         public ?array $formats = [],
         /** @var array<string> $skills*/
         public ?array $skills = [],
+
+        public ?DocumentLinkDto $resume = null,
+        public ?DocumentLinkDto $coverLetter = null,
 
         public bool $isUserAdded = false,
         public ?string $id = null,

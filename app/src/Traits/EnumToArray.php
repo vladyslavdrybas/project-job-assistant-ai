@@ -30,8 +30,12 @@ trait EnumToArray
         return self::array()[$name] !== null;
     }
 
-    public static function fromName(string $name): ?static
+    public static function fromName(?string $name): ?static
     {
+        if ($name === null) {
+            return null;
+        }
+
         foreach (self::cases() as $case) {
             if ($case->name === $name) {
                 return $case;
