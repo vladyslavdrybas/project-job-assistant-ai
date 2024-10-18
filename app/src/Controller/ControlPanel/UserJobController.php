@@ -105,11 +105,6 @@ class UserJobController extends AbstractControlPanelController
                         'title' => 'Edit',
                         'link' => $this->generateUrl('cp_job_edit', ['job' => $dto->id]),
                     ],
-                    'pdf' => [
-                        'type' => 'link',
-                        'title' => 'PDF',
-                        'link' => $this->generateUrl('cp_job_edit', ['job' => $dto->id]),
-                    ],
                 ],
             ]
             ,'control-panel/job/show.html.twig',
@@ -264,7 +259,7 @@ class UserJobController extends AbstractControlPanelController
         methods: ['GET']
     )]
     #[IsGranted(
-        VoterPermissions::VIEW->value,
+        VoterPermissions::OWNER->value,
         'job',
         'Access denied',
         Response::HTTP_UNAUTHORIZED
@@ -284,7 +279,7 @@ class UserJobController extends AbstractControlPanelController
         methods: ['GET']
     )]
     #[IsGranted(
-        VoterPermissions::VIEW->value,
+        VoterPermissions::OWNER->value,
         'job',
         'Access denied',
         Response::HTTP_UNAUTHORIZED

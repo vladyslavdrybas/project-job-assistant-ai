@@ -16,4 +16,5 @@ enum VoterPermissions: string
     case EDIT = 'edit';
     case DELETE = 'delete';
     case MANAGE = 'manage';
+    case OWNER = 'owner';
 }
