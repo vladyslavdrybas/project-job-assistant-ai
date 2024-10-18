@@ -8,6 +8,7 @@ use App\DataTransferObject\DocumentLinkDto;
 use App\DataTransferObject\Form\Job\JobDto;
 use App\DataTransferObject\Form\Job\SalaryDto;
 use App\DataTransferObject\IDataTransferObject;
+use App\Entity\CoverLetter;
 use App\Entity\EntityInterface;
 use App\Entity\Job;
 use App\Entity\Resume;
@@ -66,9 +67,9 @@ class JobTransformer extends AbstractEntityTransformer
         }
 
         if ($dto->coverLetter instanceof DocumentLinkDto && null !== $dto->coverLetter->id) {
-            $coverLetter = $this->entityManager->getRepository(Resume::class)->find($dto->coverLetter->id);
+            $coverLetter = $this->entityManager->getRepository(CoverLetter::class)->find($dto->coverLetter->id);
             if (null !== $coverLetter) {
-                $entity->setResume($coverLetter);
+                $entity->setCoverLetter($coverLetter);
             }
         }
 

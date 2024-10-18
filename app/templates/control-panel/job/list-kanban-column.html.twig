@@ -106,7 +106,29 @@
                     </div>
                 {% endif %}
 
+                <div>
+                    {% if job.resume %}
+                        <a
+                            class="text-decoration-none pointer-primary me-1"
+                            href="{{ job.resume.link }}"
+                        >
+                            <span class="badge bg-badge-primary">Resume</span>
+{#                            <svg class="bi bi-md text-black"><use xlink:href="#check"></use></svg>#}
+                        </a>
+                    {% endif %}
+                    {% if job.coverLetter %}
+                        <a
+                            class="text-decoration-none"
+                            href="{{ job.coverLetter.link }}"
+                        >
+                            <span class="badge bg-badge-primary">Cover letter</span>
+{#                            <svg class="bi bi-md text-black"><use xlink:href="#check"></use></svg>#}
+                        </a>
+                    {% endif %}
+                </div>
+
                 <span class="published-at-date">{{ date_diff(job.createdAt) }}</span>
+
             </div>
         {% endfor %}
     </div>

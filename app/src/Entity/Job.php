@@ -61,11 +61,11 @@ class Job extends AbstractEntity
     #[ORM\Column(type: Types::STRING, nullable: true, enumType: JobSalaryPeriod::class)]
     protected ?JobSalaryPeriod $salaryPeriod = null;
 
-    #[ORM\ManyToOne(targetEntity: Resume::class)]
+    #[ORM\ManyToOne(targetEntity: Resume::class, inversedBy: 'job')]
     #[ORM\JoinColumn(name: 'resume_id', referencedColumnName: 'id')]
     protected ?Resume $resume = null;
 
-    #[ORM\ManyToOne(targetEntity: CoverLetter::class)]
+    #[ORM\ManyToOne(targetEntity: CoverLetter::class, inversedBy: 'job')]
     #[ORM\JoinColumn(name: 'cover_letter_id', referencedColumnName: 'id')]
     protected ?CoverLetter $coverLetter = null;
 

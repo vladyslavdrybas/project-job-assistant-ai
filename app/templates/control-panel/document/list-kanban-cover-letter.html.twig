@@ -43,6 +43,12 @@
                         {% if document.title %}{{ document.title }}{% else %}Untitled{% endif %}
                     </strong>
 
+                    <div>
+                    {% if document.jobs|length > 0 %}
+                        <span title="linked to one or many jobs">
+                                <svg class="bi bi-md"><use xlink:href="#link"></use></svg>
+                            </span>
+                    {% endif %}
                     <a
                         href="{{ absolute_url(path('cp_cover_letter_show', {'coverLetter': document.id})) }}"
                         class="
@@ -53,6 +59,7 @@
                     >
                         <svg class="bi bi-small"><use xlink:href="#view"/></svg>
                     </a>
+                    </div>
                 </div>
 
                 {% if document.employer.title is defined %}

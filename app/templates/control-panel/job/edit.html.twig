@@ -19,6 +19,21 @@
 
                 {{ form_row(editForm.aboutPage) }}
 
+                <div>
+                    <hr>
+                    <h3>Attach documents</h3>
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <span id="anchor-attach-resume"></span>
+                            {{ form_row(editForm.resumeId) }}
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <span id="anchor-attach-cover-letter"></span>
+                            {{ form_row(editForm.coverLetterId) }}
+                        </div>
+                    </div>
+                </div>
+
                 <hr>
                 <h3>{{ editForm.location.vars.label }}</h3>
                 {{ form_row(editForm.formats, {'label': false}) }}

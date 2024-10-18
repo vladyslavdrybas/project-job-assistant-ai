@@ -137,7 +137,7 @@
             <li class="mb-3">
                 <a
                     class="text-black text-decoration-none"
-                    href="{{ absolute_url(path('cp_job_attach_resume', {'job': job.id})) }}"
+                    href="{{ absolute_url(path('cp_job_edit', {'job': job.id})) }}#anchor-attach-resume"
                 >
                     <svg class="bi bi-small me-1"><use xlink:href="#upload"/></svg>
                 </a>
@@ -148,24 +148,24 @@
                     <a
                         class="text-black text-decoration-none"
                         href="{{ job.resume.link }}"
-                    >{{ job.resume.title }}</a>
+                    >{{ job.resume.title ?? 'Untitled' }}</a>
                 {% endif %}
             </li>
 
             <li>
                 <a
                     class="text-black text-decoration-none"
-                    href="{{ absolute_url(path('cp_job_attach_cover_letter', {'job': job.id})) }}"
+                    href="{{ absolute_url(path('cp_job_edit', {'job': job.id})) }}#anchor-attach-cover-letter"
                 >
                     <svg class="bi bi-small me-1"><use xlink:href="#upload"/></svg>
                 </a>
                 <span class="badge bg-badge-primary">Cover letter</span>
 
-                {% if job.resume %}
+                {% if job.coverLetter %}
                     <a
                         class="text-black text-decoration-none"
                         href="{{ job.coverLetter.link }}"
-                    >{{ job.coverLetter.title }}</a>
+                    >{{ job.coverLetter.title ?? 'Untitled' }}</a>
                 {% endif %}
             </li>
         </ul>

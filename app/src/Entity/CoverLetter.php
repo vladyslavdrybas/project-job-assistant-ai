@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\CoverLetterRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,9 +29,17 @@ class CoverLetter extends AbstractEntity
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
-//    #[ORM\OneToOne(targetEntity: Employer::class)]
-//    #[ORM\JoinColumn(name: 'employer_id', referencedColumnName: 'id')]
-//    protected ?Employer $employer = null;
+    /**
+     * @var Collection<int, Job>
+     */
+    #[ORM\OneToMany(mappedBy: 'coverLetter', targetEntity: Job::class)]
+    protected Collection $jobs;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->jobs = new ArrayCollection();
+    }
 
     public function getOwner(): ?User
     {
@@ -69,5 +79,31 @@ class CoverLetter extends AbstractEntity
     public function setContent(?string $content): void
     {
         $this->content = $content;
+    }
+
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): void
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs->add($job);
+        }
+    }
+
+    public function removeJob(Job $job): void
+    {
+        if ($this->jobs->contains($job)) {
+            $this->jobs->removeElement($job);
+        }
+    }
+
+    public function setJobs(Collection $jobs): void
+    {
+        foreach ($jobs as $job) {
+            $this->addJob($job);
+        }
     }
 }

@@ -60,10 +60,17 @@ class Resume extends AbstractEntity
     #[ORM\ManyToMany(targetEntity: Skill::class)]
     protected Collection $filterSkills;
 
+    /**
+     * @var Collection<int, Job>
+     */
+    #[ORM\OneToMany(mappedBy: 'resume', targetEntity: Job::class)]
+    protected Collection $jobs;
+
     public function __construct()
     {
         parent::__construct();
         $this->filterSkills = new ArrayCollection();
+        $this->jobs = new ArrayCollection();
     }
 
     public function getFilterSkills(): Collection
@@ -190,5 +197,31 @@ class Resume extends AbstractEntity
     public function setPersonalDetails(?ContactPersonDto $personalDetails): void
     {
         $this->personalDetails = $personalDetails;
+    }
+
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): void
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs->add($job);
+        }
+    }
+
+    public function removeJob(Job $job): void
+    {
+        if ($this->jobs->contains($job)) {
+            $this->jobs->removeElement($job);
+        }
+    }
+
+    public function setJobs(Collection $jobs): void
+    {
+        foreach ($jobs as $job) {
+            $this->addJob($job);
+        }
     }
 }

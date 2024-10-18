@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\ControlPanel;
 
+use App\Builder\DocumentLinkBuilder;
 use App\Builder\JobBuilder;
 use App\Constants\Job\JobStatus;
 use App\DataTransferObject\Form\Job\JobDto;
@@ -11,7 +12,9 @@ use App\Entity\Job;
 use App\Entity\Resume;
 use App\EntityTransformer\JobTransformer;
 use App\Form\CommandCenter\Job\JobFormType;
+use App\Repository\CoverLetterRepository;
 use App\Repository\JobRepository;
+use App\Repository\ResumeRepository;
 use App\Security\Voter\VoterPermissions;
 use App\Services\Skills\Writer\JobSkillsWriter;
 use App\Utility\MatchUserSkills;
@@ -110,25 +113,47 @@ class UserJobController extends AbstractControlPanelController
         Request $request,
         Job $job,
         JobTransformer $transformer,
-        JobSkillsWriter $jobSkillsWriter
+        JobSkillsWriter $jobSkillsWriter,
+        ResumeRepository $resumeRepository,
+        CoverLetterRepository $coverLetterRepository,
+        DocumentLinkBuilder $documentLinkBuilder
     ): ViewResponseDto {
         $dto = $transformer->reverseTransform($job);
-        dump($dto);
-
         $editForm = $this->createForm(JobFormType::class, $dto);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            dump('form submitted');
             /** @var JobDto $dto */
             $dto = $editForm->getData();
-            dump($editForm->getData());
             $actionBtn = $editForm->get('actionBtn')->getData();
-            dump($actionBtn);
+            $resumeId = $editForm->get('resumeId')->getData();
+            $coverLetterId = $editForm->get('coverLetterId')->getData();
+
+            $entity = $transformer->transform($dto);
+
+            if (null !== $resumeId) {
+                $resume = $resumeRepository->find($resumeId);
+                if (null !== $resume) {
+                    $entity->setResume($resume);
+                    $resume->setJob($entity);
+                    $this->entityManager->persist($resume);
+//                    $dto->resume = $documentLinkBuilder->fromResume($resume);
+                }
+            }
+
+            if (null !== $coverLetterId) {
+                $coverLetter = $coverLetterRepository->find($coverLetterId);
+                if (null !== $coverLetter) {
+                    $entity->setCoverLetter($coverLetter);
+                    $coverLetter->setJob($entity);
+                    $this->entityManager->persist($coverLetter);
+//                    $dto->coverLetter = $documentLinkBuilder->fromCoverLetter($coverLetter);
+                }
+            }
 
             $dto->isUserAdded = true;
 
-            $entity = $transformer->transform($dto);
+
             $jobSkillsWriter->write($entity, $entity->getSkills());
 
             $this->entityManager->persist($entity);
@@ -178,8 +203,6 @@ class UserJobController extends AbstractControlPanelController
             $statuses,
             fn(string $status) => JobStatus::ARCHIVED->value !== $status
         );
-
-        dump($statuses);
 
         foreach($dtos as $jobDto) {
             $jobs[$jobDto->status->value][] = $jobDto;
@@ -234,46 +257,6 @@ class UserJobController extends AbstractControlPanelController
                 'colWidth' => (int) ceil(12/count($statuses)),
             ]
             ,'control-panel/job/list-kanban.html.twig',
-        );
-    }
-
-    #[Route(
-        path: '/{job}/attach/resume',
-        name: '_attach_resume',
-        methods: ['GET']
-    )]
-    #[IsGranted(
-        VoterPermissions::OWNER->value,
-        'job',
-        'Access denied',
-        Response::HTTP_UNAUTHORIZED
-    )]
-    public function attachResume(
-        Job $job
-    ): ViewResponseDto {
-        return $this->response(
-            []
-            ,'control-panel/job/attach/resume.html.twig',
-        );
-    }
-
-    #[Route(
-        path: '/{job}/attach/cover-letter',
-        name: '_attach_cover_letter',
-        methods: ['GET']
-    )]
-    #[IsGranted(
-        VoterPermissions::OWNER->value,
-        'job',
-        'Access denied',
-        Response::HTTP_UNAUTHORIZED
-    )]
-    public function attachCoverLetter(
-        Job $job
-    ): ViewResponseDto {
-        return $this->response(
-            []
-            ,'control-panel/job/attach/cover-letter.html.twig',
         );
     }
 }
