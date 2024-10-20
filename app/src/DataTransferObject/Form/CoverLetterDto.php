@@ -9,7 +9,6 @@ use App\DataTransferObject\IDataTransferObject;
 use App\Entity\UserInterface;
 use DateTimeInterface;
 
-// TODO add job connection
 class CoverLetterDto implements IDataTransferObject
 {
     public function __construct(
@@ -17,6 +16,7 @@ class CoverLetterDto implements IDataTransferObject
        public ?string $jobTitle = null,
        public ?UserInterface $owner = null,
        public ?string $content = null,
+//       public ?CoverLetterContentDto $content = null,
        public ?string $language = null,
        public ?EmployerDto $employer = null,
        public ?ContactPersonDto $sender = null,

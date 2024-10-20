@@ -45,8 +45,8 @@
             <hr>
             <h3>Letter Body</h3>
 
-            <h4 class="mt-3">{{ editForm.content.opening.vars.label }}</h4>
-            {{ form_row(editForm.content.opening,
+            <h4 class="mt-3">{{ editForm.content.vars.label }}</h4>
+            {{ form_row(editForm.content,
                 {
                     'label': false,
                     'attr': {
@@ -55,50 +55,8 @@
                 }
             ) }}
             <div
-                id="editor-for-{{ editForm.content.opening.vars.id }}"
-                class="editor-wysiwyg"
-            ></div>
-
-            <h4 class="mt-3">{{ editForm.content.whyMe.vars.label }}</h4>
-            {{ form_row(editForm.content.whyMe,
-                {
-                    'label': false,
-                    'attr': {
-                    'class': 'd-none'
-                }
-                }
-            ) }}
-            <div
-                id="editor-for-{{ editForm.content.whyMe.vars.id }}"
-                class="editor-wysiwyg"
-            ></div>
-
-            <h4 class="mt-3">{{ editForm.content.conclusion.vars.label }}</h4>
-            {{ form_row(editForm.content.conclusion,
-                {
-                    'label': false,
-                    'attr': {
-                    'class': 'd-none'
-                }
-                }
-            ) }}
-            <div
-                id="editor-for-{{ editForm.content.conclusion.vars.id }}"
-                class="editor-wysiwyg"
-            ></div>
-
-            <h4 class="mt-3">{{ editForm.content.signoff.vars.label }}</h4>
-            {{ form_row(editForm.content.signoff,
-                {
-                    'label': false,
-                    'attr': {
-                    'class': 'd-none'
-                }
-                }
-            ) }}
-            <div
-                id="editor-for-{{ editForm.content.signoff.vars.id }}"
-                class="editor-wysiwyg"
+                id="editor-for-{{ editForm.content.vars.id }}"
+                class="editor-wysiwyg min-h-40"
             ></div>
 
             {% if editForm._token is defined %}

@@ -9,6 +9,7 @@ use App\Form\CommandCenter\Resume\EmployerFormType;
 use App\Form\SwitchType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -48,7 +49,7 @@ class SimpleCoverLetterFormType extends AbstractType
                 ]
             )
             ->add('content',
-                CoverLetterContentFormType::class,
+                TextareaType::class,
                 [
                     'required' => false,
                 ]
