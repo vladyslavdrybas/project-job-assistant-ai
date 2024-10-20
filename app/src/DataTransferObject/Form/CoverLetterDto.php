@@ -16,6 +16,8 @@ class CoverLetterDto implements IDataTransferObject
        public ?string $jobTitle = null,
        public ?UserInterface $owner = null,
        public ?string $content = null,
+       public ?string $promptTips = null,
+       public ?string $promptFramework = null,
 //       public ?CoverLetterContentDto $content = null,
        public ?string $language = null,
        public ?EmployerDto $employer = null,
