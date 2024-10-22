@@ -52,6 +52,21 @@ class SimpleCoverLetterFormType extends AbstractType
                 TextareaType::class,
                 [
                     'required' => false,
+                    'label' => 'Letter Body'
+                ]
+            )
+            ->add('promptTips',
+                TextareaType::class,
+                [
+                    'required' => false,
+                    'label' => 'AI Tips'
+                ]
+            )
+            ->add('promptFramework',
+                TextareaType::class,
+                [
+                    'required' => false,
+                    'label' => 'AI Framework'
                 ]
             )
             ->add('isNeedAiHelp',
