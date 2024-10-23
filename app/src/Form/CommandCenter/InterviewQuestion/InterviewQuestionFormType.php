@@ -22,6 +22,7 @@ class InterviewQuestionFormType extends AbstractType
     public function __construct(
         protected readonly OpenAiFacade $openAiFacade
     ) {}
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(

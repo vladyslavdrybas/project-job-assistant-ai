@@ -5,43 +5,54 @@ namespace App\EntityTransformer;
 
 use App\DataTransferObject\Form\CoverLetterDto;
 use App\DataTransferObject\IDataTransferObject;
+use App\Entity\Achievement;
 use App\Entity\CoverLetter;
 use App\Entity\EntityInterface;
-use InvalidArgumentException;
 
 class CoverLetterTransformer extends AbstractEntityTransformer
 {
-    public function supports(mixed $data): bool
-    {
-        return $data instanceof CoverLetter || $data instanceof CoverLetterDto;
-    }
+    protected const ENTITY_CLASS = CoverLetter::class;
+    protected const DTO_CLASS = CoverLetterDto::class;
 
     public function transform(CoverLetterDto|IDataTransferObject $dto): EntityInterface|CoverLetter
     {
-        if (!$this->supports($dto)) return throw new InvalidArgumentException('Expect ' . CoverLetterDto::class);
+        $this->validateDto($dto);
 
-        $entity = new CoverLetter();
+        /** @var CoverLetter $entity */
+        $entity = $this->findEntityOrCreate($dto);
 
         $entity->setOwner($dto->owner);
         $entity->setContent($dto->content);
         $entity->setTitle($dto->title);
+        $entity->setJobTitle($dto->jobTitle);
+        $entity->setEmployer($dto->employer);
+        $entity->setSender($dto->sender);
+        $entity->setReceiver($dto->receiver);
+        $entity->setJobs($dto->jobs);
 
         return $entity;
     }
 
     public function reverseTransform(CoverLetter|EntityInterface $entity): IDataTransferObject|CoverLetterDto
     {
-        if (!$this->supports($entity)) return throw new InvalidArgumentException('Expect ' . CoverLetter::class);
+        $this->validateEntity($entity);
 
         $dto = new CoverLetterDto();
 
         $dto->owner = $entity->getOwner();
         $dto->content = $entity->getContent();
+        $dto->promptTips = $entity->getPromptTips();
+        $dto->promptFramework = $entity->getPromptFramework();
         $dto->title = $entity->getTitle();
+        $dto->jobTitle = $entity->getJobTitle();
+        $dto->employer = $entity->getEmployer();
+        $dto->sender = $entity->getSender();
+        $dto->receiver = $entity->getReceiver();
 
         $dto->id = $entity->getRawId();
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
+        $dto->jobs = $entity->getJobs();
 
         return $dto;
     }

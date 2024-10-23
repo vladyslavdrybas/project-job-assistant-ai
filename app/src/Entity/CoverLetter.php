@@ -3,7 +3,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\DataTransferObject\Form\Contact\ContactPersonDto;
+use App\DataTransferObject\Form\EmploymentHistory\EmployerDto;
+use App\Entity\Type\JsonDataTransferObjectType;
 use App\Repository\CoverLetterRepository;
+use App\Traits\Entity\EntityWithOwner;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -14,20 +18,31 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: "cover_letter")]
 class CoverLetter extends AbstractEntity
 {
-    #[Assert\NotBlank(message: 'Resume must have owner.')]
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id')]
-    protected ?User $owner = null;
-
-    #[ORM\ManyToOne(targetEntity: Media::class)]
-    #[ORM\JoinColumn(name: 'thumbnail_id', referencedColumnName: 'id')]
-    protected ?Media $thumbnail = null;
+    use EntityWithOwner;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]
     protected ?string $title = null;
 
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    protected ?string $jobTitle = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    protected ?string $promptTips = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    protected ?string $promptFramework = null;
+
+    #[ORM\Column(type: JsonDataTransferObjectType::NAME, nullable: true)]
+    protected ?EmployerDto $employer = null;
+
+    #[ORM\Column(type: JsonDataTransferObjectType::NAME, nullable: true)]
+    protected ?ContactPersonDto $sender = null;
+
+    #[ORM\Column(type: JsonDataTransferObjectType::NAME, nullable: true)]
+    protected ?ContactPersonDto $receiver = null;
 
     /**
      * @var Collection<int, Job>
@@ -39,26 +54,6 @@ class CoverLetter extends AbstractEntity
     {
         parent::__construct();
         $this->jobs = new ArrayCollection();
-    }
-
-    public function getOwner(): ?User
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?User $owner): void
-    {
-        $this->owner = $owner;
-    }
-
-    public function getThumbnail(): ?Media
-    {
-        return $this->thumbnail;
-    }
-
-    public function setThumbnail(?Media $thumbnail): void
-    {
-        $this->thumbnail = $thumbnail;
     }
 
     public function getTitle(): ?string
@@ -90,6 +85,7 @@ class CoverLetter extends AbstractEntity
     {
         if (!$this->jobs->contains($job)) {
             $this->jobs->add($job);
+            $job->setCoverLetter($this);
         }
     }
 
@@ -97,6 +93,7 @@ class CoverLetter extends AbstractEntity
     {
         if ($this->jobs->contains($job)) {
             $this->jobs->removeElement($job);
+            $job->setCoverLetter(null);
         }
     }
 
@@ -105,5 +102,65 @@ class CoverLetter extends AbstractEntity
         foreach ($jobs as $job) {
             $this->addJob($job);
         }
+    }
+
+    public function getJobTitle(): ?string
+    {
+        return $this->jobTitle;
+    }
+
+    public function setJobTitle(?string $jobTitle): void
+    {
+        $this->jobTitle = $jobTitle;
+    }
+
+    public function getPromptTips(): ?string
+    {
+        return $this->promptTips;
+    }
+
+    public function setPromptTips(?string $promptTips): void
+    {
+        $this->promptTips = $promptTips;
+    }
+
+    public function getPromptFramework(): ?string
+    {
+        return $this->promptFramework;
+    }
+
+    public function setPromptFramework(?string $promptFramework): void
+    {
+        $this->promptFramework = $promptFramework;
+    }
+
+    public function getEmployer(): ?EmployerDto
+    {
+        return $this->employer;
+    }
+
+    public function setEmployer(?EmployerDto $employer): void
+    {
+        $this->employer = $employer;
+    }
+
+    public function getSender(): ?ContactPersonDto
+    {
+        return $this->sender;
+    }
+
+    public function setSender(?ContactPersonDto $sender): void
+    {
+        $this->sender = $sender;
+    }
+
+    public function getReceiver(): ?ContactPersonDto
+    {
+        return $this->receiver;
+    }
+
+    public function setReceiver(?ContactPersonDto $receiver): void
+    {
+        $this->receiver = $receiver;
     }
 }

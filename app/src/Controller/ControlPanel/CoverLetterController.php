@@ -6,6 +6,7 @@ namespace App\Controller\ControlPanel;
 use App\Builder\CoverLetterBuilder;
 use App\Constants\RouteRequirements;
 use App\DataTransferObject\Form\CoverLetterAiDto;
+use App\DataTransferObject\Form\CoverLetterDto;
 use App\DataTransferObject\Form\ResumeDto;
 use App\DataTransferObject\ViewResponseDto;
 use App\Entity\CoverLetter;
@@ -88,29 +89,27 @@ class CoverLetterController extends AbstractControlPanelController
         CoverLetterTransformer $transformer,
         Request $request
     ): ViewResponseDto {
-        dump($coverLetter);
-
         $dto = $transformer->reverseTransform($coverLetter);
+        if (null === $dto->owner) {
+            $dto->owner = $this->getUser();
+        }
         dump($dto);
 
         $editForm = $this->createForm(SimpleCoverLetterFormType::class, $dto);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            // TODO handle form changes
-            dump($editForm->getData());
-            if (filter_var($editForm->get('isNeedAiHelp')->getData(), FILTER_VALIDATE_BOOLEAN)) {
-                // save changes and redirect to cp_cover_letter_edit_ai
-                return $this->response(
-                    [
-                        'coverLetter' => $coverLetter,
-                    ],
-                    'cp_cover_letter_edit_ai'
-                );
-            }
+            /** @var CoverLetterDto $dto */
+            $dto = $editForm->getData();
+            dump($dto);
 
             $actionBtn = $editForm->get('actionBtn')->getData();
             dump($actionBtn);
+
+            $entity = $transformer->transform($dto);
+
+            $this->entityManager->persist($entity);
+            $this->entityManager->flush();
 
             if ('view' === $actionBtn) {
                 return $this->response(
@@ -124,8 +123,9 @@ class CoverLetterController extends AbstractControlPanelController
 
         return $this->response(
             [
+                'coverLetter' => $dto,
                 'editForm' => $editForm,
-                'editFormActions' => ['save', 'view', 'pdf'],
+                'editFormActions' => ['save', 'view', 'pdf', 'ai'],
             ],
             'control-panel/cover-letter/edit.html.twig'
         );
