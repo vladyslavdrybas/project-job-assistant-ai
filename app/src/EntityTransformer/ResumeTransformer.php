@@ -21,14 +21,15 @@ class ResumeTransformer extends AbstractEntityTransformer
     {
         $this->validateDto($dto);
 
-        $entity = new Resume();
+        /** @var Resume $entity */
+        $entity = $this->findEntityOrCreate($dto);
 
         $entity->setOwner($dto->owner);
         $entity->setTitle($dto->title);
         $entity->setJobTitle($dto->jobTitle);
         $entity->setProfessionalSummary($dto->professionalSummary);
         $entity->setPersonalDetails($dto->personalDetails);
-        $entity->setEmail($dto->personalDetails->contacts->email);
+        $entity->setEmail($dto->personalDetails->contacts->email ?? null);
 
         return $entity;
     }

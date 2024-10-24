@@ -20,6 +20,7 @@ class ResumeFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var ResumeDto $data */
         $data = $builder->getData();
 
         $builder

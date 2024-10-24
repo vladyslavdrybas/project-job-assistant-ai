@@ -1,0 +1,15 @@
+<div>
+    <h1 class="fs-5 my-3 w-100 text-start mb-3">
+        {{ resume.title ?? 'Untitled' }}
+    </h1>
+
+    <div class="">
+        <svg class="bi bi-small text-secondary"><use xlink:href="#suitcase"></use></svg>
+        {% if resume.jobTitle %}
+            <span class="pe-1 ">
+                <span class="ps-0 inline-divider text-secondary">{{ text_inline_divider }}</span>
+                as <span>{{ resume.jobTitle }}</span>
+            </span>
+        {% endif %}
+    </div>
+</div>
