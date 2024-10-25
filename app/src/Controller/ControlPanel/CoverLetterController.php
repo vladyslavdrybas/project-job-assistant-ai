@@ -13,6 +13,8 @@ use App\Entity\CoverLetter;
 use App\EntityTransformer\CoverLetterTransformer;
 use App\Form\CommandCenter\CoverLetter\AiCoverLetterFormType;
 use App\Form\CommandCenter\CoverLetter\SimpleCoverLetterFormType;
+use Knp\Snappy\Pdf;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -71,12 +73,68 @@ class CoverLetterController extends AbstractControlPanelController
                     'pdf' => [
                         'type' => 'link',
                         'title' => 'PDF',
-                        'link' => $this->generateUrl('cp_cover_letter_edit', ['coverLetter' => $dto->id]),
+                        'link' => $this->generateUrl('cp_cover_letter_pdf', ['coverLetter' => $dto->id]),
                     ],
                 ],
             ],
             'control-panel/cover-letter/show.html.twig'
         );
+    }
+
+    #[Route(
+        '/{coverLetter}/pdf',
+        name: '_pdf',
+        methods: ['GET']
+    )]
+    public function pdf(
+        CoverLetter $coverLetter,
+        CoverLetterTransformer $transformer,
+        Pdf $pdf
+    ): BinaryFileResponse {
+        $dto = $transformer->reverseTransform($coverLetter);
+
+        $filepath = $this->projectDir . '/public/pdf/' . md5($dto->owner->getRawId() . $dto->title . $dto->jobTitle . $dto->id) . '.pdf';
+
+        if (!file_exists($filepath)) {
+            $pdf->setOptions([
+//            'grayscale' => true,
+                'orientation' => 'portrait',
+                'enable-local-file-access' => true,
+                'enable-internal-links' => true,
+                'enable-external-links' => true,
+                'viewport-size' => '1280x1024',
+//            'viewport-size' => '1480x4024',
+
+                "margin-bottom" => 8,
+                "margin-left" => 3,
+                "margin-right" => 3,
+                "margin-top" => 8,
+                "page-height" => null,
+                "page-size" => 'A4',
+                "page-width" => null,
+//            "viewport-size" => 1.0,
+                "no-header-line" => true,
+                "no-footer-line" => true,
+                "zoom" => 1,
+                "lowquality" => true,
+            ]);
+
+            $html = $this->renderView(
+                'control-panel/cover-letter/template/print.html.twig',
+                [
+                    'dto' => $dto,
+                ]
+            );
+
+            $pdf->generateFromHtml(
+                $html,
+                $filepath,
+                [],
+                true
+            );
+        }
+
+        return new BinaryFileResponse($filepath);
     }
 
     #[Route(
@@ -106,6 +164,7 @@ class CoverLetterController extends AbstractControlPanelController
             $actionBtn = $editForm->get('actionBtn')->getData();
             dump($actionBtn);
 
+
             $entity = $transformer->transform($dto);
 
             $this->entityManager->persist($entity);
@@ -117,6 +176,13 @@ class CoverLetterController extends AbstractControlPanelController
                         'coverLetter' => $coverLetter,
                     ],
                     'cp_cover_letter_show',
+                );
+            } elseif ('pdf' === $actionBtn) {
+                return $this->response(
+                    [
+                        'coverLetter' => $coverLetter,
+                    ],
+                    'cp_cover_letter_pdf',
                 );
             }
         }
