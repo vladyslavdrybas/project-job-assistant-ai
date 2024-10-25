@@ -135,7 +135,7 @@ class UserJobController extends AbstractControlPanelController
                 $resume = $resumeRepository->find($resumeId);
                 if (null !== $resume) {
                     $entity->setResume($resume);
-                    $resume->setJob($entity);
+                    $resume->addJob($entity);
                     $this->entityManager->persist($resume);
 //                    $dto->resume = $documentLinkBuilder->fromResume($resume);
                 }
@@ -145,7 +145,7 @@ class UserJobController extends AbstractControlPanelController
                 $coverLetter = $coverLetterRepository->find($coverLetterId);
                 if (null !== $coverLetter) {
                     $entity->setCoverLetter($coverLetter);
-                    $coverLetter->setJob($entity);
+                    $coverLetter->addJob($entity);
                     $this->entityManager->persist($coverLetter);
 //                    $dto->coverLetter = $documentLinkBuilder->fromCoverLetter($coverLetter);
                 }
