@@ -17,9 +17,9 @@
         <div class="mb-3">
             {% if coverLetter.employer.title is defined %}
                 <h2 class="fs-5">{{ coverLetter.employer.title }}
-                    {% if coverLetter.aboutPage %}
+                    {% if coverLetter.employer.aboutPage %}
                         <a
-                            href="{{ coverLetter.aboutPage }}"
+                            href="{{ coverLetter.employer.aboutPage }}"
                             class="text-decoration-none text-black fs-6"
                         >
                             <svg class="bi bi-small bi-fix pointer-primary"><use xlink:href="#view"></use></svg>
