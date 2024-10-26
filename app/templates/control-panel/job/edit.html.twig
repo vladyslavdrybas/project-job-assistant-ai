@@ -122,6 +122,25 @@
                     ></div>
                 </div>
 
+                <div>
+                    <hr>
+                    <h3>{{ editForm.estimateContent.vars.label }}</h3>
+                    <span class="text-muted">{{ editForm.estimateContent.vars.help }}</span>
+                    {{ form_row(editForm.estimateContent,
+                        {
+                            'label': false,
+                            'help' : false,
+                            'attr': {
+                                'class': 'd-none'
+                            }
+                        }
+                    ) }}
+                    <div
+                        id="editor-for-{{ editForm.estimateContent.vars.id }}"
+                        class="editor-wysiwyg min-h-40"
+                    ></div>
+                </div>
+
                 {% if editForm._token is defined %}
                     {{ form_row(editForm._token) }}
                 {% endif %}

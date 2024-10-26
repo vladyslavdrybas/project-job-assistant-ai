@@ -178,4 +178,13 @@
         {{ job.content|markdown_to_html }}
     </div>
     {% endif %}
+
+    {% if (job.estimateContent ?? null) is not null %}
+    <hr>
+    <h3>Estimate job:</h3>
+    <div
+    >
+        {{ job.estimateContent|markdown_to_html }}
+    </div>
+    {% endif %}
 </div>

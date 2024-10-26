@@ -56,6 +56,7 @@ class JobTransformer extends AbstractEntityTransformer
         $entity->setContactPerson($dto->contactPerson);
         $entity->setSalaryMin($dto->salary->min);
         $entity->setSalaryMax($dto->salary->max);
+        $entity->setEstimateContent($dto->estimateContent);
 
         $entity->setSalaryPeriod(JobSalaryPeriod::fromName($dto->salary->period));
 
@@ -90,6 +91,7 @@ class JobTransformer extends AbstractEntityTransformer
         $dto->createdAt = $entity->getCreatedAt();
         $dto->updatedAt = $entity->getUpdatedAt();
         $dto->status = $entity->getStatus();
+        $dto->estimateContent = $entity->getEstimateContent();
 
         $location = $entity->getLocation();
         if (null !== $location) {

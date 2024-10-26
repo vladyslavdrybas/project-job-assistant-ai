@@ -162,6 +162,14 @@ class JobFormType extends AbstractType
                     'help' => 'Add full text of the job. Ideally, do not change content of the job description.',
                 ]
             )
+            ->add('estimateContent',
+                TextareaType::class,
+                [
+                    'required' => false,
+                    'label' => 'Estimate description',
+                    'help' => 'Description of how do I fit to the company and how company fit to me.',
+                ]
+            )
             ->add('actionBtn',
                 HiddenType::class,
                 [

@@ -35,6 +35,9 @@ class Job extends AbstractEntity
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $content = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    protected ?string $estimateContent = null;
+
     #[ORM\Column(type: Types::STRING, enumType: JobStatus::class, options: ['default' => JobStatus::BACKLOG->value])]
     protected JobStatus $status = JobStatus::BACKLOG;
 
@@ -271,5 +274,15 @@ class Job extends AbstractEntity
     public function setCoverLetter(?CoverLetter $coverLetter): void
     {
         $this->coverLetter = $coverLetter;
+    }
+
+    public function getEstimateContent(): ?string
+    {
+        return $this->estimateContent;
+    }
+
+    public function setEstimateContent(?string $estimateContent): void
+    {
+        $this->estimateContent = $estimateContent;
     }
 }
