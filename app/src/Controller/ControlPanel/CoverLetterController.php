@@ -17,6 +17,10 @@ use Knp\Snappy\Pdf;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+use League\CommonMark\CommonMarkConverter;
 
 #[Route(
     "/cp/cover-letter",
@@ -63,7 +67,8 @@ class CoverLetterController extends AbstractControlPanelController
 
         return $this->response(
             [
-                'coverLetter' => $dto,
+                'dto' => $dto,
+                'avatarPath' => 'avatar/me.jpeg',
                 'navActions' => [
                     'edit' => [
                         'type' => 'link',
@@ -89,13 +94,16 @@ class CoverLetterController extends AbstractControlPanelController
     public function pdf(
         CoverLetter $coverLetter,
         CoverLetterTransformer $transformer,
-        Pdf $pdf
+        Pdf $pdf,
+        SerializerInterface $serializer,
+        UrlGeneratorInterface $urlGenerator
     ): BinaryFileResponse {
         $dto = $transformer->reverseTransform($coverLetter);
 
-        $filepath = $this->projectDir . '/public/pdf/' . md5($dto->owner->getRawId() . $dto->title . $dto->jobTitle . $dto->id) . '.pdf';
+        $data = $serializer->serialize($dto, 'json', [AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER=>function ($obj){return $obj->getRawId();}]);
+        $filepath = $this->projectDir . '/public/pdf/' . md5($dto->owner->getRawId() . $dto->id . $data) . '.pdf';
 
-        if (!file_exists($filepath)) {
+        if (!file_exists($filepath) || true) {
             $pdf->setOptions([
 //            'grayscale' => true,
                 'orientation' => 'portrait',
@@ -115,14 +123,38 @@ class CoverLetterController extends AbstractControlPanelController
 //            "viewport-size" => 1.0,
                 "no-header-line" => true,
                 "no-footer-line" => true,
-                "zoom" => 1,
+                "zoom" => 1.1,
                 "lowquality" => true,
             ]);
+
+            $config = [
+                'renderer' => [
+                    'block_separator' => "\n",
+                    'inner_separator' => "\n",
+                    'soft_break'      => "\n",
+                ],
+                'commonmark' => [
+                    'enable_em' => true,
+                    'enable_strong' => true,
+                    'use_asterisk' => true,
+                    'use_underscore' => true,
+                    'unordered_list_markers' => ['-', '*', '+'],
+                ],
+                'html_input' => 'allow',
+                'allow_unsafe_links' => false,
+                'max_nesting_level' => PHP_INT_MAX,
+                'slug_normalizer' => [
+                    'max_length' => 255,
+                ],
+            ];
+
+            $converter = new CommonMarkConverter($config);
 
             $html = $this->renderView(
                 'control-panel/cover-letter/template/print.html.twig',
                 [
                     'dto' => $dto,
+                    'avatarPath' => 'avatar/me.jpeg',
                 ]
             );
 

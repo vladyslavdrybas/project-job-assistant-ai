@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: JobRepository::class, readOnly: false)]
 #[ORM\Table(name: "job")]
@@ -65,6 +66,7 @@ class Job extends AbstractEntity
     #[ORM\JoinColumn(name: 'resume_id', referencedColumnName: 'id')]
     protected ?Resume $resume = null;
 
+    #[MaxDepth(1)]
     #[ORM\ManyToOne(targetEntity: CoverLetter::class, inversedBy: 'job')]
     #[ORM\JoinColumn(name: 'cover_letter_id', referencedColumnName: 'id')]
     protected ?CoverLetter $coverLetter = null;
