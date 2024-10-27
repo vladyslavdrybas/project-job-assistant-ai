@@ -45,7 +45,10 @@
                             href="{{ absolute_url(path('cp_job_show', {'job': job.id})) }}"
                             class="text-decoration-none text-black fs-6"
                         >
-                            <span>{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}</span>
+                            <span>{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}
+                                {% if job.isFavorite %}
+                                    <svg class="bi bi-small bi-fix text-danger"><use xlink:href="#favorite"></use></svg>
+                                {% endif %}</span>
                             <svg class="bi bi-small bi-fix pointer-primary"><use xlink:href="#view"></use></svg>
                         </a>
                     </div>

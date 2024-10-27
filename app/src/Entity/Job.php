@@ -44,6 +44,9 @@ class Job extends AbstractEntity
     #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     protected bool $isUserAdded = false;
 
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
+    protected bool $isFavorite = false;
+
     #[ORM\Column(type: Types::JSON, nullable: true)]
     protected ?array $formats = [];
 
@@ -284,5 +287,15 @@ class Job extends AbstractEntity
     public function setEstimateContent(?string $estimateContent): void
     {
         $this->estimateContent = $estimateContent;
+    }
+
+    public function isFavorite(): bool
+    {
+        return $this->isFavorite;
+    }
+
+    public function setIsFavorite(bool $isFavorite): void
+    {
+        $this->isFavorite = $isFavorite;
     }
 }

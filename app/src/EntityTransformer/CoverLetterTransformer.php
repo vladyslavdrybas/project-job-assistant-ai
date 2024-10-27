@@ -21,6 +21,8 @@ class CoverLetterTransformer extends AbstractEntityTransformer
         /** @var CoverLetter $entity */
         $entity = $this->findEntityOrCreate($dto);
 
+        dump($dto->sender);
+
         $entity->setOwner($dto->owner);
         $entity->setContent($dto->content);
         $entity->setTitle($dto->title);

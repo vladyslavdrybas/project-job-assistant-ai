@@ -9,6 +9,7 @@ use App\Entity\Resume;
 use App\Form\CommandCenter\Resume\ContactPersonFormType;
 use App\Form\CommandCenter\Resume\EmployerFormType;
 use App\Form\CommandCenter\Resume\LocationFormType;
+use App\Form\SwitchType;
 use App\Form\TagsType;
 use App\Repository\CoverLetterRepository;
 use App\Repository\ResumeRepository;
@@ -80,6 +81,13 @@ class JobFormType extends AbstractType
                     'label' => 'Job Title',
                     'required' => true,
                     'help' => 'Usually it is job position name.',
+                ]
+            )
+            ->add('isFavorite',
+                SwitchType::class,
+                [
+                    'label' => 'Favorite',
+                    'required' => false,
                 ]
             )
             ->add('aboutPage',

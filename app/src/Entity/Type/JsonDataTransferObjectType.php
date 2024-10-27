@@ -19,6 +19,7 @@ class JsonDataTransferObjectType extends JsonType
     public function convertToPHPValue($value, AbstractPlatform $platform): ?IDataTransferObjectType
     {
         $data = parent::convertToPHPValue($value, $platform);
+        dump($data);
 
         try {
             if (null === $data) {
@@ -50,7 +51,9 @@ class JsonDataTransferObjectType extends JsonType
             return null;
         }
 
+        dump($value);
         if ($value instanceof IDataTransferObjectType) {
+            dump($value);
             $data = $value->__serialize() + [$this->getDtoClassNameKey() => get_class($value)];
 
             return parent::convertToDatabaseValue($data, $platform);

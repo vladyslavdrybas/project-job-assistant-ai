@@ -34,6 +34,7 @@ class JobDto implements IDataTransferObject
         public ?DocumentLinkDto $resume = null,
         public ?DocumentLinkDto $coverLetter = null,
 
+        public bool $isFavorite = false,
         public bool $isUserAdded = false,
         public ?string $id = null,
         public ?DateTimeInterface $createdAt = null,

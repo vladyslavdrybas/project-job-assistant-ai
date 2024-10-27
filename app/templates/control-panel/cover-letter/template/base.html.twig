@@ -33,8 +33,8 @@
                 <img
                     class="rounded-circle w-100"
                     src="{{ fileGetContent(asset(avatarPath, 'img')) }}"
-                    title="{{ dto.sender.firstName }} {{ dto.sender.lastName }}"
-                    alt="{{ dto.sender.firstName }} {{ dto.sender.lastName }}"
+                    title="{{ dto.sender.firstName ?? '' }} {{ dto.sender.lastName ?? '' }}"
+                    alt="{{ dto.sender.firstName ?? '' }} {{ dto.sender.lastName ?? '' }}"
                 />
             </div>
         </div>
@@ -46,7 +46,7 @@
                     col-12
                 "
             >
-                <h1 class="text-uppercase text-center text-bold h1 text-primary">{{ dto.sender.firstName }} {{ dto.sender.lastName }}</h1>
+                <h1 class="text-uppercase text-center text-bold h1 text-primary">{{ dto.sender.firstName ?? '' }} {{ dto.sender.lastName ?? '' }}</h1>
                 <div class="text-center">
                     {% if (dto.sender.contacts.location ?? null) is not null %}
                         <div class="d-inline-block">
@@ -84,6 +84,7 @@
         </div>
     </section>
 
+    {% if dto.content is not null %}
     <section class="{{ articlePrefix }}content-wrapper pt-3 px-5 lh-base">
         <div class="row align-items-center">
             <div class="col-12 px-5 pb-0">{{ dto.content|markdown_to_html }}</div>
@@ -91,8 +92,11 @@
         <div class="row align-items-center">
             <div class="col-12 p-5 pt-3">
                 Best regards,<br>
-                {{ dto.sender.firstName }} {{ dto.sender.lastName }}
+                {% if dto.sender is not null %}
+                    {{ dto.sender.firstName ?? '' }} {{ dto.sender.lastName ?? '' }}
+                {% endif %}
             </div>
         </div>
     </section>
+    {% endif %}
 </div>

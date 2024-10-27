@@ -198,6 +198,7 @@ class CoverLetterController extends AbstractControlPanelController
 
 
             $entity = $transformer->transform($dto);
+            dump($entity);
 
             $this->entityManager->persist($entity);
             $this->entityManager->flush();

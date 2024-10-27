@@ -43,6 +43,7 @@ class ContactsDto implements IDataTransferObject, IDataTransferObjectType
 
     public static function fromArray(array $data): IDataTransferObjectType|ContactsDto
     {
+        dump( $data);
         return new self(
             email: $data['email'] ?? null,
             phone: $data['phone'] ?? null,

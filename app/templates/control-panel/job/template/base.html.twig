@@ -1,5 +1,10 @@
 <div class="w-100 pt-2">
-    <h1 class="fs-2">{% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}</h1>
+    <h1 class="fs-2">
+        {% if job.title %}{{ job.title }}{% else %}Untitled{% endif %}
+        {% if job.isFavorite %}
+            <svg class="bi bi-small bi-fix text-primary"><use xlink:href="#favorite"></use></svg>
+        {% endif %}
+    </h1>
 
     {% if job.employer %}
         <div class="mb-3">
