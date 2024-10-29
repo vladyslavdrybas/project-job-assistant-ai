@@ -64,13 +64,13 @@
 
         <div class="col-12 col-md-6 p-2">
             <div class="bg-light p-3">
-            {% if employerSkills|length > 0 %}
+            {% if jobSkills|length > 0 %}
                 <div class="skills-wrapper">
                     <p class="my-1">
-                        {{ skillsMatched }} of {{ employerSkills|length }} in-demand skills in jobs I applied to:
+                        {{ skillsMatched }} of {{ jobSkills|length }} in-demand skills in jobs I applied to:
                     </p>
                     <!-- Employment SKills -->
-                    {% for skill in employerSkills %}
+                    {% for skill in jobSkills %}
                         <span
                             class="
                                 badge m-1 fs-6

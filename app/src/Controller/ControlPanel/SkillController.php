@@ -7,6 +7,7 @@ use App\Constants\RouteRequirements;
 use App\DataTransferObject\ViewResponseDto;
 use App\Form\CommandCenter\Skill\MySkillsFormType;
 use App\Repository\EmploymentRepository;
+use App\Repository\JobRepository;
 use App\Services\Skills\Writer\UserSkillsWriter;
 use App\Utility\MatchUserSkills;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,23 +28,22 @@ class SkillController extends AbstractControlPanelController
         methods: ['GET']
     )]
     public function list(
-        EmploymentRepository $employmentRepository,
+        JobRepository $jobRepository
     ): ViewResponseDto {
-        // TODO replace employment on JOBS
-        $myEmployments = $employmentRepository->findBy(['owner' => $this->getUser()]);
+        $myJobs = $jobRepository->findBy(['owner' => $this->getUser()]);
 
-        $employerSkills = [];
-        foreach ($myEmployments as $employment) {
-            $employerSkills = array_merge($employerSkills, $employment->getSkills() ?? []);
+        $jobSkills = [];
+        foreach ($myJobs as $job) {
+            $jobSkills = array_merge($jobSkills, $job->getSkills() ?? []);
         }
-        $employerSkills = array_unique($employerSkills);
+        $jobSkills = array_unique($jobSkills);
 
         $mySkills = $this->getUser()->getFilterSkills()->toArray();
         [
             'mySkills' => $mySkills,
-            'otherSkills' => $employerSkills,
+            'otherSkills' => $jobSkills,
             'skillsMatched' => $skillsMatched,
-        ] = (new MatchUserSkills())($mySkills, $employerSkills);
+        ] = (new MatchUserSkills())($mySkills, $jobSkills);
 
         $form = $this->createForm(MySkillsFormType::class, []);
 
@@ -52,7 +52,7 @@ class SkillController extends AbstractControlPanelController
                 'skillsForm' => $form,
                 'skillsFormActions' => ['add'],
                 'mySkills' => $mySkills,
-                'employerSkills' => $employerSkills,
+                'jobSkills' => $jobSkills,
                 'skillsMatched' => $skillsMatched,
             ],
             'control-panel/skill/board.html.twig'
