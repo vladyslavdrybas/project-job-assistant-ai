@@ -1,3 +1,5 @@
+{% set articlePrefix='resume--' %}
+
 <div>
     <h1 class="fs-5 my-3 w-100 text-start mb-3">
         {{ resume.title ?? 'Untitled' }}
@@ -12,4 +14,12 @@
             </span>
         {% endif %}
     </div>
+
+    {% if resume.professionalSummary is not null %}
+        <section class="{{ articlePrefix }}summary-wrapper pt-3 px-5 lh-base">
+            <div class="row align-items-center">
+                <div class="col-12 px-5 pb-0">{{ resume.professionalSummary|markdown_to_html }}</div>
+            </div>
+        </section>
+    {% endif %}
 </div>
