@@ -22,4 +22,18 @@
             </div>
         </section>
     {% endif %}
+
+    {% if resume.languages|length > 0 %}
+        <section class="{{ articlePrefix }}languages-wrapper pt-3 px-5 lh-base">
+            <ul>
+                {% for language in resume.languages %}
+                    {% if language.title %}
+                        <li>
+                            {{ language.title }} - {{ language.level }}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
 </div>
