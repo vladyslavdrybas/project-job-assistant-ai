@@ -96,7 +96,8 @@ class CoverLetterController extends AbstractControlPanelController
         CoverLetterTransformer $transformer,
         Pdf $pdf,
         SerializerInterface $serializer,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        Request $request
     ): BinaryFileResponse {
         $dto = $transformer->reverseTransform($coverLetter);
 
@@ -150,11 +151,15 @@ class CoverLetterController extends AbstractControlPanelController
 
             $converter = new CommonMarkConverter($config);
 
+
+
             $html = $this->renderView(
                 'control-panel/cover-letter/template/print.html.twig',
                 [
                     'dto' => $dto,
                     'avatarPath' => 'avatar/me.jpeg',
+                    'salary' => $request->get('salary'),
+                    'startDate' => $request->get('startDate'),
                 ]
             );
 
